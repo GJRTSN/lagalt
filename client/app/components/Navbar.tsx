@@ -38,6 +38,8 @@ function AuthButton() {
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { data: session } = useSession();
+
 
   return (
     <div className="w-full h-24 relative bg-[#004080] flex flex-row justify-center gap-12 items-center">
@@ -99,8 +101,15 @@ export default function Navbar() {
           width="70"
           height="20"
         /> */}
-        <p className="">Logged in as:</p>
-        <p className="font-bold">Name Lastname</p>
+        {session?.user? (
+          <>
+            <p className="">Logged in as:</p>
+            <p className="font-bold">{session.user.name}</p>
+          </>
+        ) : (
+          <>
+          </>
+        )}
         <AuthButton />
       </div>
     </div>
