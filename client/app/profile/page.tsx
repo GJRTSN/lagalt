@@ -1,25 +1,62 @@
-import ProfileAbout from "../components/ProfileAbout";
-import ProfileInfo from "../components/ProfileInfo";
-import ProfileProjects from "../components/ProfileProjects";
+"use client";
+import ProfileAbout from "./ProfileAbout";
+import ProfileInfo from "./ProfileInfo";
+import ProfileProjects from "./ProfileProjects";
+import Link from "next/link";
+import ProfileSkills from "./ProfileSkills";
+import { useState } from "react";
 
 export default function Profile() {
+  const [isProfileVisible, setIsProfileVisible] = useState(true);
+
+  const handleToggle = () => {
+    setIsProfileVisible(!isProfileVisible);
+  };
+
   return (
     <div className="h-screen bg-white">
       <div className="w-full h-12 bg-yellow-500 flex flex-row items-center justify-center">
         <div className="w-2/4 flex justify-between">
           <p className="text-black italic py-2">
-            This is how your profile looks like for others
+            This is how your profile looks like to others
           </p>
-          <button className="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded-full">
-            Edit
-          </button>
+          <div className="flex space-x-2">
+            <label className="themeSwitcherTwo relative inline-flex cursor-pointer select-none items-center">
+              <input
+                type="checkbox"
+                checked={isProfileVisible}
+                onChange={handleToggle}
+                className="sr-only"
+              />
+              <span className="label flex items-center text-sm font-medium text-black">
+              {isProfileVisible ? 'Visible' : 'Hidden'}
+              </span>
+              <span
+                className={`slider mx-4 flex h-8 w-[60px] items-center rounded-full p-1 duration-200 ${
+                  isProfileVisible ? "bg-green-500" : "bg-gray-500"
+                }`}
+              >
+                <span
+                  className={`dot h-6 w-6 rounded-full bg-white duration-200 ${
+                    isProfileVisible ? "translate-x-[28px]" : ""
+                  }`}
+                ></span>
+              </span>
+            </label>
+            <Link href="/profile-edit">
+              <button className="bg-gray-500 hover:bg-gray-700 font-bold py-2 px-4 rounded-full">
+                Edit
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
       <div className="flex bg-white flex-col items-center justify-center">
         <div className="w-2/4">
-          <ProfileInfo />
-          <ProfileAbout />
-          <ProfileProjects />
+          <ProfileInfo isProfileVisible={isProfileVisible} />
+          {isProfileVisible && <ProfileSkills />}
+          {isProfileVisible && <ProfileAbout />}
+          {isProfileVisible && <ProfileProjects />}
         </div>
       </div>
     </div>
