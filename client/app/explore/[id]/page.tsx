@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import dummyData from "@/app/api/dummyExploreProjects";
+import dummyData from "@/app/api/Projects";
 import Image from "next/image";
 
 export default function ProjectPage() {
@@ -43,7 +43,7 @@ export default function ProjectPage() {
             </div>
             <div>
               <p className="font-bold">Status:</p>
-              <p>{project.status}</p>
+              <p>{project.status.name}</p>
             </div>
           </div>
           <div className="mb-2">

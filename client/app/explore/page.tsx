@@ -1,16 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import dummyData, { Project } from "@/app/api/dummyExploreProjects";
+import dummyData, { Project } from "@/app/api/Projects";
 import ProjectCard from "@/app/components/ProjectCard";
-
-const industries = [
-  { id: 1, name: "Web Development" },
-  { id: 2, name: "Graphic Design" },
-  { id: 3, name: "Game Development" },
-  { id: 4, name: "Music" },
-  { id: 5, name: "Film" },
-];
+import { industries } from "../api/ProjectData";
 
 export default function Explore() {
   const [selectedIndustryIds, setSelectedIndustryIds] = useState<number[]>([]);

@@ -1,11 +1,22 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import AdminProject from "../components/AdminProject";
+import { Project, getProjects } from "../api/Projects";
+import Collaborations from "../components/Collaborations";
+import Applications from "../components/Applications";
 
 export default function Projects() {
   const [showAdminDash, setShowAdminDash] = useState(true);
   const [showCollabs, setShowCollabs] = useState(true);
   const [showApplications, setShowApplications] = useState(true);
+
+  const [projects, setProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    const projectsData = getProjects();
+    setProjects(projectsData);
+  }, []);
 
   return (
     <div className="h-full min-h-screen bg-white">
@@ -69,72 +80,9 @@ export default function Projects() {
         </label>
       </div>
       <div className="h-3/5 flex bg-white flex-col items-center justify-center">
-        {showAdminDash && (
-          <div
-            id="admindash"
-            className="w-3/4 h-full bg-[#CCCCCC] rounded-lg p-4 "
-          >
-            <div className="w-1/2 float-right">
-              <Link href="/projects/create">
-                <button className="w-auto h-8 bg-green-700 rounded-md px-2 float-right">
-                  New project
-                </button>
-              </Link>
-            </div>
-            <div className="flex flex-col"></div>
-            <h3 className="text-black text-4xl font-bold font-roboto ">
-              Administrator Dashboard
-            </h3>
-            <p className="text-black font-roboto">
-              Projects you own and administrate
-            </p>
-
-            <div className="w-full h-full bg-[#FDFDFD] rounded-lg p-2">
-              <p className="text-black">ProjectName</p>
-              <p className="text-black">ProjectName</p>
-              <p className="text-black">ProjectName</p>
-              <p className="text-black">ProjectName</p>
-            </div>
-          </div>
-        )}
-        {showCollabs && (
-          <div
-            id="collabs"
-            className="w-3/4 h-1/4 m-4 bg-[#CCCCCC] rounded-lg p-4"
-          >
-            <h3 className="text-black text-4xl font-bold font-roboto">
-              Current collaborations
-            </h3>
-            <p className="text-black font-roboto">
-              Projects you currently are participating on
-            </p>
-            <div className="w-full h-full bg-[#FDFDFD] rounded-lg p-2">
-              <p className="text-black">ProjectName</p>
-              <p className="text-black">ProjectName</p>
-              <p className="text-black">ProjectName</p>
-              <p className="text-black">ProjectName</p>
-            </div>
-          </div>
-        )}
-        {showApplications && (
-          <div
-            id="applications"
-            className="w-3/4 h-1/4 m-4 bg-[#CCCCCC] rounded-lg p-4"
-          >
-            <h3 className="text-black text-4xl font-bold font-roboto">
-              Applications
-            </h3>
-            <p className="text-black font-roboto">
-              Projects you have applied to join
-            </p>
-            <div className="w-full h-full bg-[#FDFDFD] rounded-lg p-2">
-              <p className="text-black">ProjectName</p>
-              <p className="text-black">ProjectName</p>
-              <p className="text-black">ProjectName</p>
-              <p className="text-black">ProjectName</p>
-            </div>
-          </div>
-        )}
+        {showAdminDash && <AdminProject />}
+        {showCollabs && <Collaborations />}
+        {showApplications && <Applications />}
       </div>
     </div>
   );

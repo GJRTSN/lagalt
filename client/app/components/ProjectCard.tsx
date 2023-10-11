@@ -1,4 +1,4 @@
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 
 interface ProjectCardProps {
@@ -8,10 +8,9 @@ interface ProjectCardProps {
     owner: string;
     industry: { id: number; name: string };
     skillsRequired: { id: number; name: string }[];
-    status: string;
+    status: { id: number; name: string };
     viewCount: number;
-    logo: StaticImageData;
-    viewIcon: StaticImageData;
+    logo: string;
   };
 }
 
@@ -34,14 +33,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               <p className="font-black">ID:</p>
               <p>{project.id}</p>
             </div>
-            <div className="flex flex-row gap-1">
-              <Image
-                src={project.viewIcon}
-                className="mt-2"
-                alt="view-icon"
-                width={15}
-                style={{ objectFit: "contain" }}
-              />
+            <div className="flex flex-row gap-1 mb-1">
+              <p className="font-black">Views:</p>
               <p className="text-black">{project.viewCount}</p>
             </div>
           </div>
@@ -52,7 +45,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             </div>
             <div className="flex flex-row gap-1">
               <p className="font-black">Status:</p>
-              <p>{project.status}</p>
+              <p>{project.status.name}</p>
             </div>
           </div>
           <div id="projectdata3" className="flex flex-col ml-4 w-3/4">
