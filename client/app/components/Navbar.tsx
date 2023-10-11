@@ -1,5 +1,6 @@
 "use client";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import logo from "@/public/lagalt_clean.png";
 import usericon from "@/public/user-solid.svg";
 import Image from "next/image";
@@ -8,20 +9,21 @@ import { usePathname } from "next/navigation";
 
 function AuthButton() {
   const { data: session } = useSession();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: "/explore" }); // Sign out and redirect to Explore
+    router.push("/explore"); // Manually navigate to Explore page
+  };
 
   if (session) {
     return (
       <>
-        <Link href="/">
-          <button
-            onClick={() => signOut()}
-            className="w-24 h-8 bg-green-700 rounded-md"
-          >
-            {" "}
-            Sign out
-          </button>
-        </Link>
+        <button onClick={handleSignOut} className="w-24 h-8 bg-green-700 rounded-md">
+        Sign out
+      </button>
       </>
+      
     );
   }
   return (
