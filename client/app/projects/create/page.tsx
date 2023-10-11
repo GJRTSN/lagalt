@@ -128,7 +128,7 @@ export default function CreateProject() {
             /> */}
             <p className="text-black">Project name</p>
             <input
-              type="string"
+              name="name"
               placeholder="PROJECT NAME"
               onChange={handleInputChange}
               className="text-black w-1/4 h-10 rounded-md p-2 my-2"
