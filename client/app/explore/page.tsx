@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import dummyData, { Project } from "@/app/api/dummyData";
+import dummyData, { Project } from "@/app/api/dummyExploreProjects";
 import ProjectCard from "@/app/components/ProjectCard";
 
 const industries = [

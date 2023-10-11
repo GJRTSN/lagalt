@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import dummyData from "@/app/api/dummyData";
+import dummyData from "@/app/api/dummyExploreProjects";
 import Image from "next/image";
 
 export default function ProjectPage() {
