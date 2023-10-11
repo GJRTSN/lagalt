@@ -95,6 +95,7 @@ export default function Navbar() {
           </>
         ) : (
           <>
+            <p>Want to join?</p>
           </>
         )}
         <AuthButton />
