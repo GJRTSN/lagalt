@@ -1,39 +1,67 @@
 import Image from "next/image";
-import logo from "@/public/noroff.png";
-import viewicon from "@/public/eye-solid.svg";
+import Link from "next/link";
 
-export default function ProjectCard() {
+interface ProjectCardProps {
+  project: {
+    id: number;
+    name: string;
+    owner: string;
+    industry: { id: number; name: string };
+    skillsRequired: { id: number; name: string }[];
+    status: { id: number; name: string };
+    viewCount: number;
+    logo: string;
+  };
+}
+
+export default function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <div className="mt-8 w-4/5 h-32 bg-[#CCCCCC] rounded-lg flex flex-row shadow-lg p-4 ">
-      <div className="flex flex-col justify-center items-center ">
-        <p className="text-black font-black">ID:</p>
-        <p className="text-black">9001</p>
-        <Image
-          src={viewicon}
-          className="mt-2"
-          alt="project-owner-logo"
-          width={20}
-          style={{ objectFit: "contain" }}
-        />
-        <p className="text-black">4873</p>
-      </div>
+    <div className="mt-8 w-4/5 h-auto bg-[#CCCCCC] rounded-lg flex flex-row shadow-lg p-4 ">
       <Image
-        src={logo}
+        src={project.logo}
         className="mr-4"
         alt="project-owner-logo"
-        width={100}
+        height={50}
+        width={50}
         style={{ objectFit: "contain" }}
       />
-      <div id="projectdata1" className="flex flex-col text-black">
-        <p className="font-roboto text-2xl">PROJECT NAME</p>
-        <div className="flex flex-row gap-1">
-          <p className="font-black">Owner:</p>
-          <p>PROJECT OWNER</p>
+      <div className="flex-grow flex flex-col text-black">
+        <p className="font-roboto text-2xl mb-2">{project.name}</p>
+        <div className="flex flex-row">
+          <div id="projectdata1" className="flex flex-col w-2/8">
+            <div className="flex flex-row gap-1 mb-1">
+              <p className="font-black">ID:</p>
+              <p>{project.id}</p>
+            </div>
+            <div className="flex flex-row gap-1 mb-1">
+              <p className="font-black">Views:</p>
+              <p className="text-black">{project.viewCount}</p>
+            </div>
+          </div>
+          <div id="projectdata2" className="flex flex-col ml-4 w-1/3">
+            <div className="flex flex-row gap-1 mb-1">
+              <p className="font-black">Industry:</p>
+              <p>{project.industry.name}</p>
+            </div>
+            <div className="flex flex-row gap-1">
+              <p className="font-black">Status:</p>
+              <p>{project.status.name}</p>
+            </div>
+          </div>
+          <div id="projectdata3" className="flex flex-col ml-4 w-3/4">
+            <div className="flex flex-row gap-1">
+              <p className="font-black">Skills Required:</p>
+              <p>
+                {project.skillsRequired.map((skill) => skill.name).join(", ")}
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-row gap-1">
-          <p className="font-black">Industry:</p>
-          <p>Web Development</p>
-        </div>
+      </div>
+      <div className="ml-auto flex items-center">
+        <Link href={`/explore/${project.id}`}>
+          <p className="bg-green-500 text-white rounded px-4 py-2">View</p>
+        </Link>
       </div>
     </div>
   );

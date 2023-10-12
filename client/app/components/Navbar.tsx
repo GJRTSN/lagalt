@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation"; // Import usePathname from 'next/navigation'
 import logo from "@/public/lagalt_clean.png";
@@ -15,13 +15,19 @@ function AuthButton() {
 
   if (session) {
     return (
-      <button onClick={handleSignOut} className="w-24 h-8 bg-green-700 rounded-md">
+      <button
+        onClick={handleSignOut}
+        className="w-24 h-8 bg-green-700 rounded-md"
+      >
         Sign out
       </button>
     );
   }
   return (
-    <button onClick={() => signIn()} className="w-24 h-8 bg-green-700 rounded-md">
+    <button
+      onClick={() => signIn()}
+      className="w-24 h-8 bg-green-700 rounded-md"
+    >
       Sign in
     </button>
   );
@@ -48,7 +54,7 @@ export default function Navbar() {
       >
         <div
           className={`link transition-colors duration-300 ease-in-out ${
-            pathname === "/explore"
+            pathname.startsWith("/explore")
               ? "bg-yellow-500 border border-transparent h-3/5 flex items-center rounded-t-md px-4 shadow-inner-md"
               : "bg-[#004080] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
           }`}
@@ -58,33 +64,29 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {session && (
-          <>
-            <div
-              className={`link transition-colors duration-300 ease-in-out ${
-                pathname === "/projects"
-                  ? "bg-yellow-500 border border-transparent h-3/5 flex items-center rounded-t-md px-4 shadow-inner-md"
-                  : "bg-[#004080] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
-              }`}
-            >
-              <Link href="/projects">
-                <h2 className="text-4xl font-lora font-bold">MY PROJECTS</h2>
-              </Link>
-            </div>
+        <div
+          className={`link transition-colors duration-300 ease-in-out ${
+            pathname.startsWith("/projects")
+              ? "bg-yellow-500 border border-transparent h-3/5 flex items-center rounded-t-md px-4 shadow-inner-md"
+              : "bg-[#004080] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
+          }`}
+        >
+          <Link href="/projects">
+            <h2 className="text-4xl font-lora font-bold">MY PROJECTS</h2>
+          </Link>
+        </div>
 
-            <div
-              className={`link transition-colors duration-300 ease-in-out ${
-                pathname === "/profile" || pathname === "/profile-edit"
-                  ? "bg-yellow-500 border border-transparent h-3/5 flex items-center rounded-t-md px-4 shadow-inner-md"
-                  : "bg-[#004080] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
-              }`}
-            >
-              <Link href="/profile">
-                <h2 className="text-4xl font-lora font-bold">PROFILE</h2>
-              </Link>
-            </div>
-          </>
-        )}
+        <div
+          className={`link transition-colors duration-300 ease-in-out ${
+            pathname.startsWith("/profile")
+              ? "bg-yellow-500 border border-transparent h-3/5 flex items-center rounded-t-md px-4 shadow-inner-md"
+              : "bg-[#004080] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
+          }`}
+        >
+          <Link href="/profile">
+            <h2 className="text-4xl font-lora font-bold">PROFILE</h2>
+          </Link>
+        </div>
       </div>
 
       <div className="flex flex-col absolute right-0 justify-center items-center gap-1 mr-6 text-white">
