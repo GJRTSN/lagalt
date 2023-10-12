@@ -7,7 +7,6 @@ import Image from "next/image";
 export default function ProjectPage() {
   const params = useParams();
   const projectId = Number(params.id);
-
   const project = dummyData.find((project) => project.id === projectId);
 
   if (!project) {
@@ -27,6 +26,8 @@ export default function ProjectPage() {
         <Image
           src={project.logo}
           alt="Project Logo"
+          width={100}
+          height={100}
           className="w-32 h-32 object-contain  mb-4"
         />
         <h1 className="text-3xl font-bold mb-2 text-black">{project.name}</h1>

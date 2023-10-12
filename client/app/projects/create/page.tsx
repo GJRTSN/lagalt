@@ -143,7 +143,7 @@ export default function CreateProject() {
             <select
               name="industry"
               value={newProject.industry.id}
-              onChange={handleIndustryChange} // updated change handler
+              onChange={handleIndustryChange}
               className="text-black w-1/4 h-10 rounded-md p-2 my-2"
             >
               {industries.map((industry) => (

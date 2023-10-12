@@ -1,7 +1,7 @@
-// AdminProject.tsx
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Project, getProjects } from "@/app/api/Projects";
+
 const AdminProject: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
 
@@ -37,6 +37,7 @@ const AdminProject: React.FC = () => {
                 <th className="py-3 px-6 text-left">Project Name</th>
                 <th className="py-3 px-6 text-left">Industry</th>
                 <th className="py-3 px-6 text-left">STATUS</th>
+                <th className="py-3 px-6 text-left"></th>
               </tr>
             </thead>
             <tbody className="text-gray-600 text-sm font-light">
@@ -63,6 +64,15 @@ const AdminProject: React.FC = () => {
                   <td className="py-3 px-6 text-left">
                     <div className="flex items-center">
                       <span>{project.status.name}</span>
+                    </div>
+                  </td>
+                  <td className="py-3 px-6 text-left">
+                    <div className="flex items-center">
+                      <Link href={`/projects/admin/${project.id}`}>
+                        <button className="bg-green-700 py-1 px-2 rounded-md text-white">
+                          View
+                        </button>
+                      </Link>
                     </div>
                   </td>
                 </tr>

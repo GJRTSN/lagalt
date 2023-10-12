@@ -11,13 +11,6 @@ export default function Projects() {
   const [showCollabs, setShowCollabs] = useState(true);
   const [showApplications, setShowApplications] = useState(true);
 
-  const [projects, setProjects] = useState<Project[]>([]);
-
-  useEffect(() => {
-    const projectsData = getProjects();
-    setProjects(projectsData);
-  }, []);
-
   return (
     <div className="h-full min-h-screen bg-white">
       <div
