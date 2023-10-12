@@ -1,6 +1,6 @@
 import React from "react";
 import { user } from "./dummyUserData";
-import ProjectCard from "../components/ProjectCard";
+import ProjectCard from "../explore/ProjectCard";
 
 export default function ProfileProjects() {
   const currentlyWorkingProjects = [0];

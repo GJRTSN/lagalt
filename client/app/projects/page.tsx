@@ -1,10 +1,9 @@
 "use client";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import AdminProject from "../components/AdminProject";
-import { Project, getProjects } from "../api/Projects";
-import Collaborations from "../components/Collaborations";
-import Applications from "../components/Applications";
+
+import { useState } from "react";
+import AdminProject from "./AdminProject";
+import Collaborations from "./Collaborations";
+import Applications from "./Applications";
 
 export default function Projects() {
   const [showAdminDash, setShowAdminDash] = useState(true);

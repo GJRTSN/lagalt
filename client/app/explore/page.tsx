@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import dummyData, { Project } from "@/app/api/Projects";
-import ProjectCard from "@/app/components/ProjectCard";
+import ProjectCard from "@/app/explore/ProjectCard";
 import { industries } from "../api/ProjectData";
 
 export default function Explore() {
