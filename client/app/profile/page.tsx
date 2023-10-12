@@ -20,7 +20,7 @@ export default function Profile() {
           <p className="text-black italic py-2">
             This is how your profile looks like to others
           </p>
-          <div className="flex space-x-2">
+          <div className="flex space-x-2 justify-center items-center">
             <label className="themeSwitcherTwo relative inline-flex cursor-pointer select-none items-center">
               <input
                 type="checkbox"
@@ -44,7 +44,7 @@ export default function Profile() {
               </span>
             </label>
             <Link href="/profile-edit">
-              <button className="bg-gray-500 hover:bg-gray-700 font-bold py-2 px-4 rounded-full">
+              <button className="bg-gray-500 hover:bg-gray-700 font-bold py-1 px-3 rounded">
                 Edit
               </button>
             </Link>

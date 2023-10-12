@@ -26,7 +26,7 @@ export const user = {
     {
       id: 2,
       projectName: "Project 2",
-      ownerName: "John Done",
+      ownerName: "John Doe",
       industry: "Game Development",
     },
   ],

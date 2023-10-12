@@ -6,10 +6,21 @@ interface ProfileInfoProps {
 }
 
 export default function ProfileInfo({ isProfileVisible }: ProfileInfoProps) {
-  
+  const limitRating = (rating: number) => {
+    if (rating < 1) {
+      return 1;
+    } else if (rating > 5) {
+      return 5;
+    }
+    return rating;
+  };
+
   const ratingStars = (rating: number) => {
+    // Apply the rating limit function to ensure rating is between 1 and 5
+    const limitedRating = limitRating(rating);
+
     const starImages = [];
-    for (let i = 0; i < rating; i++) {
+    for (let i = 0; i < limitedRating; i++) {
       starImages.push(
         <Image
           key={i}
@@ -24,14 +35,16 @@ export default function ProfileInfo({ isProfileVisible }: ProfileInfoProps) {
   };
 
   return (
-    <div className="mt-10 flex space-x-4 text-black">
+    <div className="mt-10 flex space-x-4 text-black bg-gray-300 p-4 rounded-xl">
       <div className="w-1/2">
         <h2 className="text-2xl">
           {user.name} {user.lastname}
         </h2>
         <div className="mt-2">
           {!isProfileVisible && (
-            <p className="italic text-black mt-8">{user.name} {user.lastname} has set the profile to hidden</p>
+            <p className="italic text-black mt-8">
+              {user.name} {user.lastname} has set the profile to hidden
+            </p>
           )}
           {isProfileVisible && (
             <>
@@ -48,13 +61,15 @@ export default function ProfileInfo({ isProfileVisible }: ProfileInfoProps) {
                 Age: <span className="font-light">{user.age}</span>
               </p>
               <p className="font-bold text-lg">
-                Work model:{" "}
-                <span className="font-light">{user.workModel}</span>
+                Work model: <span className="font-light">{user.workModel}</span>
               </p>
               <br />
               <div>
                 <p className="font-bold text-lg">
-                  Rating: <span className="font-light">{user.rating}/5</span>
+                  Rating:{" "}
+                  <span className="font-light">
+                    {limitRating(user.rating)}/5
+                  </span>
                 </p>
                 <div className="flex items-center">
                   {ratingStars(user.rating)} {/* Render star images */}
