@@ -53,7 +53,7 @@ export default function Navbar() {
       >
         <div
           className={`link transition-colors duration-300 ease-in-out ${
-            pathname === "/explore"
+            pathname.startsWith("/explore")
               ? "bg-yellow-500 border border-transparent h-3/5 flex items-center rounded-t-md px-4 shadow-inner-md"
               : "bg-[#004080] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
           }`}
@@ -67,7 +67,7 @@ export default function Navbar() {
           <>
             <div
               className={`link transition-colors duration-300 ease-in-out ${
-                pathname === "/projects"
+                pathname.startsWith("/projects")
                   ? "bg-yellow-500 border border-transparent h-3/5 flex items-center rounded-t-md px-4 shadow-inner-md"
                   : "bg-[#004080] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
               }`}
@@ -79,7 +79,7 @@ export default function Navbar() {
 
             <div
               className={`link transition-colors duration-300 ease-in-out ${
-                pathname === "/profile" || pathname === "/profile-edit"
+                pathname.startsWith("/profile")
                   ? "bg-yellow-500 border border-transparent h-3/5 flex items-center rounded-t-md px-4 shadow-inner-md"
                   : "bg-[#004080] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
               }`}
