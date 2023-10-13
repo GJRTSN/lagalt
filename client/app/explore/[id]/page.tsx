@@ -1,61 +1,94 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import dummyData from "@/app/api/Projects";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { getAllProjects } from "@/app/api/getProjects";
 
 export default function ProjectPage() {
   const params = useParams();
-  const projectId = Number(params.id);
-  const project = dummyData.find((project) => project.id === projectId);
+  const id = Number(params.id);
+
+  const [project, setProject] = useState<Project | null>(null);
+
+  interface Project {
+    projectId: number;
+    title: string;
+    description: string;
+    status: string;
+    ownerUserId: number;
+    ownerName: string;
+    industry: string | null;
+    skillsRequired: string[];
+  }
+
+  useEffect(() => {
+    const getProjects = async () => {
+      const projectsFromApi = await getAllProjects();
+      const matchedProject = projectsFromApi.find(
+        (proj: Project) => proj.projectId === id
+      );
+
+      setProject(matchedProject || null);
+    };
+
+    getProjects();
+  }, [id]);
+
+  console.log(project);
 
   if (!project) {
     return (
-      <div className="h-screen flex items-center justify-center">
-        <div className="text-red-500 text-lg">
-          Project with id {projectId} does not exist.
+      <div className="h-full min-h-screen bg-white">
+        <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center "></div>
+        <div className="flex flex-col items-center mt-8 p-4">
+          <h1 className="text-3xl font-bold text-center mb-8 text-gray-400">
+            Loading project ...
+          </h1>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="h-screen bg-white">
-      <div className="w-full h-12 bg-yellow-500 flex flex-row items-center "></div>
-      <div className="flex flex-col items-center mt-8">
-        <Image
-          src={project.logo}
-          alt="Project Logo"
-          width={100}
-          height={100}
-          className="w-32 h-32 object-contain  mb-4"
-        />
-        <h1 className="text-3xl font-bold mb-2 text-black">{project.name}</h1>
-        <p className="text-lg mb-4 text-black">Project ID: {projectId}</p>
+    <div className="h-full min-h-screen bg-white">
+      <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center "></div>
+      <div className="flex flex-col items-center mt-8 p-4">
         <div className="w-3/4 bg-gray-100 p-4 text-black rounded-lg">
-          <div className="flex flex-col md:flex-row justify-between mb-2">
+          <h1 className="text-3xl font-bold text-center mb-8 text-black">
+            {project.title}
+          </h1>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <p className="font-bold">Project ID:</p>
+              <p>{project.projectId}</p>
+            </div>
+
             <div>
               <p className="font-bold">Owner:</p>
-              <p>{project.owner}</p>
+              <p>{project.ownerName}</p>
             </div>
             <div>
               <p className="font-bold">Industry:</p>
-              <p>{project.industry.name}</p>
+              <p>{project.industry || "Not specified"}</p>
             </div>
             <div>
               <p className="font-bold">Status:</p>
-              <p>{project.status.name}</p>
+              <p>{project.status}</p>
             </div>
-          </div>
-          <div className="mb-2">
-            <p className="font-bold">Skills Required:</p>
-            <p>
-              {project.skillsRequired.map((skill) => skill.name).join(", ")}
-            </p>
-          </div>
-          <div className="mb-2">
-            <p className="font-bold">Views:</p>
-            <p>{project.viewCount}</p>
+            <div>
+              <p className="font-bold">Skills Required:</p>
+              <p>
+                {project.skillsRequired.length
+                  ? project.skillsRequired.join(", ")
+                  : "Not specified"}
+              </p>
+            </div>
+            <div className="w-3/4 mt-4">
+              <p className="font-bold">Description:</p>
+              <p className="text-black text-lg">{project.description}</p>
+            </div>
           </div>
         </div>
       </div>
