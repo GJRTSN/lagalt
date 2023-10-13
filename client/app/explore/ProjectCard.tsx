@@ -3,65 +3,51 @@ import Link from "next/link";
 
 interface ProjectCardProps {
   project: {
-    id: number;
-    name: string;
-    owner: string;
-    industry: { id: number; name: string };
-    skillsRequired: { id: number; name: string }[];
-    status: { id: number; name: string };
-    viewCount: number;
-    logo: string;
+    projectId: number;
+    title: string;
+    description: string;
+    status: string;
+    ownerUserId: number;
+    ownerName: string;
+    industry: string;
+    skillsRequired: string[];
   };
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <div className="mt-8 w-4/5 h-auto bg-[#CCCCCC] rounded-lg flex flex-row shadow-lg p-4 ">
-      <Image
-        src={project.logo}
-        className="mr-4"
-        alt="project-owner-logo"
-        height={50}
-        width={50}
-        style={{ objectFit: "contain" }}
-      />
-      <div className="flex-grow flex flex-col text-black">
-        <p className="font-roboto text-2xl mb-2">{project.name}</p>
-        <div className="flex flex-row">
-          <div id="projectdata1" className="flex flex-col w-2/8">
-            <div className="flex flex-row gap-1 mb-1">
-              <p className="font-black">ID:</p>
-              <p>{project.id}</p>
-            </div>
-            <div className="flex flex-row gap-1 mb-1">
-              <p className="font-black">Views:</p>
-              <p className="text-black">{project.viewCount}</p>
-            </div>
+    <div className="mt-8 w-4/5 h-auto bg-gray-200 rounded-lg shadow-lg p-4 flex flex-col text-black">
+      <h2 className="text-2xl font-bold mb-2">{project.title}</h2>
+      <div className="flex flex-row items-start">
+        <div className="w-1/4 flex flex-col items-start ml-4">
+          <div>
+            <strong>ID:</strong> {project.projectId}
           </div>
-          <div id="projectdata2" className="flex flex-col ml-4 w-1/3">
-            <div className="flex flex-row gap-1 mb-1">
-              <p className="font-black">Industry:</p>
-              <p>{project.industry.name}</p>
-            </div>
-            <div className="flex flex-row gap-1">
-              <p className="font-black">Status:</p>
-              <p>{project.status.name}</p>
-            </div>
-          </div>
-          <div id="projectdata3" className="flex flex-col ml-4 w-3/4">
-            <div className="flex flex-row gap-1">
-              <p className="font-black">Skills Required:</p>
-              <p>
-                {project.skillsRequired.map((skill) => skill.name).join(", ")}
-              </p>
-            </div>
+          <div>
+            <strong>Owner:</strong> {project.ownerName}
           </div>
         </div>
-      </div>
-      <div className="ml-auto flex items-center">
-        <Link href={`/explore/${project.id}`}>
-          <p className="bg-green-500 text-white rounded px-4 py-2">View</p>
-        </Link>
+        <div className="w-2/4 flex flex-col items-start ml-4">
+          <div>
+            <strong>Status:</strong> {project.status}
+          </div>
+          <div>
+            <strong>Industry:</strong> {project.industry}
+          </div>
+        </div>
+        <div className="w-1/4 flex flex-col items-start ml-4">
+          <div>
+            <strong>Skills required:</strong>
+          </div>
+          <div>{project.skillsRequired.join(", ")}</div>
+        </div>
+        <div className="w-1/4 ml-4 flex items-center justify-end">
+          <Link href={`/explore/${project.projectId}`}>
+            <button className="bg-green-500 text-white rounded px-4 py-2 hover:bg-green-700 transition duration-300">
+              View
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   );

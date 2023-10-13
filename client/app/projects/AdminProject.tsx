@@ -1,16 +1,30 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Project, getProjects } from "@/app/api/Projects";
+import { getAllProjects } from "../api/getProjects";
 
-const AdminProject: React.FC = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
+interface ProjectCardProps {
+  project: {
+    projectId: number;
+    title: string;
+    description: string;
+    status: string;
+    ownerUserId: number;
+    ownerName: string;
+    industry: string;
+    skillsRequired: string[];
+  };
+}
+
+export default function AdminProject() {
+  const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    const projectsData = getProjects();
-    setProjects(projectsData);
+    const getProjects = async () => {
+      const projectsFromApi = await getAllProjects();
+      setProjects(projectsFromApi);
+    };
+    getProjects();
   }, []);
-
-  console.log(projects);
 
   return (
     <div id="admindash" className="w-3/4 h-full bg-[#CCCCCC] rounded-lg p-4 ">
@@ -41,34 +55,34 @@ const AdminProject: React.FC = () => {
               </tr>
             </thead>
             <tbody className="text-gray-600 text-sm font-light">
-              {projects.map((project, index) => (
+              {projects.map((project: ProjectCardProps, index) => (
                 <tr
                   className="border-b border-gray-200 hover:bg-gray-100"
                   key={index}
                 >
                   <td className="py-3 px-6 text-left whitespace-nowrap">
                     <div className="flex items-center">
-                      <span className="font-medium">{project.id}</span>
+                      <span className="font-medium">{project.projectId}</span>{" "}
                     </div>
                   </td>
                   <td className="py-3 px-6 text-left">
                     <div className="flex items-center">
-                      <span>{project.name || "Unnamed Project"}</span>
+                      <span>{project.title || "Unnamed Project"}</span>{" "}
                     </div>
                   </td>
                   <td className="py-3 px-6 text-left">
                     <div className="flex items-center">
-                      <span>{project.industry.name}</span>
+                      <span>{project.industry}</span>
                     </div>
                   </td>
                   <td className="py-3 px-6 text-left">
                     <div className="flex items-center">
-                      <span>{project.status.name}</span>
+                      <span>{project.status}</span>
                     </div>
                   </td>
                   <td className="py-3 px-6 text-left">
                     <div className="flex items-center">
-                      <Link href={`/projects/admin/${project.id}`}>
+                      <Link href={`/projects/admin/${project.projectId}`}>
                         <button className="bg-green-700 py-1 px-2 rounded-md text-white">
                           View
                         </button>
@@ -83,6 +97,4 @@ const AdminProject: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default AdminProject;
+}
