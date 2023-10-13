@@ -17,7 +17,7 @@ export default function Explore() {
 
   return (
     <div className="h-full min-h-screen bg-white pb-12">
-      <div className="w-full h-12 bg-yellow-500 flex flex-row items-center justify-center ">
+      <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center ">
         <p className="text-center text-black">
           Filtration by industry will be added here
         </p>

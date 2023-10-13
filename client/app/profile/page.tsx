@@ -15,7 +15,7 @@ export default function Profile() {
 
   return (
     <div className="h-screen bg-white">
-      <div className="w-full h-12 bg-yellow-500 flex flex-row items-center justify-center">
+      <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center">
         <div className="w-2/4 flex justify-between">
           <p className="text-black italic py-2">
             This is how your profile looks like to others
@@ -29,7 +29,7 @@ export default function Profile() {
                 className="sr-only"
               />
               <span className="label flex items-center text-sm font-medium text-black">
-              {isProfileVisible ? 'Visible' : 'Hidden'}
+                {isProfileVisible ? "Visible" : "Hidden"}
               </span>
               <span
                 className={`slider mx-4 flex h-8 w-[60px] items-center rounded-full p-1 duration-200 ${

@@ -101,7 +101,7 @@ export default function CreateProject() {
     <div className="h-full min-h-screen bg-white">
       <div
         id="switchContainer"
-        className="w-full h-12 bg-yellow-500 flex flex-row items-center justify-center mb-4 "
+        className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center mb-4 "
       ></div>
       <div className="h-3/5 flex bg-white flex-col items-center justify-center">
         <div

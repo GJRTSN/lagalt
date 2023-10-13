@@ -30,7 +30,7 @@ const ProjectAdmin: React.FC = () => {
 
   return (
     <div className="h-screen bg-white">
-      <div className="w-full h-12 bg-yellow-500 flex flex-row items-center "></div>
+      <div className="w-full h-12 bg-[#8cb669] flex flex-row items-center "></div>
       <div className="flex flex-col items-center mt-8">
         <div className="w-3/4 bg-gray-100 p-4 text-black rounded-lg">
           <Image

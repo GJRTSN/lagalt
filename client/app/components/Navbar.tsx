@@ -40,15 +40,15 @@ export default function Navbar() {
   return (
     <>
       {pathname === "/" ? null : (
-        <div className="w-full h-24 relative bg-[#004080] flex flex-row justify-center gap-12 items-center">
+        <div className="w-full h-16 relative bg-[#CCCCCC] flex flex-row justify-center gap-12 items-center">
           <Image
             src={logo}
             className="absolute left-0 ml-6 transition ease-in-out 1s p-2 rounded shadow-s hover:opacity-70"
             alt="explore"
-            width="70"
+            width="50"
             height="20"
           />
-          <p className="mb-8">Friday 06. October 2023</p>
+          {/* <p className="mb-8">Friday 06. October 2023</p> */}
 
           <div
             id="pagesContainer"
@@ -57,12 +57,12 @@ export default function Navbar() {
             <div
               className={`link transition-colors duration-300 ease-in-out ${
                 pathname.startsWith("/explore")
-                  ? "bg-yellow-500 border border-transparent h-3/5 flex items-center rounded-t-md px-4 shadow-inner-md"
-                  : "bg-[#004080] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
+                  ? "bg-[#8cb669] border border-transparent h-3/5 flex items-center rounded-t-md px-4 shadow-inner-md"
+                  : "bg-[#CCCCCC] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
               }`}
             >
               <Link href="/explore">
-                <h2 className="text-4xl font-lora font-bold">EXPLORE</h2>
+                <h2 className="text-2xl font-roboto font-bold">EXPLORE</h2>
               </Link>
             </div>
 
@@ -71,12 +71,12 @@ export default function Navbar() {
                 <div
                   className={`link transition-colors duration-300 ease-in-out ${
                     pathname.startsWith("/projects")
-                      ? "bg-yellow-500 border border-transparent h-3/5 flex items-center rounded-t-md px-4 shadow-inner-md"
-                      : "bg-[#004080] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
+                      ? "bg-[#8cb669] border border-transparent h-3/5 flex items-center rounded-t-md px-4 shadow-inner-md"
+                      : "bg-[#CCCCCC] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
                   }`}
                 >
                   <Link href="/projects">
-                    <h2 className="text-4xl font-lora font-bold">
+                    <h2 className="text-2xl font-roboto font-bold">
                       MY PROJECTS
                     </h2>
                   </Link>
@@ -85,12 +85,12 @@ export default function Navbar() {
                 <div
                   className={`link transition-colors duration-300 ease-in-out ${
                     pathname.startsWith("/profile")
-                      ? "bg-yellow-500 border border-transparent h-3/5 flex items-center rounded-t-md px-4 shadow-inner-md"
-                      : "bg-[#004080] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
+                      ? "bg-[#8cb669] border border-transparent h-3/5 flex items-center rounded-t-md px-4 shadow-inner-md"
+                      : "bg-[#CCCCCC] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
                   }`}
                 >
                   <Link href="/profile">
-                    <h2 className="text-4xl font-lora font-bold">PROFILE</h2>
+                    <h2 className="text-2xl font-roboto font-bold">PROFILE</h2>
                   </Link>
                 </div>
               </>
@@ -100,7 +100,7 @@ export default function Navbar() {
           <div className="flex flex-col absolute right-0 justify-center items-center gap-1 mr-6 text-white">
             {session?.user ? (
               <>
-                <p className="">Logged in as:</p>
+                {/* <p className="">Logged in as:</p> */}
                 <p className="font-bold">{session.user.name}</p>
               </>
             ) : (
