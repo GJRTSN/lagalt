@@ -1,11 +1,25 @@
 import Image from "next/image";
-import { user } from "@/app/profile/dummyUserData";
+import { getUserById } from "../api/getUsersById"; // Import the updated function
+import { useEffect, useState } from "react";
 
 interface ProfileInfoProps {
   isProfileVisible: boolean; // Define the prop type
 }
 
 export default function ProfileInfo({ isProfileVisible }: ProfileInfoProps) {
+  const [userData, setUserData] = useState<any>(null);
+
+  useEffect(() => {
+    getUserById(1) 
+      .then((data) => {
+        setUserData(data);
+        console.log("Fetched userData data:", data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
   const limitRating = (rating: number) => {
     if (rating < 1) {
       return 1;
@@ -34,54 +48,58 @@ export default function ProfileInfo({ isProfileVisible }: ProfileInfoProps) {
     return starImages;
   };
 
+  if (!userData) {
+    return null;
+  }
+
   return (
     <div className="mt-10 flex space-x-4 text-black bg-gray-300 p-4 rounded-xl">
       <div className="w-1/2">
         <h2 className="text-2xl">
-          {user.name} {user.lastname}
+          {userData.forName} {userData.lastName}
         </h2>
         <div className="mt-2">
           {!isProfileVisible && (
             <p className="italic text-black mt-8">
-              {user.name} {user.lastname} has set the profile to hidden
+              {userData.forName} {userData.lastName} has set the profile to hidden
             </p>
           )}
           {isProfileVisible && (
             <>
               <p className="font-bold text-lg">
-                Title: <span className="font-light">{user.title}</span>
+                Title: <span className="font-light">{userData.description}</span>
               </p>
               <p className="font-bold text-lg">
                 Location:{" "}
                 <span className="font-light">
-                  {user.city}, {user.country}
+                  {userData.country}
                 </span>
               </p>
-              <p className="font-bold text-lg">
-                Age: <span className="font-light">{user.age}</span>
+             {/* <p className="font-bold text-lg">
+                Age: <span className="font-light">{userData.age}</span>
               </p>
               <p className="font-bold text-lg">
-                Work model: <span className="font-light">{user.workModel}</span>
+                Work model: <span className="font-light">{userData.workModel}</span>
               </p>
               <br />
               <div>
                 <p className="font-bold text-lg">
                   Rating:{" "}
                   <span className="font-light">
-                    {limitRating(user.rating)}/5
+                    {limitRating(userData.rating)}/5
                   </span>
                 </p>
                 <div className="flex items-center">
-                  {ratingStars(user.rating)} {/* Render star images */}
-                </div>
-              </div>
+                  {ratingStars(userData.rating)} {/* Render star images 
+                </div> 
+              </div> */}
             </>
           )}
         </div>
       </div>
       <div className="w-1/2">
         <Image
-          src={user.image}
+          src={""}
           alt="User-picture"
           width={500}
           height={300}
