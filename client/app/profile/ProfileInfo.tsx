@@ -10,7 +10,7 @@ export default function ProfileInfo({ isProfileVisible }: ProfileInfoProps) {
   const [userData, setUserData] = useState<any>(null);
 
   useEffect(() => {
-    getUserById(1) 
+    getUserById(2)
       .then((data) => {
         setUserData(data);
         console.log("Fetched userData data:", data);
@@ -61,26 +61,25 @@ export default function ProfileInfo({ isProfileVisible }: ProfileInfoProps) {
         <div className="mt-2">
           {!isProfileVisible && (
             <p className="italic text-black mt-8">
-              {userData.forName} {userData.lastName} has set the profile to hidden
+              {userData.forName} {userData.lastName} has set the profile to
+              hidden
             </p>
           )}
           {isProfileVisible && (
             <>
               <p className="font-bold text-lg">
-                Title: <span className="font-light">{userData.description}</span>
+                Title:{" "}
+                <span className="font-light">{userData.description}</span>
               </p>
               <p className="font-bold text-lg">
-                Location:{" "}
-                <span className="font-light">
-                  {userData.country}
-                </span>
+                Location: <span className="font-light">{userData.country}</span>
               </p>
-             {/* <p className="font-bold text-lg">
+              <p className="font-bold text-lg">
                 Age: <span className="font-light">{userData.age}</span>
               </p>
-              <p className="font-bold text-lg">
+              {/*<p className="font-bold text-lg">
                 Work model: <span className="font-light">{userData.workModel}</span>
-              </p>
+              </p> 
               <br />
               <div>
                 <p className="font-bold text-lg">

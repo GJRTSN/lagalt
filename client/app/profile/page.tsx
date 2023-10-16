@@ -55,7 +55,6 @@ export default function Profile() {
         <div className="w-2/4">
           <ProfileInfo isProfileVisible={isProfileVisible} />
           {isProfileVisible && <ProfileSkills />}
-          {isProfileVisible && <ProfileAbout />}
           {isProfileVisible && <ProfileProjects />}
         </div>
       </div>
