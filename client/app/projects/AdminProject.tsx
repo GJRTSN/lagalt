@@ -3,16 +3,14 @@ import Link from "next/link";
 import { getAllProjects } from "../api/getProjects";
 
 interface ProjectCardProps {
-  project: {
-    projectId: number;
-    title: string;
-    description: string;
-    status: string;
-    ownerUserId: number;
-    ownerName: string;
-    industry: string;
-    skillsRequired: string[];
-  };
+  projectId: number;
+  title: string;
+  description: string;
+  status: string;
+  ownerUserId: number;
+  ownerName: string;
+  industry: string;
+  skillsRequired: string[];
 }
 
 export default function AdminProject() {
