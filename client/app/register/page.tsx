@@ -17,21 +17,38 @@ const Register = () => {
 };
 
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-   /* e.preventDefault();
-    // Your backend API URL
-    const apiEndpoint = "http://localhost:8080/users";
-    try {
-      const response = await axios.post(apiEndpoint, formData);
-      if (response.status === 201) {
-        console.log("User created:", response.data);
-        // Redirect to explore page
-        router.push("/explore");
-      }
-    } catch (error) {
-      console.log("Error:", error);
-    } */
-  };
+const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  // Your backend API URL
+  const apiEndpoint = "http://localhost:8080/users";
+
+  try {
+    const response = await fetch(apiEndpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData)
+    });
+
+    if (response.status === 201) {
+      const data = await response.json();
+      console.log("User created:", data);
+
+      // TODO: Implement login functionality here if required.
+      // For example, you could save the user token to localStorage.
+
+      // Redirect to explore page
+      router.push("/explore");
+    } else {
+      // Handle errors, maybe update the component's state to display an error message
+      console.error("Failed to register user:", response.status, await response.json());
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
+
 
   return (
     <div className="p-10 min-h-screen flex items-center justify-center bg-gray-900">
@@ -115,7 +132,7 @@ const Register = () => {
                 Birthday:
               </label>
               <input
-                type="date"
+                type="text"
                 id="age"
                 name="age"
                 onChange={handleChange}
@@ -157,7 +174,7 @@ const Register = () => {
             />
           </div>
 
-          <div className="mb-4">
+         {/*<div className="mb-4">
             <label
               htmlFor="about"
               className="block text-sm font-medium text-white mb-1"
@@ -171,7 +188,7 @@ const Register = () => {
               onChange={handleChange}
               placeholder="Tells us more about yourself!"
             ></textarea>
-          </div>
+          </div> */} 
 
           <div className="mb-6">
             <label
