@@ -10,7 +10,7 @@ export default function ProfileInfo({ isProfileVisible }: ProfileInfoProps) {
   const [userData, setUserData] = useState<any>(null);
 
   useEffect(() => {
-    getUserById(2)
+    getUserById(1)
       .then((data) => {
         setUserData(data);
         console.log("Fetched userData data:", data);
