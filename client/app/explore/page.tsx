@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getAllProjects } from "@/app/api/getProjects";
+import { getAllProjects } from "@/app/api/Projects";
 import ProjectCard from "@/app/explore/ProjectCard";
+import { CreateProjectDTO } from "../api/types";
 
 export default function Explore() {
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<CreateProjectDTO[]>([]);
   const [selectedIndustryIds, setSelectedIndustryIds] = useState<number[]>([]);
 
   const industries = [

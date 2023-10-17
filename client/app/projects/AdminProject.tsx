@@ -1,17 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { getAllProjects } from "../api/getProjects";
-
-interface ProjectCardProps {
-  projectId: number;
-  title: string;
-  description: string;
-  status: string;
-  ownerUserId: number;
-  ownerName: string;
-  industryName: string;
-  skillsRequiredNames: string[];
-}
+import { getAllProjects } from "../api/Projects";
+import { ProjAdminList } from "../api/types";
 
 export default function AdminProject() {
   const [projects, setProjects] = useState([]);
@@ -28,7 +18,7 @@ export default function AdminProject() {
     <div id="admindash" className="w-3/4 h-full bg-[#CCCCCC] rounded-lg p-4 ">
       <div className="w-1/2 float-right">
         <Link href="/projects/create">
-          <button className="w-auto h-8 bg-green-700 rounded-md px-2 float-right">
+          <button className="w-auto h-8 bg-green-600 rounded-md px-2 float-right">
             New project
           </button>
         </Link>
@@ -53,7 +43,7 @@ export default function AdminProject() {
               </tr>
             </thead>
             <tbody className="text-gray-600 text-sm font-light">
-              {projects.map((project: ProjectCardProps, index) => (
+              {projects.map((project: ProjAdminList, index) => (
                 <tr
                   className="border-b border-gray-200 hover:bg-gray-100"
                   key={index}
@@ -78,11 +68,16 @@ export default function AdminProject() {
                       <span>{project.status}</span>
                     </div>
                   </td>
-                  <td className="py-3 px-6 text-left">
+                  <td className="py-3 text-left">
                     <div className="flex items-center">
-                      <Link href={`/projects/admin/${project.projectId}`}>
-                        <button className="bg-green-700 py-1 px-2 rounded-md text-white">
+                      <Link href={`/explore/${project.projectId}`}>
+                        <button className="bg-green-700 py-1 mx-1 px-2 rounded-md text-white">
                           View
+                        </button>
+                      </Link>
+                      <Link href={`/projects/edit/${project.projectId}`}>
+                        <button className="bg-yellow-400 py-1 mx-1 px-2 rounded-md text-white">
+                          Edit
                         </button>
                       </Link>
                     </div>

@@ -1,18 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
-
-interface ProjectCardProps {
-  project: {
-    projectId: number;
-    title: string;
-    description: string;
-    status: string;
-    ownerUserId: number;
-    ownerName: string;
-    industryName: string;
-    skillsRequiredNames: string[];
-  };
-}
+import { ProjectCardProps } from "../api/types";
 
 export default function ProjectCard({ project }: ProjectCardProps) {
   return (

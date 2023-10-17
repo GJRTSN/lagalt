@@ -1,11 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import React, { ReactNode, ChangeEvent } from "react";
 import AdminProject from "./AdminProject";
 import Collaborations from "./Collaborations";
 import Applications from "./Applications";
 
-const ToggleLabel = ({ checked, onChange, children }) => (
+type ToggleLabelProps = {
+  checked: boolean;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  children: ReactNode;
+};
+
+const ToggleLabel: React.FC<ToggleLabelProps> = ({
+  checked,
+  onChange,
+  children,
+}) => (
   <div className="flex items-center">
     <p className="text-sm text-[#FDFDFD]">{children}</p>
     <label

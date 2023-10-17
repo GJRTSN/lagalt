@@ -5,7 +5,7 @@ import { getAllProjects } from "@/app/api/Projects";
 import { useParams } from "next/navigation";
 import { CreateProjectDTO } from "@/app/api/types";
 
-const ViewProject: React.FC = () => {
+const EditProject: React.FC = () => {
   const [project, setProject] = useState<CreateProjectDTO | null>(null);
   const params = useParams();
   const id = params.id;
@@ -33,7 +33,7 @@ const ViewProject: React.FC = () => {
       <div className="h-full min-h-screen bg-white pb-12">
         <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center ">
           <p className="text-black">
-            YOU ARE CURRENTLY <strong className="text-red-500">VIEWING</strong>{" "}
+            YOU ARE CURRENTLY <strong className="text-red-500">EDITING</strong>{" "}
             A PROJECT!
           </p>
         </div>
@@ -48,7 +48,7 @@ const ViewProject: React.FC = () => {
     <div className="h-screen bg-white">
       <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center ">
         <p className="text-black">
-          YOU ARE CURRENTLY <strong className="text-red-500">VIEWING</strong> A
+          YOU ARE CURRENTLY <strong className="text-red-500">EDITING</strong> A
           PROJECT!
         </p>
       </div>
@@ -81,4 +81,4 @@ const ViewProject: React.FC = () => {
   );
 };
 
-export default ViewProject;
+export default EditProject;
