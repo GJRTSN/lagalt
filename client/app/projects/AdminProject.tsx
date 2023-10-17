@@ -3,16 +3,14 @@ import Link from "next/link";
 import { getAllProjects } from "../api/getProjects";
 
 interface ProjectCardProps {
-  project: {
-    projectId: number;
-    title: string;
-    description: string;
-    status: string;
-    ownerUserId: number;
-    ownerName: string;
-    industry: string;
-    skillsRequired: string[];
-  };
+  projectId: number;
+  title: string;
+  description: string;
+  status: string;
+  ownerUserId: number;
+  ownerName: string;
+  industryName: string;
+  skillsRequiredNames: string[];
 }
 
 export default function AdminProject() {
@@ -72,7 +70,7 @@ export default function AdminProject() {
                   </td>
                   <td className="py-3 px-6 text-left">
                     <div className="flex items-center">
-                      <span>{project.industry}</span>
+                      <span>{project.industryName}</span>
                     </div>
                   </td>
                   <td className="py-3 px-6 text-left">

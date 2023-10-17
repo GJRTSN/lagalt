@@ -7,7 +7,7 @@ import Applications from "./Applications";
 
 const ToggleLabel = ({ checked, onChange, children }) => (
   <div className="flex items-center">
-    <p className="font-roboto font-semibold text-[#FDFDFD]">{children}</p>
+    <p className="text-sm text-[#FDFDFD]">{children}</p>
     <label
       className={`${
         checked ? "bg-green-400" : "bg-gray-400"

@@ -9,8 +9,8 @@ interface ProjectCardProps {
     status: string;
     ownerUserId: number;
     ownerName: string;
-    industry: string;
-    skillsRequired: string[];
+    industryName: string;
+    skillsRequiredNames: string[];
   };
 }
 
@@ -32,14 +32,14 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             <strong>Status:</strong> {project.status}
           </div>
           <div>
-            <strong>Industry:</strong> {project.industry}
+            <strong>Industry:</strong> {project.industryName}
           </div>
         </div>
         <div className="w-1/4 flex flex-col items-start ml-4">
           <div>
             <strong>Skills required:</strong>
           </div>
-          <div>{project.skillsRequired.join(", ")}</div>
+          <div>{project.skillsRequiredNames.join(", ")}</div>
         </div>
         <div className="w-1/4 ml-4 flex items-center justify-end">
           <Link href={`/explore/${project.projectId}`}>

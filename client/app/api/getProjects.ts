@@ -3,6 +3,5 @@ export async function getAllProjects() {
     "https://lagalt-case-1.azurewebsites.net/projects/"
   );
   const projects = await response.json();
-
   return projects;
 }

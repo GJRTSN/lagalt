@@ -10,13 +10,11 @@ const ProjectAdmin: React.FC = () => {
   const params = useParams();
   const id = params.id;
 
-  console.log(project);
-
   useEffect(() => {
     if (id) {
       const projectsData = getProjects();
       const selectedProject = projectsData.find(
-        (proj: Project) => proj.id === id
+        (proj: Project) => proj.id === Number(id)
       );
       setProject(selectedProject || null);
     }
@@ -25,8 +23,6 @@ const ProjectAdmin: React.FC = () => {
   if (!project) {
     return <div>Loading project ...</div>;
   }
-
-  console.log(project);
 
   return (
     <div className="h-screen bg-white">
