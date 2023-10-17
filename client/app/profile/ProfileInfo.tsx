@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { getUserById } from "../api/getUsersById"; // Import the updated function
 import { useEffect, useState } from "react";
+import placeholder from "@/public/placholderpp.jpg"
 
 interface ProfileInfoProps {
   isProfileVisible: boolean; // Define the prop type
@@ -20,6 +21,7 @@ export default function ProfileInfo({ isProfileVisible }: ProfileInfoProps) {
       });
   }, []);
 
+  /*
   const limitRating = (rating: number) => {
     if (rating < 1) {
       return 1;
@@ -29,7 +31,7 @@ export default function ProfileInfo({ isProfileVisible }: ProfileInfoProps) {
     return rating;
   };
 
-  const ratingStars = (rating: number) => {
+ /* const ratingStars = (rating: number) => {
     // Apply the rating limit function to ensure rating is between 1 and 5
     const limitedRating = limitRating(rating);
 
@@ -47,6 +49,7 @@ export default function ProfileInfo({ isProfileVisible }: ProfileInfoProps) {
     }
     return starImages;
   };
+  */
 
   if (!userData) {
     return null;
@@ -96,12 +99,12 @@ export default function ProfileInfo({ isProfileVisible }: ProfileInfoProps) {
           )}
         </div>
       </div>
-      <div className="w-1/2">
+      <div className="flex w-1/2 justify-end items-center">
         <Image
-          src={""}
+          src={placeholder}
           alt="User-picture"
-          width={500}
-          height={300}
+          width={200}
+          height={200}
           style={{
             borderRadius: 10,
           }}
