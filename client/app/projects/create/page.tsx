@@ -15,8 +15,8 @@ export default function CreateProject() {
   const router = useRouter();
   const initialFormState: CreateProjectDTO = {
     description: "",
-    industryId: 0,
-    industryName: "",
+    industryId: 1,
+    industryName: "Web Development",
     ownerName: "HARDCODE",
     ownerUserId: 3,
     projectId: 0,

@@ -3,7 +3,7 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { Industry, Skill, CreateProjectDTO } from "@/app/api/types";
+import { Industry, Skill, UpdatedProjectDTO } from "@/app/api/types";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import {
@@ -12,193 +12,198 @@ import {
   getAllSkills,
 } from "@/app/api/Projects";
 
-export default function CreateProject() {
+export default function UpdateProject() {
   const router = useRouter();
+  const params = useParams();
+  const id = Number(params.id);
 
+  // State for managing form data
+  const [formData, setFormData] = useState<UpdatedProjectDTO | null>(null);
+
+  // State for dropdowns and selections
   const [skills, setSkills] = useState<Skill[]>([]);
+  const [industries, setIndustries] = useState<Industry[]>([]);
+  const [selectedSkills, setSelectedSkills] = useState<Skill[]>([]);
 
+  // State for UI elements
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredSkills, setFilteredSkills] = useState<Skill[]>([]);
-  const [selectedSkills, setSelectedSkills] = useState<Skill[]>([]);
-  const [industries, setIndustries] = useState<Industry[]>([]);
-  const [newProjectId, setNewProjectId] = useState<number | null>(null);
-  const [project, setProject] = useState<CreateProjectDTO | null>(null);
-  const params = useParams();
-  const id = params.id;
 
+  // Fetch initial data
   useEffect(() => {
-    const fetchProject = async () => {
-      if (id) {
-        try {
-          const projectsData = await getAllProjects();
-          const selectedProject = projectsData.find(
-            (proj: CreateProjectDTO) => proj.projectId === Number(id)
-          );
-          if (selectedProject) {
-            setProject(selectedProject);
-
-            // Populate selectedSkills with the project's existing skills
-            const existingSkills = selectedProject.skillsRequiredIds.map(
-              (skillId) => {
-                return (
-                  skills.find((skill) => skill.id === skillId) || {
-                    id: skillId,
-                    name: "",
-                  }
-                ); // or however you'd like to handle skills not found
-              }
-            );
-            setSelectedSkills(existingSkills);
-          } else {
-            setProject(null);
-          }
-        } catch (error) {
-          console.error("There was an error fetching the projects", error);
-        }
-      }
-    };
-
-    fetchProject();
-  }, [id, skills]);
-
-  //   const initialFormState: CreateProjectDTO = {
-  //     description: project.description,
-  //     industryId: 0,
-  //     industryName: "",
-  //     ownerName: "HARDCODE",
-  //     ownerUserId: 3,
-  //     projectId: 0,
-  //     skillsRequiredIds: [],
-  //     skillsRequiredNames: [],
-  //     status: "",
-  //     title: "",
-  //   };
-
-  //   const [formData, setFormData] = useState<CreateProjectDTO>(initialFormState);
-
-  useEffect(() => {
-    const getSkills = async () => {
+    // Function to fetch projects, skills, and industries
+    const fetchData = async () => {
       try {
-        const skills = await getAllSkills();
-        setSkills(skills);
-      } catch (error) {
-        console.error("Failed to fetch skills", error);
-      }
-    };
+        const [fetchedProjects, fetchedSkills, fetchedIndustries] =
+          await Promise.all([
+            getAllProjects(),
+            // getProjectById(id),
+            getAllSkills(),
+            getAllIndustries(),
+          ]);
 
-    const getLastProjectId = async () => {
-      try {
-        const projects = await getAllProjects();
-        if (projects.length) {
-          const maxProjectId = Math.max(
-            ...projects.map((p: CreateProjectDTO) => p.projectId)
-          );
-          setNewProjectId(maxProjectId + 1);
-        }
-      } catch (error) {
-        console.error("Failed to fetch projects", error);
-      }
-    };
-
-    const getIndustries = async () => {
-      try {
-        const fetchedIndustries = await getAllIndustries();
+        setSkills(fetchedSkills);
         setIndustries(fetchedIndustries);
+
+        if (id) {
+          const selectedProject = fetchedProjects.find(
+            (proj: UpdatedProjectDTO) => proj.projectId === Number(id)
+          );
+
+          if (selectedProject) {
+            // Set form data from the selected project
+            setFormData(selectedProject);
+
+            // Set selected skills from the selected project, ensuring the structure matches your 'Skill' type.
+            // Assuming that 'skillsRequiredNames' and 'skillsRequiredIds' are the properties holding the skills data in your project.
+            setSelectedSkills(
+              selectedProject.skillsRequiredNames.map(
+                (skillName: string, index: number) => ({
+                  id: selectedProject.skillsRequiredIds[index], // map the skill id
+                  name: skillName, // map the skill name
+                })
+              )
+            );
+          } else {
+            setFormData(null); // Reset form data if no project is selected
+          }
+        }
       } catch (error) {
-        console.error("Failed to fetch industries", error);
+        console.error("There was an error fetching the data", error);
       }
     };
 
-    getSkills();
-    getLastProjectId();
-    getIndustries();
-  }, []);
+    fetchData();
+  }, [id]);
 
+  // Update formData when selectedSkills changes
   useEffect(() => {
-    if (typeof newProjectId === "number") {
-      setFormData((prev) => ({
-        ...prev,
-        projectId: newProjectId,
-      }));
+    // Check if formData is not null and has the necessary properties for comparison
+    if (
+      formData &&
+      formData.skillsRequiredIds &&
+      formData.skillsRequiredNames
+    ) {
+      // Compare the current skills in formData with selectedSkills
+      const currentSkillIds = formData.skillsRequiredIds;
+      const newSkillIds = selectedSkills.map((skill) => skill.id);
+
+      // If they're different, then update formData
+      if (JSON.stringify(currentSkillIds) !== JSON.stringify(newSkillIds)) {
+        setFormData((prev) => {
+          if (prev === null) return null;
+
+          return {
+            ...prev,
+            skillsRequiredIds: newSkillIds,
+            skillsRequiredNames: selectedSkills.map((skill) => skill.name),
+          };
+        });
+      }
     }
-  }, [newProjectId]);
+  }, [selectedSkills, formData]);
 
+  // Handle search term changes
   useEffect(() => {
-    if (searchTerm) {
-      const results = skills.filter((skill) =>
+    if (!searchTerm) return setFilteredSkills([]);
+    setFilteredSkills(
+      skills.filter((skill) =>
         skill.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredSkills(results);
-    } else {
-      setFilteredSkills([]);
-    }
+      )
+    );
   }, [searchTerm, skills]);
 
-  useEffect(() => {
-    setFormData((prev) => ({
-      ...prev,
-      skillsRequiredIds: selectedSkills.map((skill) => skill.id),
-      skillsRequiredNames: selectedSkills.map((skill) => skill.name),
-    }));
-  }, [selectedSkills]);
+  const handleInputChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+
+    setFormData((prev) => {
+      if (prev === null) return null;
+
+      return { ...prev, [name]: value };
+    });
+  };
 
   const handleIndustryChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedIndustry = industries.find(
       (industry) => industry.id === Number(event.target.value)
     );
 
-    if (selectedIndustry) {
-      setFormData((prev) => ({
+    if (!selectedIndustry) return;
+    setFormData((prev) => {
+      if (prev === null) return null;
+
+      return {
         ...prev,
         industryId: selectedIndustry.id,
         industryName: selectedIndustry.name,
-      }));
-    }
+      };
+    });
   };
 
   const addSkill = (skill: Skill) => {
-    if (!selectedSkills.some((s) => s.id === skill.id)) {
-      setSelectedSkills([...selectedSkills, skill]);
-      setSearchTerm("");
-      setFilteredSkills([]);
-    }
+    if (selectedSkills.some((s) => s.id === skill.id)) return;
+    setSelectedSkills((prev) => [...prev, skill]);
+    setSearchTerm("");
   };
 
   const removeSkill = (id: number) => {
-    setSelectedSkills(selectedSkills.filter((skill) => skill.id !== id));
-  };
+    // Update the selectedSkills state by removing the skill with the given ID
+    setSelectedSkills((prev) => prev.filter((skill) => skill.id !== id));
 
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+    // Update the formData state to reflect the removal of the skill
+    setFormData((prevFormData) => {
+      if (!prevFormData) return null; // or handle null case as needed
+
+      // Find the name of the skill with the given ID
+      const skillToRemove = prevFormData.skillsRequiredNames.find(
+        (name, index) => prevFormData.skillsRequiredIds[index] === id
+      );
+
+      // Filter out the removed skill's ID
+      const newSkillsRequiredIds = prevFormData.skillsRequiredIds.filter(
+        (skillId) => skillId !== id
+      );
+
+      // Filter out the removed skill's name
+      const newSkillsRequiredNames = skillToRemove
+        ? prevFormData.skillsRequiredNames.filter(
+            (name) => name !== skillToRemove
+          )
+        : [...prevFormData.skillsRequiredNames]; // if no matching skill, copy the existing array
+
+      return {
+        ...prevFormData,
+        skillsRequiredIds: newSkillsRequiredIds,
+        skillsRequiredNames: newSkillsRequiredNames,
+      };
+    });
   };
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
+
+    if (!formData) return; // Ensure formData is not null
+    console.log("Updating project with data:", formData);
+
     try {
       const response = await axios.put(
         `https://lagalt-case-1.azurewebsites.net/projects/${id}`,
-
-        JSON.stringify(formData),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        formData,
+        { headers: { "Content-Type": "application/json" } }
       );
+
       if (response.status === 200) {
         console.log("Project updated successfully!");
         router.push("/projects");
       }
     } catch (error) {
       console.error("There was an error updating the project!", error);
-      console.log(formData);
     }
   };
 
-  if (!project) {
+  if (!formData) {
     return (
       <div className="h-full min-h-screen bg-white pb-12">
         <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center ">
@@ -226,7 +231,7 @@ export default function CreateProject() {
             PROJECT WITH ID
           </p>
           <div className=" w-auto bg-yellow-500 rounded-md py-1 px-3 mx-2">
-            {project.projectId}
+            {formData.projectId}
           </div>
         </div>
       </div>
@@ -249,7 +254,7 @@ export default function CreateProject() {
                 name="title"
                 value={formData.title}
                 onChange={handleInputChange}
-                placeholder={project.title}
+                placeholder={formData.title}
                 className="text-black mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
               <div>
@@ -262,7 +267,7 @@ export default function CreateProject() {
                 <select
                   id="industry"
                   name="industryId"
-                  placeholder={project.industryName}
+                  placeholder={formData.industryName}
                   onChange={handleIndustryChange}
                   value={formData.industryId}
                   className="text-black mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -334,7 +339,7 @@ export default function CreateProject() {
                   name="status"
                   value={formData.status}
                   onChange={handleInputChange}
-                  placeholder={project.status}
+                  placeholder={formData.status}
                   className="text-black mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
                 <label
@@ -349,7 +354,7 @@ export default function CreateProject() {
                     name="description"
                     onChange={handleInputChange}
                     value={formData.description}
-                    placeholder={project.description}
+                    placeholder={formData.description}
                     className="text-black mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     rows={3}
                   />
@@ -373,100 +378,9 @@ export default function CreateProject() {
                 Discard
               </button>
             </Link>
-            {/* <button
-              type="submit"
-              className="w-auto h-8 bg-green-700 rounded-md px-2 m-1 float-right"
-            >
-              Create
-            </button> */}
           </div>
         </div>
       </div>
     </div>
   );
 }
-
-// ("use client");
-
-// import React, { useEffect, useState } from "react";
-// import { getAllProjects } from "@/app/api/Projects";
-// import { useParams } from "next/navigation";
-// import { CreateProjectDTO } from "@/app/api/types";
-
-// const EditProject: React.FC = () => {
-//   const [project, setProject] = useState<CreateProjectDTO | null>(null);
-//   const params = useParams();
-//   const id = params.id;
-
-//   useEffect(() => {
-//     const fetchProject = async () => {
-//       if (id) {
-//         try {
-//           const projectsData = await getAllProjects();
-//           const selectedProject = projectsData.find(
-//             (proj: CreateProjectDTO) => proj.projectId === Number(id)
-//           );
-//           setProject(selectedProject || null);
-//         } catch (error) {
-//           console.error("There was an error fetching the projects", error);
-//         }
-//       }
-//     };
-
-//     fetchProject();
-//   }, [id]);
-
-//   if (!project) {
-//     return (
-//       <div className="h-full min-h-screen bg-white pb-12">
-//         <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center ">
-//           <p className="text-black">
-//             YOU ARE CURRENTLY <strong className="text-red-500">EDITING</strong>{" "}
-//             A PROJECT!
-//           </p>
-//         </div>
-//         <div className="flex flex-col justify-center items-center mt-8">
-//           <p className="text-black">Loading project...</p>;
-//         </div>
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <div className="h-screen bg-white">
-//       <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center ">
-//         <p className="text-black">
-//           YOU ARE CURRENTLY <strong className="text-red-500">EDITING</strong> A
-//           PROJECT!
-//         </p>
-//       </div>
-//       <div className="flex flex-col items-center mt-8">
-//         <div className="w-3/4 bg-gray-100 p-4 text-black rounded-lg">
-//           <h1 className="text-3xl font-bold mb-2 text-black">
-//             {project.title}
-//           </h1>
-//           <p className="text-lg mb-4 text-black">
-//             <strong>Project ID:</strong> {project.projectId}
-//           </p>
-//           <p className="text-lg mb-4 text-black">
-//             <strong>Industry:</strong> {project.industryName}
-//           </p>
-//           <p className="text-lg mb-4 text-black">
-//             <strong>Skills required:</strong>{" "}
-//             {project.skillsRequiredNames.map((skill, index) => (
-//               <span key={index}>
-//                 {skill}
-//                 {index < project.skillsRequiredNames.length - 1 ? ", " : ""}
-//               </span>
-//             ))}
-//           </p>
-//           <p className="text-lg mb-4 text-black">
-//             <strong>Description:</strong> {project.description}
-//           </p>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default EditProject;

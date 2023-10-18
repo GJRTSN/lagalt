@@ -4,8 +4,9 @@ import React, { useEffect, useState } from "react";
 import { getAllProjects } from "@/app/api/Projects";
 import { useParams } from "next/navigation";
 import { CreateProjectDTO } from "@/app/api/types";
+import Link from "next/link";
 
-const ViewProject: React.FC = () => {
+const ExploreProject: React.FC = () => {
   const [project, setProject] = useState<CreateProjectDTO | null>(null);
   const params = useParams();
   const id = params.id;
@@ -33,8 +34,14 @@ const ViewProject: React.FC = () => {
       <div className="h-full min-h-screen bg-white pb-12">
         <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center ">
           <p className="text-black">
-            YOU ARE CURRENTLY <strong className="text-red-500">VIEWING</strong>{" "}
-            A PROJECT!
+            <strong className="text-black">
+              YOU ARE CURRENTLY{" "}
+              <span className="text-red-500 underline">VIEWING</span> A PROJECT
+              AS{" "}
+              <span className="text-purple-500 underline">
+                NON-LOGGED IN VISITOR!
+              </span>
+            </strong>
           </p>
         </div>
         <div className="flex flex-col justify-center items-center mt-8">
@@ -48,8 +55,13 @@ const ViewProject: React.FC = () => {
     <div className="h-screen bg-white">
       <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center ">
         <p className="text-black">
-          YOU ARE CURRENTLY <strong className="text-red-500">VIEWING</strong> A
-          PROJECT!
+          <strong className="text-black">
+            YOU ARE CURRENTLY{" "}
+            <span className="text-red-500 underline">VIEWING</span> A PROJECT AS{" "}
+            <span className="text-purple-500 underline">
+              NON-LOGGED IN VISITOR!
+            </span>
+          </strong>
         </p>
       </div>
       <div className="flex flex-col items-center mt-8">
@@ -73,12 +85,23 @@ const ViewProject: React.FC = () => {
             ))}
           </p>
           <p className="text-lg mb-4 text-black">
+            <strong>Status:</strong> {project.status}
+          </p>
+          <p className="text-lg mb-4 text-black">
             <strong>Description:</strong> {project.description}
           </p>
+          <Link href={`/projects/${project.projectId}`}>
+            <button
+              type="submit"
+              className="text-center w-1/4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              View all details
+            </button>
+          </Link>
         </div>
       </div>
     </div>
   );
 };
 
-export default ViewProject;
+export default ExploreProject;

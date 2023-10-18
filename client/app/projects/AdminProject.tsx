@@ -70,7 +70,7 @@ export default function AdminProject() {
                   </td>
                   <td className="py-3 text-left">
                     <div className="flex items-center">
-                      <Link href={`/explore/${project.projectId}`}>
+                      <Link href={`/projects/${project.projectId}`}>
                         <button className="bg-green-700 py-1 mx-1 px-2 rounded-md text-white">
                           View
                         </button>

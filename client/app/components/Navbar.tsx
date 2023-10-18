@@ -77,7 +77,7 @@ export default function Navbar() {
                 >
                   <Link href="/projects">
                     <h2 className={`text-2xl font-roboto ${navStyle}`}>
-                      MY PROJECTS
+                      PROJECTS
                     </h2>
                   </Link>
                 </div>
