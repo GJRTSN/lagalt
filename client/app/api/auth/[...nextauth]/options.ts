@@ -7,9 +7,9 @@ import KeycloakProvider from "next-auth/providers/keycloak";
 export const options: NextAuthOptions = {
   providers: [
     KeycloakProvider({
-        clientId: process.env.KEYCLOAK_CLIENT_ID as string,
-        clientSecret: process.env.KEYCLOAK_SECRET as string,
-        issuer: process.env.KEYCLOAK_ISSUER as string,
+      clientId: process.env.KEYCLOAK_CLIENT_ID as string,
+      clientSecret: process.env.KEYCLOAK_SECRET as string,
+      issuer: process.env.KEYCLOAK_ISSUER as string,
     }),
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID as string,
@@ -50,13 +50,15 @@ export const options: NextAuthOptions = {
         const data = await response.json();
 
         if (response.status === 200) {
-          // Optionally, you could include tokens from your backend in the session here
-          return { id: data.id, name: data.name };
+          return {
+            id: data.id,
+            name: data.name,
+            username: data.username,
+          };
         } else {
           throw new Error("Invalid credentials");
         }
       },
     }),
   ],
-  
-}
+};
