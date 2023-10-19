@@ -1,11 +1,11 @@
-const Applications: React.FC = () => {
+export default function YourApplications() {
   return (
     <div
       id="applications"
       className="w-3/4 h-1/4 m-4 bg-[#CCCCCC] rounded-lg p-4"
     >
       <h3 className="text-black text-4xl font-bold font-roboto">
-        Applications
+        Your applications
       </h3>
       <p className="text-black font-roboto">
         Projects you have applied to join
@@ -18,6 +18,4 @@ const Applications: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default Applications;
+}

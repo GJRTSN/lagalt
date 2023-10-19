@@ -12,6 +12,10 @@ import {
   getAllSkills,
 } from "@/app/api/Projects";
 
+import { removeParticipant } from "@/app/api/Participants";
+import Participants from "../Participants";
+import Applications from "../Applications";
+
 export default function UpdateProject() {
   const router = useRouter();
   const params = useParams();
@@ -19,6 +23,8 @@ export default function UpdateProject() {
 
   // State for managing form data
   const [formData, setFormData] = useState<UpdatedProjectDTO | null>(null);
+  const [project, setProject] = useState<UpdatedProjectDTO | null>(null);
+  const [refreshParticipants, setRefreshParticipants] = useState(false);
 
   // State for dropdowns and selections
   const [skills, setSkills] = useState<Skill[]>([]);
@@ -28,6 +34,28 @@ export default function UpdateProject() {
   // State for UI elements
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredSkills, setFilteredSkills] = useState<Skill[]>([]);
+
+  const handleApplicationAccept = () => {
+    setRefreshParticipants((prev) => !prev); // toggles the refresh state
+  };
+
+  useEffect(() => {
+    const fetchProject = async () => {
+      if (id) {
+        try {
+          const projectsData = await getAllProjects();
+          const selectedProject = projectsData.find(
+            (proj: UpdatedProjectDTO) => proj.projectId === Number(id)
+          );
+          setProject(selectedProject || null);
+        } catch (error) {
+          console.error("There was an error fetching the projects", error);
+        }
+      }
+    };
+
+    fetchProject();
+  }, [id]);
 
   // Fetch initial data
   useEffect(() => {
@@ -360,24 +388,35 @@ export default function UpdateProject() {
                   />
                 </div>
               </div>
-              <button
-                type="submit"
-                className="text-center w-1/4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              >
-                Save
-              </button>
+              <Participants
+                participants={project.participants}
+                removeParticipant={removeParticipant}
+                projectId={formData.projectId}
+                shouldRefresh={refreshParticipants}
+              />
+              <Applications
+                applications={project.workApplications}
+                onAccept={handleApplicationAccept}
+              />
             </form>
           </div>
 
-          <div className="w-1/2 float-right">
-            <Link href="/projects">
-              <button
-                type="button"
-                className="w-auto h-8 bg-gray-700 rounded-md px-2 m-1 float-right"
-              >
-                Discard
-              </button>
-            </Link>
+          <div className="w-full h-auto mt-8 flex flex-row items-center justify-center gap-x-4">
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className="text-center w-1/8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Save
+            </button>
+
+            <button className="text-center w-1/8 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+              Discard
+            </button>
+
+            <button className="text-center w-1/8 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+              Delete
+            </button>
           </div>
         </div>
       </div>

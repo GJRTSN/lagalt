@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import React, { ReactNode, ChangeEvent } from "react";
-import AdminProject from "./AdminProject";
-import Collaborations from "./Collaborations";
-import Applications from "./Applications";
+import YourCollaborations from "./YourCollaborations";
+import YourApplications from "./YourApplications";
+import YourProjects from "./YourProjects";
 
 type ToggleLabelProps = {
   checked: boolean;
@@ -72,9 +72,9 @@ export default function Projects() {
         </ToggleLabel>
       </div>
       <div className="h-3/5 flex bg-white flex-col items-center justify-center">
-        {showAdminDash && <AdminProject />}
-        {showCollabs && <Collaborations />}
-        {showApplications && <Applications />}
+        {showAdminDash && <YourProjects />}
+        {showCollabs && <YourCollaborations />}
+        {showApplications && <YourApplications />}
       </div>
     </div>
   );

@@ -80,3 +80,9 @@ export interface ProjectComment {
   content: string;
   projectId: number;
 }
+
+export interface ApplyProjectProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSend: (message: string) => void;
+}

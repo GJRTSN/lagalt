@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, FormEvent, ChangeEvent } from "react";
 import {
   getAllProjects,
   getProjectComments,
@@ -9,16 +9,31 @@ import {
 import { useParams } from "next/navigation";
 import { ProjectComment, UpdatedProjectDTO } from "@/app/api/types";
 import Link from "next/link";
+import ApplyProject from "../ApplyProject";
 
 const ViewProject: React.FC = () => {
   const [project, setProject] = useState<UpdatedProjectDTO | null>(null);
   const [comments, setComments] = useState<ProjectComment[] | null>(null);
-  const [newComment, setNewComment] = useState(""); // State to hold the new comment text
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newComment, setNewComment] = useState("");
 
   const params = useParams();
   const id = Number(params.id);
 
   const titleCSS = "text-2xl font-bold mb-4 text-black";
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSend = (message: string) => {
+    console.log(message);
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -53,18 +68,18 @@ const ViewProject: React.FC = () => {
     }
   }, [id]);
 
-  const handleCommentChange = (event) => {
+  const handleCommentChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNewComment(event.target.value);
   };
 
-  const handleCommentPost = async (event) => {
+  const handleCommentPost = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const postedComment = await postComment(newComment, id);
     if (postedComment && postedComment.id) {
       setComments((prevComments) => [...(prevComments || []), postedComment]);
-      setNewComment(""); // Clear the input field after posting
+      setNewComment("");
     } else {
-      // Handle error (e.g., show a message to the user)
+      // Handle the case when there's an error or the response is not as expected
     }
   };
 
@@ -100,34 +115,66 @@ const ViewProject: React.FC = () => {
         </p>
       </div>
       <div className="flex flex-col items-center mt-8 ">
-        <div className="w-3/4 bg-gray-100 p-4 text-black rounded-lg mb-12">
-          <h1 className="text-3xl font-bold mb-2 text-black">
-            {project.title}
-          </h1>
-          <p className="text-lg mb-4 text-black">
-            <strong>Project ID:</strong> {project.projectId}
-          </p>
-          <p className="text-lg mb-4 text-black">
-            <strong>Industry:</strong> {project.industryName}
-          </p>
-          <p className="text-lg mb-4 text-black">
-            <strong>Skills required:</strong>{" "}
-            {project.skillsRequiredNames.map((skill, index) => (
-              <span key={index}>
-                {skill}
-                {index < project.skillsRequiredNames.length - 1 ? ", " : ""}
-              </span>
-            ))}
-          </p>
+        <div className="w-2/4 bg-gray-100 p-4 text-black rounded-lg mb-12">
+          <div className="flex flex-col items-center mb-12">
+            <h1 className="text-3xl font-bold mb-2 text-black">
+              {project.title}
+            </h1>
+            <p className="text-lg text-black">
+              <strong>Project ID:</strong> {project.projectId}
+            </p>
+            <p className="text-lg text-black mb-2">
+              <strong>Industry:</strong> {project.industryName}
+            </p>
+            <div className="text-lg">
+              <h2 className="text-2xl font-bold mb-1 text-black">
+                Skills required
+              </h2>
+              <div className="flex flex-wrap mt-2">
+                {project.skillsRequiredNames.map((skill, index) => (
+                  <span
+                    key={index}
+                    className="m-1 bg-blue-100 text-blue-800 text-sm py-1 px-3 rounded-full"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
 
           <h2 className="text-2xl font-bold mb-4 text-black">Description</h2>
           <div className="bg-[#FDFDFD] w-full h-12 rounded-md mb-4 p-2">
             {project.description}
           </div>
-          <h2 className={titleCSS}>Links</h2>
-          <p className="text-lg mb-4 text-black">
-            <strong>GitHub:</strong> www.github.com
-          </p>
+          <div className="mb-8">
+            <h2 className={`${titleCSS} mb-4`}>Links</h2>{" "}
+            {/* Assuming titleCSS is a variable holding your CSS for titles */}
+            <ul className="list-disc list-inside space-y-2">
+              {/* Example with static links; replace with dynamic data as needed */}
+              <li>
+                <a
+                  href="https://www.github.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:underline"
+                >
+                  GitHub
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.youtube.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:underline"
+                >
+                  YouTube
+                </a>
+              </li>
+            </ul>
+          </div>
+
           <p className="text-lg mb-4 text-black">
             <h2 className={titleCSS}>Participants</h2>
 
@@ -161,13 +208,21 @@ const ViewProject: React.FC = () => {
               </tbody>
             </table>
           </p>
-          <h2 className={titleCSS}>Join the project</h2>
-          <button
-            type="submit"
-            className="text-center w-1/4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            APPLY
-          </button>
+          <div className="flex flex-col items-center mb-4">
+            <h2 className={`${titleCSS} mb-4 mt-4`}>Join the project</h2>
+            <button
+              type="submit"
+              onClick={handleOpenModal}
+              className="text-center w-1/4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              APPLY
+            </button>
+            <ApplyProject
+              isOpen={isModalOpen}
+              onClose={handleCloseModal}
+              onSend={handleSend}
+            />
+          </div>
 
           <div className="mt-8">
             <h2 className={titleCSS}>All project comments</h2>

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getAllProjects } from "../api/Projects";
 import { ProjAdminList } from "../api/types";
 
-export default function AdminProject() {
+export default function YourProjects() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function AdminProject() {
         </Link>
       </div>
       <h3 className="text-black text-4xl font-bold font-roboto ">
-        Administrator Dashboard
+        Your projects
       </h3>
       <p className="text-black font-roboto">
         Projects you own and administrate
@@ -38,8 +38,8 @@ export default function AdminProject() {
                 <th className="py-3 px-6 text-left">Project ID</th>
                 <th className="py-3 px-6 text-left">Project Name</th>
                 <th className="py-3 px-6 text-left">Industry</th>
-                <th className="py-3 px-6 text-left">STATUS</th>
-                <th className="py-3 px-6 text-left"></th>
+                <th className="py-3 px-6 text-left">Status</th>
+                <th className="py-3 px-6 text-left">Actions</th>
               </tr>
             </thead>
             <tbody className="text-gray-600 text-sm font-light">
@@ -77,7 +77,7 @@ export default function AdminProject() {
                       </Link>
                       <Link href={`/projects/edit/${project.projectId}`}>
                         <button className="bg-yellow-400 py-1 mx-1 px-2 rounded-md text-white">
-                          Edit
+                          Manage
                         </button>
                       </Link>
                     </div>

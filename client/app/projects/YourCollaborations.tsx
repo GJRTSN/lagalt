@@ -1,8 +1,8 @@
-const Collaborations: React.FC = () => {
+export default function YourCollaborations() {
   return (
     <div id="collabs" className="w-3/4 h-1/4 m-4 bg-[#CCCCCC] rounded-lg p-4">
       <h3 className="text-black text-4xl font-bold font-roboto">
-        Current collaborations
+        Your collaborations
       </h3>
       <p className="text-black font-roboto">
         Projects you currently are participating on
@@ -15,6 +15,4 @@ const Collaborations: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default Collaborations;
+}
