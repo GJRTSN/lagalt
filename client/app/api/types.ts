@@ -86,3 +86,41 @@ export interface ApplyProjectProps {
   onClose: () => void;
   onSend: (message: string) => void;
 }
+
+export interface Project {
+  id: number;
+  name: string;
+  userId: number;
+}
+
+export interface User {
+  userId: number;
+  forName: string;
+  lastName: string;
+  description: string;
+  country: string;
+  email: string;
+  userRole: string;
+  includeProjects: boolean;
+  projects: Project[];
+  username: string;
+  password: string;
+  age: number;
+  skills: string[];
+}
+
+export interface UpdateUserDTO {
+  userId: number;
+  forName: string;
+  lastName: string;
+  description: string;
+  country: string;
+  email: string;
+  userRole: string;
+  includeProjects: boolean;
+  projects: Project[];
+  username: string;
+  password: string;
+  age: number;
+  skills: string[];
+}

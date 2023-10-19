@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getUserById } from "../api/getUsersById"; // Import the updated function
+import { getUserById } from "../api/Users";
 import { useEffect, useState } from "react";
 import placeholder from "@/public/placholderpp.jpg"
 

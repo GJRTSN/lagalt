@@ -1,5 +1,4 @@
 "use client";
-import ProfileAbout from "./ProfileAbout";
 import ProfileInfo from "./ProfileInfo";
 import ProfileProjects from "./ProfileProjects";
 import Link from "next/link";
@@ -43,7 +42,7 @@ export default function Profile() {
                 ></span>
               </span>
             </label>
-            <Link href="/profile-edit">
+            <Link href="profile-edit">
               <button className="bg-gray-500 hover:bg-gray-700 font-bold py-1 px-3 rounded">
                 Edit
               </button>
