@@ -6,8 +6,6 @@ const Register = () => {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
-    username: "",
-    password: "", 
     forName: "",
     lastName: "",
     description: "",
@@ -15,46 +13,47 @@ const Register = () => {
     email: "",
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-};
+  };
 
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Your backend API URL
+    const apiEndpoint = "http://localhost:8080/users";
 
-const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  // Your backend API URL
-  const apiEndpoint = "https://lagalt-case-1.azurewebsites.net/users/";
-
-  try {
-    const response = await fetch(apiEndpoint, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData)
-    });
-    console.log(response)
-
-    if (response.status === 201) {
-      const data = await response.json();
-      console.log("User created:", data);
-      
-      // Log in the user
-      signIn("Credentials", { 
-        username: formData.username,
-        password: formData.password,
-        callbackUrl: "/explore",
+    try {
+      const response = await fetch(apiEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
-      
-    }  else {
-      // Handle errors, maybe update the component's state to display an error message
-      console.error("Failed to register user:", response.status, await response.json());
-    }
-  } catch (error) {
-    console.error("Error:", error);
-  }
-};
 
+      if (response.status === 201) {
+        const data = await response.json();
+        console.log("User created:", data);
+
+        // TODO: Implement login functionality here if required.
+        // For example, you could save the user token to localStorage.
+
+        // Redirect to explore page
+        router.push("/explore");
+      } else {
+        // Handle errors, maybe update the component's state to display an error message
+        console.error(
+          "Failed to register user:",
+          response.status,
+          await response.json()
+        );
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   return (
     <div className="p-10 min-h-screen flex items-center justify-center bg-gray-900">
@@ -165,22 +164,22 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 
           <div className="mb-4">
             <label
-              htmlFor="description"
+              htmlFor="title"
               className="block text-sm font-medium text-white mb-1"
             >
               Title:
             </label>
             <input
               type="text"
-              id="description"
-              name="description"
+              id="title"
+              name="title"
               className="w-full px-3 py-2 border rounded-md text-black"
               onChange={handleChange}
               placeholder="Enter your title"
             />
           </div>
 
-         {/*<div className="mb-4">
+          {/*<div className="mb-4">
             <label
               htmlFor="about"
               className="block text-sm font-medium text-white mb-1"
@@ -194,7 +193,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
               onChange={handleChange}
               placeholder="Tells us more about yourself!"
             ></textarea>
-          </div> */} 
+          </div> */}
 
           <div className="mb-6">
             <label
@@ -212,7 +211,10 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
             />
           </div>
 
-          <button type="submit" className="w-full py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md">
+          <button
+            type="submit"
+            className="w-full py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md"
+          >
             Register
           </button>
         </form>

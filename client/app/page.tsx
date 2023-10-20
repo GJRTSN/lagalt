@@ -5,7 +5,7 @@ export default async function Home() {
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100">
       <h1 className="mb-4 text-3xl text-gray-800">Welcome!</h1>
-      <p className="mb-2 text-lg text-gray-600">Please log in to continue</p>
+      <p className="mb-2 text-lg text-gray-600">Please log in or register to continue</p>
       <AuthButton />
       <p className="mt-8 mb-2 text-gray-500">
         or browse as a guest with limited access

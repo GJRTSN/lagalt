@@ -1,10 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { getServerSession } from "next-auth";
+import keycloak from "@/keycloak/keycloak-config";
 
-import SessionProvider from "./components/SessionProvider";
 import Navbar from "./components/Navbar";
+import { useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,15 +18,25 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession();
+  useEffect(() => {
+    keycloak.init({ onLoad: "check-sso" }).then((authenticated: any) => {
+      if (authenticated) {
+        keycloak.loadUserInfo().then((userInfo: any) => {
+          // Store user info if needed
+          localStorage.setItem("userInfo", JSON.stringify(userInfo));
+        });
+        
+        // Store token
+        localStorage.setItem("token", keycloak.token);
+      }
+    });
+  }, []);
 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProvider session={session}>
-          <Navbar />
-          {children}
-        </SessionProvider>
+        <Navbar />
+        {children}
       </body>
     </html>
   );

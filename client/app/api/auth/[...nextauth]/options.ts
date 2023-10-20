@@ -1,44 +1,64 @@
-import type {NextAuthOptions} from 'next-auth'
-import GitHubProvider from 'next-auth/providers/github'
-import CredentialsProvider from 'next-auth/providers/credentials'
-import GoogleProvider from 'next-auth/providers/google'
+import type { NextAuthOptions } from "next-auth";
+import GitHubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+import KeycloakProvider from "next-auth/providers/keycloak";
 
 export const options: NextAuthOptions = {
-    providers: [
-        GitHubProvider({
-            clientId: process.env.GITHUB_CLIENT_ID as string,
-            clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-        }),
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID as string,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-        }),
-        CredentialsProvider({
-            name: "Credentials",
-            credentials: {
-                username: { 
-                    label: "Username:",
-                    type: "text",
-                    placeholder: "admin"
-                },
-                password: {
-                    label: "Password:",
-                    type: "password",
-                    placeholder: "admin"
-                }
-            },
-            async authorize(credentials) {
-                console.log("Authorize function called with credentials:", credentials);
-                const user = {id: "0", name: "admin", password: "admin"}
+  providers: [
+    KeycloakProvider({
+      clientId: process.env.KEYCLOAK_CLIENT_ID as string,
+      clientSecret: process.env.KEYCLOAK_SECRET as string,
+      issuer: process.env.KEYCLOAK_ISSUER as string,
+    }),
+    GitHubProvider({
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        username: {
+          label: "Username:",
+          type: "text",
+          placeholder: "your-username",
+        },
+        password: {
+          label: "Password:",
+          type: "password",
+        },
+      },
+      async authorize(credentials) {
+        if (!credentials) {
+          throw new Error("No credentials provided");
+        }
+        const response = await fetch("http://localhost:8080/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: credentials.username,
+            password: credentials.password,
+          }),
+        });
 
-                console.log("User authenticated:", user);
+        const data = await response.json();
 
-                if(credentials?.username === user.name && credentials?.password === user.password) {
-                    return user;
-                } else {
-                    return null;
-                }
-            }
-        })
-    ],
-}
+        if (response.status === 200) {
+          return {
+            id: data.id,
+            name: data.name,
+            username: data.username,
+          };
+        } else {
+          throw new Error("Invalid credentials");
+        }
+      },
+    }),
+  ],
+};

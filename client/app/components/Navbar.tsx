@@ -8,6 +8,11 @@ import Link from "next/link";
 export function AuthButton() {
   const { data: session } = useSession();
 
+  const handleRegister = () => {
+    // Redirect to the registration page
+    window.location.href = "/register";
+  };
+
   const handleSignOut = () => {
     signOut({ callbackUrl: "/" });
   };
@@ -20,16 +25,27 @@ export function AuthButton() {
     return (
       <button
         onClick={handleSignOut}
-        className="w-16 h-8 bg-green-700 rounded-md text-sm"
+        className="py-1 px-2 bg-green-500 text-white rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50"
       >
         Log out
       </button>
     );
   }
   return (
-    <button onClick={handleSignIn} className="w-24 h-8 bg-green-700 rounded-md">
-      Sign in
-    </button>
+    <div className="flex space-x-2">
+      <button
+        onClick={handleSignIn}
+        className="py-1 px-3 bg-green-500 text-white rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50"
+      >
+        Sign in
+      </button>
+      <button
+        onClick={handleRegister}
+        className="py-1 px-3 bg-green-500 text-white rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50"
+      >
+        Register
+      </button>
+    </div>
   );
 }
 
@@ -41,7 +57,7 @@ export default function Navbar() {
 
   return (
     <>
-      {pathname === "/" ? null : (
+      {pathname === "/" || pathname === "/register" ? null : (
         <div className="w-full h-16 relative bg-[#CCCCCC] flex flex-row justify-center gap-12 items-center">
           <Image
             src={logo}
