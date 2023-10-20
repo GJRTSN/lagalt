@@ -5,6 +5,7 @@ import {
   getAllProjects,
   getProjectComments,
   postComment,
+  applyToProject,
 } from "@/app/api/Projects";
 import { useParams } from "next/navigation";
 import { ProjectComment, UpdatedProjectDTO } from "@/app/api/types";
@@ -30,8 +31,11 @@ const ViewProject: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const handleSend = (message: string) => {
+  const userId = 2; // REPLACE THIS WITH ACTUAL USERID
+
+  const handleSend = async (message: string) => {
     console.log(message);
+    await applyToProject(message, project.projectId, userId);
     setIsModalOpen(false);
   };
 
@@ -79,7 +83,6 @@ const ViewProject: React.FC = () => {
       setComments((prevComments) => [...(prevComments || []), postedComment]);
       setNewComment("");
     } else {
-      // Handle the case when there's an error or the response is not as expected
     }
   };
 
@@ -149,9 +152,7 @@ const ViewProject: React.FC = () => {
           </div>
           <div className="mb-8">
             <h2 className={`${titleCSS} mb-4`}>Links</h2>{" "}
-            {/* Assuming titleCSS is a variable holding your CSS for titles */}
             <ul className="list-disc list-inside space-y-2">
-              {/* Example with static links; replace with dynamic data as needed */}
               <li>
                 <a
                   href="https://www.github.com"
@@ -245,7 +246,7 @@ const ViewProject: React.FC = () => {
                 <p>No comments yet.</p>
               )
             ) : (
-              <p>Loading comments...</p> // Consider replacing with a spinner or any other loading indicator
+              <p>Loading comments...</p>
             )}
           </div>
           <h2 className={titleCSS}>Post new comment</h2>
@@ -258,13 +259,13 @@ const ViewProject: React.FC = () => {
                   onChange={handleCommentChange}
                   placeholder="Write a comment..."
                   required
-                  className="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent" // Styling the input field
+                  className="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
                 />
               </div>
               <div className="flex justify-end mt-2">
                 <button
                   type="submit"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" // Button styling
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 >
                   Post
                 </button>

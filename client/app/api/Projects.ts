@@ -1,4 +1,5 @@
 import { ProjectComment } from "./types";
+import axios from "axios";
 
 export async function getAllProjects() {
   try {
@@ -117,3 +118,25 @@ export async function getAllIndustries() {
     return [];
   }
 }
+
+export const applyToProject = async (
+  applicationText: string,
+  projectId: number,
+  userId: number
+): Promise<void> => {
+  const url = "https://lagalt-case-1.azurewebsites.net/api/workapplications/";
+  const data = {
+    accepted: true,
+    applicationId: 0,
+    forName: "string",
+    motivation: applicationText,
+    projectId: projectId,
+    userId: userId,
+  };
+  console.log(data);
+  try {
+    await axios.post(url, data);
+  } catch (error) {
+    console.error("Error applying to project:", error);
+  }
+};

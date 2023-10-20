@@ -35,8 +35,16 @@ export default function UpdateProject() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredSkills, setFilteredSkills] = useState<Skill[]>([]);
 
-  const handleApplicationAccept = () => {
-    setRefreshParticipants((prev) => !prev); // toggles the refresh state
+  const handleApplicationAccept = async () => {
+    try {
+      // Assuming these functions fetch the updated data
+      const updatedParticipants = await fetchParticipants();
+      const updatedApplications = await fetchApplications();
+      setParticipants(updatedParticipants);
+      setApplications(updatedApplications);
+    } catch (error) {
+      console.error("Error fetching updated data:", error);
+    }
   };
 
   useEffect(() => {
