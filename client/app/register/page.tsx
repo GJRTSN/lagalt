@@ -1,7 +1,6 @@
 "use client";
 import React, { ChangeEvent, useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 const Register = () => {
   const router = useRouter();
 
@@ -22,7 +21,7 @@ const Register = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Your backend API URL
-    const apiEndpoint = "http://localhost:8080/users";
+    const apiEndpoint = "https://lagalt-case-1.azurewebsites.net/users";
 
     try {
       const response = await fetch(apiEndpoint, {

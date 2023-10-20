@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { user } from "../profile/dummyUserData";
+import { user } from "../dummyUserData";
 
 export default function EditProfileSkills() {
   const [newSkill, setNewSkill] = useState(""); // State to manage the input field value

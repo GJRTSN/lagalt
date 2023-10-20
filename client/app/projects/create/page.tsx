@@ -2,7 +2,7 @@
 
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
-import { Industry, Skill, CreateProjectDTO } from "@/app/api/types";
+import { Industry, Skill, CreateProjectDTO } from "@/app/types/types";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import {

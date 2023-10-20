@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getAllProjects } from "@/app/api/Projects";
+import { getAllProjects } from "@/app/api/project/get";
 import { useParams } from "next/navigation";
-import { CreateProjectDTO } from "@/app/api/types";
-import Link from "next/link";
+import { CreateProjectDTO } from "@/app/types/types";
 import Image from "next/image";
 import logo from "@/public/lock-solid.svg";
 

@@ -3,11 +3,11 @@ import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import Image from "next/image";
 import placeholder from "@/public/placholderpp.jpg";
 import { useRouter } from "next/navigation"; // Import the Next.js router
-import { User, UpdateUserDTO } from "@/app/api/types"; // Replace with your actual types
-import { getUserById, updateUserById } from "../api/Users";
-import { Skill } from "@/app/api/types";
+import { User, UpdateUserDTO } from "@/app/types/types"; // Replace with your actual types
+import { getUserById, updateUserById } from "../../api/Users";
+import { Skill } from "@/app/types/types";
 import axios from "axios";
-import { getAllSkills } from "../api/Projects";
+import { getAllSkills } from "../../api/Projects";
 
 export default function EditProfile() {
   const router = useRouter();
@@ -21,8 +21,7 @@ export default function EditProfile() {
   const [filteredSkills, setFilteredSkills] = useState<Skill[]>([]);
 
   console.log(selectedSkills);
-  console.log('selectedSkills:', selectedSkills);
-
+  console.log("selectedSkills:", selectedSkills);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -275,19 +274,18 @@ export default function EditProfile() {
               <h2 className="text-2xl">Skills</h2>
               <span className="text-gray-500">Click on a tag to remove</span>
               <div className="flex flex-wrap">
-              {selectedSkills.map((skill, index) => {
-  console.log(`Mapping skill at index ${index}:`, skill);
-  return (
-    <span
-      key={index}
-      className="bg-blue-200 text-blue-800 px-2 py-1 rounded-md mr-2 mb-2 cursor-pointer mt-2"
-      onClick={() => removeSkill(skill.id)}
-    >
-      {skill.name}
-    </span>
-  );
-})}
-
+                {selectedSkills.map((skill, index) => {
+                  console.log(`Mapping skill at index ${index}:`, skill);
+                  return (
+                    <span
+                      key={index}
+                      className="bg-blue-200 text-blue-800 px-2 py-1 rounded-md mr-2 mb-2 cursor-pointer mt-2"
+                      onClick={() => removeSkill(skill.id)}
+                    >
+                      {skill.name}
+                    </span>
+                  );
+                })}
               </div>
 
               <div className="mt-2 mb-2 relative">

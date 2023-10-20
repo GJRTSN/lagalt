@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getAllProjects } from "@/app/api/Projects";
-import ProjectCard from "@/app/explore/ProjectCard";
-import { CreateProjectDTO } from "../api/types";
+import { getAllProjects } from "@/app/api/project/get";
+import ExploreCard from "@/app/explore/ExploreCard";
+import { ExploreProjectCard } from "@/app/types/ProjectTypes";
 
 export default function Explore() {
-  const [projects, setProjects] = useState<CreateProjectDTO[]>([]);
+  const [projects, setProjects] = useState<ExploreProjectCard[]>([]);
   const [selectedIndustryIds, setSelectedIndustryIds] = useState<number[]>([]);
 
   const industries = [
@@ -33,8 +33,8 @@ export default function Explore() {
 
   useEffect(() => {
     const getProjects = async () => {
-      const projectsFromApi = await getAllProjects();
-      setProjects(projectsFromApi);
+      const data = await getAllProjects();
+      setProjects(data);
     };
     getProjects();
   }, []);
@@ -96,7 +96,7 @@ export default function Explore() {
       <div className="w-full flex flex-col items-center ">
         {filteredProjects.length ? (
           filteredProjects.map((project, index) => (
-            <ProjectCard key={index} project={project} />
+            <ExploreCard key={index} project={project} />
           ))
         ) : (
           <p className="text-black mt-8">No projects found.</p>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getUserById } from "../api/Users"; // adjust the import path
-import { User } from "../api/types";
+import { User } from "../types/types";
 
 export default function ProfileProjects() {
   const [user, setUser] = useState<User | null>(null);
@@ -19,14 +19,9 @@ export default function ProfileProjects() {
         <h2 className="text-2xl">Projects:</h2>
         {user && user.projects && user.projects.length > 0 ? (
           <div className="mt-2 bg-white p-2 rounded">
-            {user?.projects?.map(
-              (
-                project,
-                index
-              ) => (
-                <div key={index}>{project.name}</div>
-              )
-            )}
+            {user?.projects?.map((project, index) => (
+              <div key={index}>{project.name}</div>
+            ))}
           </div>
         ) : (
           <p className="italic mt-2 text-gray-500">

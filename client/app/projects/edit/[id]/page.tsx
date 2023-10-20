@@ -3,7 +3,7 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { Industry, Skill, UpdatedProjectDTO } from "@/app/api/types";
+import { Industry, Skill, UpdatedProjectDTO } from "@/app/types/types";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import {
@@ -35,16 +35,8 @@ export default function UpdateProject() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredSkills, setFilteredSkills] = useState<Skill[]>([]);
 
-  const handleApplicationAccept = async () => {
-    try {
-      // Assuming these functions fetch the updated data
-      const updatedParticipants = await fetchParticipants();
-      const updatedApplications = await fetchApplications();
-      setParticipants(updatedParticipants);
-      setApplications(updatedApplications);
-    } catch (error) {
-      console.error("Error fetching updated data:", error);
-    }
+  const handleApplicationAccept = () => {
+    setRefreshParticipants((prev) => !prev); // toggles the refresh state
   };
 
   useEffect(() => {

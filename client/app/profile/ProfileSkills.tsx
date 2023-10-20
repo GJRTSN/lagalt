@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getUserById } from "../api/Users";
-import { User, Skill } from "../api/types";
+import { User, Skill } from "../types/types";
 
 export default function ProfileSkills() {
   const [user, setUser] = useState<Partial<User>>({ skills: [] });
@@ -17,7 +17,7 @@ export default function ProfileSkills() {
     <div id="skills" className="mt-8 text-black bg-gray-300 p-4 rounded-xl">
       <h2 className="text-2xl">Skills</h2>
       <div className="flex flex-wrap mt-2 mb-2">
-      {(user?.skills && user.skills.length > 0) ? (
+        {user?.skills && user.skills.length > 0 ? (
           user.skills.map((skill, index) => (
             <span
               key={index}
@@ -28,7 +28,9 @@ export default function ProfileSkills() {
           ))
         ) : (
           <p className="italic text-gray-500">
-            {user?.forName ? `${user.forName} hasn't learned any skills yet.` : 'User has no skills yet.'}
+            {user?.forName
+              ? `${user.forName} hasn't learned any skills yet.`
+              : "User has no skills yet."}
           </p>
         )}
       </div>

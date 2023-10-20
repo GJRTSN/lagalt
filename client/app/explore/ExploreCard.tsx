@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ProjectCardProps } from "../api/types";
+import { ExploreProjectCard } from "@/app/types/ProjectTypes";
 
-export default function ProjectCard({ project }: ProjectCardProps) {
+export default function ExploreCard({ project }: ExploreProjectCard) {
   return (
     <div className="mt-8 w-4/5 h-auto bg-gray-200 rounded-lg shadow-lg p-4 flex flex-col text-black">
       <h2 className="text-2xl font-bold mb-2">{project.title}</h2>

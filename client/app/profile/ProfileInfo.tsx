@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { getUserById } from "../api/Users";
 import { useEffect, useState } from "react";
-import placeholder from "@/public/placholderpp.jpg"
+import placeholder from "@/public/placholderpp.jpg";
 
 interface ProfileInfoProps {
   isProfileVisible: boolean; // Define the prop type
@@ -11,7 +11,7 @@ export default function ProfileInfo({ isProfileVisible }: ProfileInfoProps) {
   const [userData, setUserData] = useState<any>(null);
 
   useEffect(() => {
-    getUserById(1)
+    getUserById(3)
       .then((data) => {
         setUserData(data);
         console.log("Fetched userData data:", data);

@@ -1,4 +1,3 @@
-import { ProjectComment } from "./types";
 import axios from "axios";
 
 export async function getAllProjects() {

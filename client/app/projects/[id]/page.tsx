@@ -8,7 +8,7 @@ import {
   applyToProject,
 } from "@/app/api/Projects";
 import { useParams } from "next/navigation";
-import { ProjectComment, UpdatedProjectDTO } from "@/app/api/types";
+import { ProjectComment, UpdatedProjectDTO } from "@/app/types/types";
 import Link from "next/link";
 import ApplyProject from "../ApplyProject";
 

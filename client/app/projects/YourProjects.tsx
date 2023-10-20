@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { getAllProjects } from "../api/Projects";
-import { ProjAdminList } from "../api/types";
+import { getAllProjects } from "@/app/api/project/get";
+import { ProjAdminList } from "../types/types";
 
 export default function YourProjects() {
   const [projects, setProjects] = useState([]);
