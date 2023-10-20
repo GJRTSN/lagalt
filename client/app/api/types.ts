@@ -4,7 +4,7 @@ export interface ProjectCardProps {
     title: string;
     description: string;
     status: string;
-    ownerUserId: number;
+    ownerUserId: number | null;
     ownerName: string;
     industryName: string;
     skillsRequiredNames: string[];
@@ -37,7 +37,7 @@ export interface CreateProjectDTO {
   industryId: number;
   industryName: string;
   ownerName: string;
-  ownerUserId: number;
+  ownerUserId?: number | null;
   projectId: number;
   skillsRequiredIds: number[];
   skillsRequiredNames: string[];
@@ -66,7 +66,7 @@ export interface UpdatedProjectDTO {
   industryId: number;
   industryName: string;
   ownerName: string;
-  ownerUserId: number;
+  ownerUserId: number | null;
   participants: Participant[];
   projectId: number;
   skillsRequiredIds: number[];

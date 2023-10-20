@@ -2,7 +2,7 @@
 
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
-import { Industry, Skill, CreateProjectDTO } from "@/app/types/types";
+import { Industry, Skill, CreateProjectDTO } from "@/app/api/types";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import {
@@ -10,15 +10,19 @@ import {
   getAllProjects,
   getAllSkills,
 } from "@/app/api/Projects";
+import { useUserContext } from "@/app/contexts/userContext";
 
 export default function CreateProject() {
+  const { user } = useUserContext();
+  const { userId } = user;
+
   const router = useRouter();
   const initialFormState: CreateProjectDTO = {
     description: "",
     industryId: 1,
     industryName: "Web Development",
-    ownerName: "HARDCODE",
-    ownerUserId: 3,
+    ownerName: "",
+    ownerUserId: userId,
     projectId: 0,
     skillsRequiredIds: [],
     skillsRequiredNames: [],

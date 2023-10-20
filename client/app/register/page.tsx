@@ -1,6 +1,9 @@
 "use client";
 import React, { ChangeEvent, useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import logo from "@/public/lagalt_clean.png";
+import Image from "next/image";
+
 const Register = () => {
   const router = useRouter();
 
@@ -55,13 +58,19 @@ const Register = () => {
   };
 
   return (
-    <div className="p-10 min-h-screen flex items-center justify-center bg-gray-900">
-      <div className="bg-gray-800 p-8 rounded-lg shadow-md w-1/3">
-        <form onSubmit={handleSubmit}>
+    <div className="min-h-screen flex flex-col items-center justify-center place-content-center bg-gray-100 text-black">
+      <div className="w-2/6 bg-white p-8 rounded-lg shadow-lg text-black items-center flex flex-col justify-center">
+        <div className="mb-8 mt-4 text-center flex items-center">
+          <Image src={logo} alt="Lagalt logo" width={50} height={50} />
+        </div>
+        <h2 className="text-2xl mb-6 text-center font-bold">
+          Create your free account
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-4 text-black">
           <div className="mb-4">
             <label
               htmlFor="username"
-              className="block text-sm font-medium text-white mb-1"
+              className="block text-sm font-medium mb-1"
             >
               Username:
             </label>
@@ -79,7 +88,7 @@ const Register = () => {
             <div>
               <label
                 htmlFor="forName"
-                className="block text-sm font-medium text-white mb-1"
+                className="block text-sm font-medium  mb-1"
               >
                 First Name:
               </label>
@@ -95,7 +104,7 @@ const Register = () => {
             <div>
               <label
                 htmlFor="lastName"
-                className="block text-sm font-medium text-white mb-1"
+                className="block text-sm font-medium mb-1"
               >
                 Last Name:
               </label>
@@ -111,10 +120,7 @@ const Register = () => {
           </div>
 
           <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-white mb-1"
-            >
+            <label htmlFor="email" className="block text-sm font-medium  mb-1">
               Email:
             </label>
             <input
@@ -129,10 +135,7 @@ const Register = () => {
 
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
-              <label
-                htmlFor="age"
-                className="block text-sm font-medium text-white mb-1"
-              >
+              <label htmlFor="age" className="block text-sm font-medium  mb-1">
                 Birthday:
               </label>
               <input
@@ -146,7 +149,7 @@ const Register = () => {
             <div>
               <label
                 htmlFor="country"
-                className="block text-sm font-medium text-white mb-1"
+                className="block text-sm font-medium  mb-1"
               >
                 Country:
               </label>
@@ -162,10 +165,7 @@ const Register = () => {
           </div>
 
           <div className="mb-4">
-            <label
-              htmlFor="title"
-              className="block text-sm font-medium text-white mb-1"
-            >
+            <label htmlFor="title" className="block text-sm font-medium  mb-1">
               Title:
             </label>
             <input
@@ -177,27 +177,10 @@ const Register = () => {
               placeholder="Enter your title"
             />
           </div>
-
-          {/*<div className="mb-4">
-            <label
-              htmlFor="about"
-              className="block text-sm font-medium text-white mb-1"
-            >
-              About:
-            </label>
-            <textarea
-              id="about"
-              name="about"
-              className="w-full px-3 py-2 border rounded-md text-black resize-none"
-              onChange={handleChange}
-              placeholder="Tells us more about yourself!"
-            ></textarea>
-          </div> */}
-
           <div className="mb-6">
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-white mb-1"
+              className="block text-sm font-medium  mb-1"
             >
               Password:
             </label>

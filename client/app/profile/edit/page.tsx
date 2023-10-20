@@ -8,6 +8,7 @@ import { getUserById, updateUserById } from "../../api/Users";
 import { Skill } from "@/app/types/types";
 import axios from "axios";
 import { getAllSkills } from "../../api/Projects";
+import Link from "next/link";
 
 export default function EditProfile() {
   const router = useRouter();
@@ -315,7 +316,6 @@ export default function EditProfile() {
               </div>
             </div>
 
-            {/* Save and Discard buttons */}
             <div className="flex justify-end mt-4">
               <button
                 type="button"
@@ -324,12 +324,14 @@ export default function EditProfile() {
               >
                 Discard Changes
               </button>
-              <button
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white p-1 rounded-md"
-              >
-                Save Changes
-              </button>
+              <Link href="/profile">
+                <button
+                  type="submit"
+                  className="bg-blue-500 hover:bg-blue-700 text-white p-1 rounded-md"
+                >
+                  Save Changes
+                </button>
+              </Link>
             </div>
           </div>
         </div>

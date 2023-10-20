@@ -2,16 +2,20 @@ import { useEffect, useState } from "react";
 import { getUserById } from "../api/Users";
 import { User, Skill } from "../types/types";
 
-export default function ProfileSkills() {
+interface ProfileSkillsProps {
+  userId: number; // Define userId prop
+}
+
+export default function ProfileSkills({ userId }: ProfileSkillsProps) {
   const [user, setUser] = useState<Partial<User>>({ skills: [] });
 
   useEffect(() => {
     const fetchUser = async () => {
-      const userData = await getUserById(1); // Replace 1 with the actual user ID
+      const userData = await getUserById(userId); // Use userId prop here
       setUser(userData);
     };
     fetchUser();
-  }, []);
+  }, [userId]);
 
   return (
     <div id="skills" className="mt-8 text-black bg-gray-300 p-4 rounded-xl">

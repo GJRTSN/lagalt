@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import React, { ReactNode, ChangeEvent } from "react";
 import YourCollaborations from "./YourCollaborations";
 import YourApplications from "./YourApplications";
 import YourProjects from "./YourProjects";
+import { UserContext, useUserContext } from "../contexts/userContext";
+import { getProjectsByUser } from "../api/project/get";
 
 type ToggleLabelProps = {
   checked: boolean;
@@ -40,6 +42,8 @@ const ToggleLabel: React.FC<ToggleLabelProps> = ({
 );
 
 export default function Projects() {
+  const { user } = useUserContext();
+
   const [showAdminDash, setShowAdminDash] = useState(true);
   const [showCollabs, setShowCollabs] = useState(true);
   const [showApplications, setShowApplications] = useState(true);
@@ -72,7 +76,8 @@ export default function Projects() {
         </ToggleLabel>
       </div>
       <div className="h-3/5 flex bg-white flex-col items-center justify-center">
-        {showAdminDash && <YourProjects />}
+        {showAdminDash && <YourProjects userId={user?.userId} />}
+
         {showCollabs && <YourCollaborations />}
         {showApplications && <YourApplications />}
       </div>

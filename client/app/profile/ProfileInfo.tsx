@@ -4,14 +4,18 @@ import { useEffect, useState } from "react";
 import placeholder from "@/public/placholderpp.jpg";
 
 interface ProfileInfoProps {
-  isProfileVisible: boolean; // Define the prop type
+  isProfileVisible: boolean;
+  userId: number; // Add userId prop
 }
 
-export default function ProfileInfo({ isProfileVisible }: ProfileInfoProps) {
+export default function ProfileInfo({
+  isProfileVisible,
+  userId,
+}: ProfileInfoProps) {
   const [userData, setUserData] = useState<any>(null);
 
   useEffect(() => {
-    getUserById(3)
+    getUserById(userId) // Use userId prop here
       .then((data) => {
         setUserData(data);
         console.log("Fetched userData data:", data);
@@ -19,37 +23,7 @@ export default function ProfileInfo({ isProfileVisible }: ProfileInfoProps) {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, []);
-
-  /*
-  const limitRating = (rating: number) => {
-    if (rating < 1) {
-      return 1;
-    } else if (rating > 5) {
-      return 5;
-    }
-    return rating;
-  };
-
- /* const ratingStars = (rating: number) => {
-    // Apply the rating limit function to ensure rating is between 1 and 5
-    const limitedRating = limitRating(rating);
-
-    const starImages = [];
-    for (let i = 0; i < limitedRating; i++) {
-      starImages.push(
-        <Image
-          key={i}
-          src={`/staricon.png`}
-          alt={`Star ${i + 1}`}
-          width={20}
-          height={20}
-        />
-      );
-    }
-    return starImages;
-  };
-  */
+  }, [userId]);
 
   if (!userData) {
     return null;

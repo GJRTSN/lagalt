@@ -1,18 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Link from "next/link";
-import { getAllProjects } from "@/app/api/project/get";
 import { ProjAdminList } from "../types/types";
+import { UserContext } from "../contexts/userContext";
+import { getProjectsByUser } from "../api/project/get";
 
-export default function YourProjects() {
+type YourProjectsProps = {
+  userId: number | null;
+};
+
+export default function YourProjects({ userId }: YourProjectsProps) {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
     const getProjects = async () => {
-      const projectsFromApi = await getAllProjects();
-      setProjects(projectsFromApi);
+      if (userId) {
+        const projectsFromApi = await getProjectsByUser(userId);
+        setProjects(projectsFromApi);
+      }
     };
     getProjects();
-  }, []);
+  }, [userId]);
 
   return (
     <div id="admindash" className="w-3/4 h-full bg-[#CCCCCC] rounded-lg p-4 ">
@@ -37,7 +44,6 @@ export default function YourProjects() {
               <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                 <th className="py-3 px-6 text-left">Project ID</th>
                 <th className="py-3 px-6 text-left">Project Name</th>
-                <th className="py-3 px-6 text-left">Industry</th>
                 <th className="py-3 px-6 text-left">Status</th>
                 <th className="py-3 px-6 text-left">Actions</th>
               </tr>
@@ -56,11 +62,6 @@ export default function YourProjects() {
                   <td className="py-3 px-6 text-left">
                     <div className="flex items-center">
                       <span>{project.title || "Unnamed Project"}</span>{" "}
-                    </div>
-                  </td>
-                  <td className="py-3 px-6 text-left">
-                    <div className="flex items-center">
-                      <span>{project.industryName}</span>
                     </div>
                   </td>
                   <td className="py-3 px-6 text-left">

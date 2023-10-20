@@ -4,8 +4,11 @@ import ProfileProjects from "./ProfileProjects";
 import Link from "next/link";
 import ProfileSkills from "./ProfileSkills";
 import { useState } from "react";
+import { useUserContext } from "@/app/contexts/userContext";
 
 export default function Profile() {
+  const { user } = useUserContext();
+  const { userId } = user;
   const [isProfileVisible, setIsProfileVisible] = useState(true);
 
   const handleToggle = () => {
@@ -42,7 +45,7 @@ export default function Profile() {
                 ></span>
               </span>
             </label>
-            <Link href="profile-edit">
+            <Link href="profile/edit">
               <button className="bg-gray-500 hover:bg-gray-700 font-bold py-1 px-3 rounded">
                 Edit
               </button>
@@ -52,9 +55,9 @@ export default function Profile() {
       </div>
       <div className="flex bg-white flex-col items-center justify-center">
         <div className="w-2/4">
-          <ProfileInfo isProfileVisible={isProfileVisible} />
-          {isProfileVisible && <ProfileSkills />}
-          {isProfileVisible && <ProfileProjects />}
+          <ProfileInfo isProfileVisible={isProfileVisible} userId={userId} />
+          {isProfileVisible && <ProfileSkills userId={userId} />}
+          {isProfileVisible && <ProfileProjects userId={userId} />}
         </div>
       </div>
     </div>

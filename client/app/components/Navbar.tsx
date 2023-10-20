@@ -3,11 +3,18 @@ import { usePathname } from "next/navigation";
 import logo from "@/public/lagalt_clean.png";
 import Image from "next/image";
 import Link from "next/link";
+import { useContext } from "react";
+import { UserContext } from "@/app/contexts/userContext";
 
 export default function Navbar() {
+  const { user, logout } = useContext(UserContext);
   const pathname = usePathname();
   const navStyle =
     "cursor-pointer transition-transform duration-200 transform hover:-translate-y-1 ease-in-out";
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <>
@@ -63,7 +70,16 @@ export default function Navbar() {
 
           <div className="flex flex-col absolute right-0 justify-center items-center gap-1 mr-6 text-white">
             <div className="flex items-center space-x-4">
-              <h4>login/logout button</h4>
+              <h4>{user ? `${user.forName} ${user.lastName}` : "Guest"}</h4>
+              {user ? (
+                <button onClick={handleLogout} className="btn">
+                  Logout
+                </button>
+              ) : (
+                <Link href="/login">
+                  <button className="btn">Login</button>
+                </Link>
+              )}
             </div>
           </div>
         </div>

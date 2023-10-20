@@ -55,3 +55,19 @@ export async function getProjectComments(id: number) {
     return [];
   }
 }
+
+export async function getProjectsByUser(userId: number) {
+  try {
+    const response = await axios.get(
+      `https://lagalt-case-1.azurewebsites.net/users/${userId}`
+    );
+    if (response.data) {
+      return response.data.projects;
+    } else {
+      throw new Error("User not found or has no projects");
+    }
+  } catch (error) {
+    console.error("Error fetching projects by user:", error);
+    throw error;
+  }
+}
