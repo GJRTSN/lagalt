@@ -1,7 +1,6 @@
 "use client";
 import React, { ChangeEvent, useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 const Register = () => {
   const router = useRouter();
 
