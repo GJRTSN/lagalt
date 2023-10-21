@@ -17,10 +17,15 @@ export default function EditProfile() {
   const router = useRouter();
   const [userData, setUserData] = useState<UpdateUserDTO | null>(null);
 
+  // State for dropdowns and selections
   const [skills, setSkills] = useState<Skill[]>([]);
   const [selectedSkills, setSelectedSkills] = useState<Skill[]>([]);
-  const [newSkill, setNewSkill] = useState("");
+  const [newSkill, setNewSkill] = useState(""); // for adding new skills
+
+  // State for UI elements
+  const [searchTerm, setSearchTerm] = useState("");
   const [searchedSkills, setSearchedSkills] = useState<Skill[]>([]);
+
   const [filteredSkills, setFilteredSkills] = useState<Skill[]>([]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -30,6 +35,13 @@ export default function EditProfile() {
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    const matchingSkills = skills.filter((s) =>
+      s.name.toLowerCase().includes(newSkill.toLowerCase())
+    );
+    setSearchedSkills(matchingSkills);
+  }, [newSkill, skills]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -259,8 +271,6 @@ export default function EditProfile() {
               </div>
             </div>
 
-            {/* Edit Profile Skills */}
-
             <div className="mt-8 text-black bg-gray-300 p-4 rounded-xl">
               <label
                 htmlFor="skillSearch"
@@ -276,9 +286,9 @@ export default function EditProfile() {
                 placeholder=""
                 className="text-black mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
-              <ul className="mt-2 bg-white border border-gray-300 rounded-md p-2">
-                {newSkill &&
-                  filteredSkills.map((skill) => (
+              {newSkill && filteredSkills.length > 0 ? (
+                <ul className="mt-2 bg-white border border-gray-300 rounded-md p-2">
+                  {filteredSkills.map((skill) => (
                     <li
                       key={skill.id}
                       onClick={() => {
@@ -290,7 +300,8 @@ export default function EditProfile() {
                       {skill.name}
                     </li>
                   ))}
-              </ul>
+                </ul>
+              ) : null}
 
               <div className="flex flex-row mt-4">
                 <ul className="flex flex-row flex-wrap">

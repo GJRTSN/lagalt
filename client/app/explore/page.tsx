@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getAllProjects } from "@/app/api/project/get";
 import ExploreCard from "@/app/explore/ExploreCard";
 import { ExploreProjectCard } from "@/app/types/ProjectTypes";
+import { MoonLoader } from "react-spinners";
 
 export default function Explore() {
   const [projects, setProjects] = useState<ExploreProjectCard[]>([]);
@@ -82,7 +83,7 @@ export default function Explore() {
           <IndustryFilter />
         </div>
         <div className="flex flex-col justify-center items-center mt-8">
-          <p className="text-black">Loading projects...</p>;
+          <MoonLoader color="#8cb669" />
         </div>
       </div>
     );
