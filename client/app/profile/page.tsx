@@ -8,7 +8,7 @@ import { useUserContext } from "@/app/contexts/userContext";
 
 export default function Profile() {
   const { user } = useUserContext();
-  const { userId } = user;
+  const userId = user?.userId;
   const [isProfileVisible, setIsProfileVisible] = useState(true);
 
   const handleToggle = () => {

@@ -18,7 +18,7 @@ export default function ProfileInfo({
     getUserById(userId) // Use userId prop here
       .then((data) => {
         setUserData(data);
-        console.log("Fetched userData data:", data);
+        // console.log("Fetched userData data:", data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);

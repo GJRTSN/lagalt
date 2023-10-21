@@ -33,18 +33,7 @@ const ExploreProject: React.FC = () => {
   if (!project) {
     return (
       <div className="h-full min-h-screen bg-white pb-12">
-        <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center ">
-          <p className="text-black">
-            <strong className="text-black">
-              YOU ARE CURRENTLY{" "}
-              <span className="text-red-500 underline">VIEWING</span> A PROJECT
-              AS{" "}
-              <span className="text-purple-500 underline">
-                NON-LOGGED IN VISITOR!
-              </span>
-            </strong>
-          </p>
-        </div>
+        <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center "></div>
         <div className="flex flex-col justify-center items-center mt-8">
           <p className="text-black">Loading project...</p>;
         </div>
@@ -54,17 +43,7 @@ const ExploreProject: React.FC = () => {
 
   return (
     <div className="h-screen bg-white">
-      <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center ">
-        <p className="text-black">
-          <strong className="text-black">
-            YOU ARE CURRENTLY{" "}
-            <span className="text-red-500 underline">VIEWING</span> A PROJECT AS{" "}
-            <span className="text-purple-500 underline">
-              NON-LOGGED IN VISITOR!
-            </span>
-          </strong>
-        </p>
-      </div>
+      <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center "></div>
       <div className="flex flex-col items-center mt-8">
         <div className="w-2/4 bg-gray-100 p-4 text-black rounded-lg">
           <div className="flex flex-col items-center mb-12">

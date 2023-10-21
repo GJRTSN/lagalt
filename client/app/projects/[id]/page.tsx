@@ -89,16 +89,7 @@ const ViewProject: React.FC = () => {
   if (!project) {
     return (
       <div className="h-full min-h-screen bg-white pb-12">
-        <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center ">
-          <p className="text-black">
-            <strong className="text-black">
-              YOU ARE CURRENTLY{" "}
-              <span className="text-red-500 underline">VIEWING</span> A PROJECT
-              AS
-              <span className="text-pink-500 underline">LOGGED IN USER!</span>
-            </strong>
-          </p>
-        </div>
+        <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center "></div>
         <div className="flex flex-col justify-center items-center mt-8">
           <p className="text-black">Loading project...</p>;
         </div>
@@ -108,15 +99,7 @@ const ViewProject: React.FC = () => {
 
   return (
     <div className="h-full min-h-screen bg-white">
-      <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center ">
-        <p className="text-black">
-          <strong className="text-black">
-            YOU ARE CURRENTLY
-            <span className="text-red-500 underline">VIEWING</span> A PROJECT AS
-            <span className="text-pink-500 underline">LOGGED IN USER!</span>
-          </strong>
-        </p>
-      </div>
+      <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center "></div>
       <div className="flex flex-col items-center mt-8 ">
         <div className="w-2/4 bg-gray-100 p-4 text-black rounded-lg mb-12">
           <div className="flex flex-col items-center mb-12">
@@ -130,7 +113,7 @@ const ViewProject: React.FC = () => {
               <strong>Industry:</strong> {project.industryName}
             </p>
             <div className="text-lg">
-              <h2 className="text-2xl font-bold mb-1 text-black">
+              <h2 className="text-2xl font-bold mb-1 text-center text-black">
                 Skills required
               </h2>
               <div className="flex flex-wrap mt-2">
@@ -147,7 +130,7 @@ const ViewProject: React.FC = () => {
           </div>
 
           <h2 className="text-2xl font-bold mb-4 text-black">Description</h2>
-          <div className="bg-[#FDFDFD] w-full h-12 rounded-md mb-4 p-2">
+          <div className="bg-[#FDFDFD] w-full h-auto rounded-md mb-4 p-2">
             {project.description}
           </div>
           <div className="mb-8">
@@ -198,7 +181,7 @@ const ViewProject: React.FC = () => {
                     <td className="px-4 py-4">{participant.lastName}</td>
                     <td className="px-4 py-4">{participant.userRole}</td>
                     <td className="py-4">
-                      <Link href={`/profile/`}>
+                      <Link href={`/profile/${participant.userId}`}>
                         <button className="bg-green-400 py-1 mx-1 px-2 rounded-md text-white">
                           Visit
                         </button>

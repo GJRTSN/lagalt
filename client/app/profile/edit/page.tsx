@@ -9,20 +9,27 @@ import { Skill } from "@/app/types/types";
 import axios from "axios";
 import { getAllSkills } from "../../api/Projects";
 import Link from "next/link";
+import { useUserContext } from "@/app/contexts/userContext";
 
 export default function EditProfile() {
+  const { user, updateUser } = useUserContext(); // get updateUser
+  const userId = user?.userId;
   const router = useRouter();
-  const userId = 1; // Replace with the actual user ID
   const [userData, setUserData] = useState<UpdateUserDTO | null>(null);
 
   const [skills, setSkills] = useState<Skill[]>([]);
   const [selectedSkills, setSelectedSkills] = useState<Skill[]>([]);
-  const [newSkill, setNewSkill] = useState(""); // for adding new skills
+  const [newSkill, setNewSkill] = useState("");
   const [searchedSkills, setSearchedSkills] = useState<Skill[]>([]);
   const [filteredSkills, setFilteredSkills] = useState<Skill[]>([]);
 
-  console.log(selectedSkills);
-  console.log("selectedSkills:", selectedSkills);
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      [name]: value,
+    }));
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -106,57 +113,7 @@ export default function EditProfile() {
     );
   }, [newSkill, skills]);
 
-  const handleSubmit = async (e: FormEvent) => {
-    const skillToAdd = skills.find((s) => s.name === newSkill);
-    if (skillToAdd) addSkill(skillToAdd);
-
-    e.preventDefault();
-
-    // Make sure userData and selectedSkills are available
-    if (!userData || !selectedSkills) return;
-
-    try {
-      // Execute both update calls concurrently
-      const [userResponse, skillsResponse] = await Promise.all([
-        // Update user data
-        axios.put(
-          `https://lagalt-case-1.azurewebsites.net/users/${userId}`,
-          userData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        ),
-
-        // Update skills
-        axios.put(
-          `https://lagalt-case-1.azurewebsites.net/profile/${userId}/skills`, // Assuming the skills API endpoint
-          { skills: selectedSkills },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        ),
-      ]);
-
-      // Check if both updates were successful
-      if (userResponse.status === 200 && skillsResponse.status === 200) {
-        console.log(
-          "User and skills updated:",
-          userResponse.data,
-          skillsResponse.data
-        );
-        router.push("/profile"); // Navigate to profile page or wherever you want
-      }
-    } catch (error) {
-      console.error("Error updating user and/or skills:", error);
-    }
-  };
-
   const handleDiscardChanges = () => {
-    // Add code for discarding data
     router.push("/profile");
   };
 
@@ -167,11 +124,41 @@ export default function EditProfile() {
 
   const removeSkill = (id: number) => {
     setSelectedSkills((prev) => prev.filter((skill) => skill.id !== id));
-    console.log(`Trying to remove skill with ID:`, id);
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    // Ensure userData and selectedSkills are available
+    if (!userData || !selectedSkills) return;
+
+    const updatedUserData = {
+      ...userData,
+      skills: selectedSkills.map((skill) => skill.name),
+    };
+
+    try {
+      const userResponse = await axios.put(
+        `https://lagalt-case-1.azurewebsites.net/users/${userId}`,
+        updatedUserData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (userResponse.status === 200) {
+        console.log("User updated:", userResponse.data);
+        updateUser(userResponse.data); // update user in context and localStorage
+        router.push("/profile");
+      }
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <div className="h-screen bg-white">
         {/* Header */}
         <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center">
@@ -186,42 +173,48 @@ export default function EditProfile() {
             {/* Edit Profile Info */}
             <div className="mt-10 flex space-x-4 text-black bg-gray-300 p-4 rounded-xl">
               <div className="w-1/2">
-                <p className="font-bold">Firstname</p>
-                <div className="mt-2">
+                <div className="flex items-center mb-4">
+                  <p className="font-bold mr-2 w-24">Firstname:</p>
                   <input
                     type="text"
-                    className="border border-gray-300 rounded-md p-1 mr-2 bg-gray-100"
+                    name="forName"
+                    className="border border-gray-300 rounded-md p-1 w-full bg-gray-100"
                     placeholder="Enter your firstname"
                     value={userData?.forName || ""}
-                    onChange={(e) => {
-                      if (userData) {
-                        setUserData({ ...userData, forName: e.target.value });
-                      }
-                    }}
+                    onChange={handleInputChange}
                   />
                 </div>
 
-                <p className="font-bold mt-2">Lastname</p>
-                <div className="mt-2">
+                <div className="flex items-center mb-4">
+                  <p className="font-bold mr-2 w-24">Lastname:</p>
                   <input
                     type="text"
-                    className="border border-gray-300 rounded-md p-1 mr-2 bg-gray-100"
+                    name="lastName"
+                    className="border border-gray-300 rounded-md p-1 w-full bg-gray-100"
                     placeholder="Enter your lastname"
                     value={userData?.lastName || ""}
-                    onChange={(e) => {
-                      if (userData) {
-                        setUserData({ ...userData, lastName: e.target.value });
-                      }
-                    }}
+                    onChange={handleInputChange}
                   />
                 </div>
 
-                <p className="font-bold mt-2">Title</p>
-                <div className="mt-2">
+                <div className="flex items-center mb-4">
+                  <p className="font-bold mr-2 w-24">Age:</p>
                   <input
                     type="text"
-                    className="border border-gray-300 rounded-md p-1 mr-2 bg-gray-100"
-                    placeholder="Enter your location"
+                    name="age"
+                    className="border border-gray-300 rounded-md p-1 w-full bg-gray-100"
+                    placeholder="Enter your age"
+                    value={userData?.age || ""}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="flex items-center mb-4">
+                  <p className="font-bold mr-2 w-24">Title:</p>
+                  <input
+                    type="text"
+                    className="border border-gray-300 rounded-md p-1 w-full bg-gray-100"
+                    placeholder="Enter your title"
                     value={userData?.description || ""}
                     onChange={(e) => {
                       if (userData) {
@@ -234,12 +227,12 @@ export default function EditProfile() {
                   />
                 </div>
 
-                <p className="font-bold mt-2">Country</p>
-                <div className="mt-2">
+                <div className="flex items-center mb-4">
+                  <p className="font-bold mr-2 w-24">Country:</p>
                   <input
                     type="text"
-                    className="border border-gray-300 rounded-md p-1 mr-2 bg-gray-100"
-                    placeholder="Enter your location"
+                    className="border border-gray-300 rounded-md p-1 w-full bg-gray-100"
+                    placeholder="Enter your country"
                     value={userData?.country || ""}
                     onChange={(e) => {
                       if (userData) {
@@ -268,70 +261,73 @@ export default function EditProfile() {
 
             {/* Edit Profile Skills */}
 
-            <div
-              id="skills"
-              className="mt-8 text-black bg-gray-300 p-4 rounded-xl"
-            >
-              <h2 className="text-2xl">Skills</h2>
-              <span className="text-gray-500">Click on a tag to remove</span>
-              <div className="flex flex-wrap">
-                {selectedSkills.map((skill, index) => {
-                  console.log(`Mapping skill at index ${index}:`, skill);
-                  return (
-                    <span
-                      key={index}
-                      className="bg-blue-200 text-blue-800 px-2 py-1 rounded-md mr-2 mb-2 cursor-pointer mt-2"
-                      onClick={() => removeSkill(skill.id)}
+            <div className="mt-8 text-black bg-gray-300 p-4 rounded-xl">
+              <label
+                htmlFor="skillSearch"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Skills
+              </label>
+              <input
+                type="text"
+                id="skillSearch"
+                value={newSkill}
+                onChange={(e) => setNewSkill(e.target.value)}
+                placeholder=""
+                className="text-black mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+              <ul className="mt-2 bg-white border border-gray-300 rounded-md p-2">
+                {newSkill &&
+                  filteredSkills.map((skill) => (
+                    <li
+                      key={skill.id}
+                      onClick={() => {
+                        addSkill(skill);
+                        setNewSkill("");
+                      }}
+                      className="text-black cursor-pointer hover:bg-gray-200 p-1"
                     >
                       {skill.name}
-                    </span>
-                  );
-                })}
-              </div>
+                    </li>
+                  ))}
+              </ul>
 
-              <div className="mt-2 mb-2 relative">
-                <input
-                  type="text"
-                  placeholder="Add a new skill"
-                  className="border border-gray-300 rounded-md p-1 mr-2 bg-gray-100"
-                  value={newSkill}
-                  onChange={(e) => setNewSkill(e.target.value)}
-                />
-                {newSkill && (
-                  <div className="absolute top-full left-0 z-10 0 rounded-md w-full mt-2">
-                    {filteredSkills.map((skill) => (
-                      <div
-                        key={skill.id}
-                        className="p-2 hover:bg-gray-200 cursor-pointer"
-                        onClick={() => {
-                          addSkill(skill);
-                          setNewSkill("");
-                        }}
-                      >
-                        {skill.name}
+              <div className="flex flex-row mt-4">
+                <ul className="flex flex-row flex-wrap">
+                  {selectedSkills.map((skill) => (
+                    <span key={skill.id} className="flex flex-row text-sm m-1">
+                      <div className="flex flex-row w-auto h-auto bg-gray-500 rounded-md p-1 gap-2 ">
+                        <p className="text-white">{skill.name}</p>
+                        <button
+                          className="bg-[#f36161] rounded-md px-2 text-sm"
+                          onClick={() => removeSkill(skill.id)}
+                        >
+                          X
+                        </button>
                       </div>
-                    ))}
-                  </div>
-                )}
+                    </span>
+                  ))}
+                </ul>
               </div>
             </div>
 
-            <div className="flex justify-end mt-4">
+            <div className="flex justify-end mt-4 gap-4">
+              <Link href="/profile">
+                <button
+                  onClick={handleSubmit}
+                  type="submit"
+                  className="bg-blue-500 hover:bg-blue-700 text-white p-1 rounded-md"
+                >
+                  Save
+                </button>
+              </Link>
               <button
                 type="button"
                 className="bg-red-500 hover:bg-red-700 text-white p-1 rounded-md mr-2"
                 onClick={handleDiscardChanges}
               >
-                Discard Changes
+                Discard
               </button>
-              <Link href="/profile">
-                <button
-                  type="submit"
-                  className="bg-blue-500 hover:bg-blue-700 text-white p-1 rounded-md"
-                >
-                  Save Changes
-                </button>
-              </Link>
             </div>
           </div>
         </div>

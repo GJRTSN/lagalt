@@ -3,11 +3,11 @@ import { usePathname } from "next/navigation";
 import logo from "@/public/lagalt_clean.png";
 import Image from "next/image";
 import Link from "next/link";
-import { useContext } from "react";
-import { UserContext } from "@/app/contexts/userContext";
+import { useUserContext } from "@/app/contexts/userContext";
 
 export default function Navbar() {
-  const { user, logout } = useContext(UserContext);
+  const { user, logout } = useUserContext();
+  const userId = user?.userId;
   const pathname = usePathname();
   const navStyle =
     "cursor-pointer transition-transform duration-200 transform hover:-translate-y-1 ease-in-out";
@@ -29,7 +29,7 @@ export default function Navbar() {
           />
           <div
             id="pagesContainer"
-            className="absolute bottom-0 flex flex-row w-3/5 justify-between"
+            className="absolute bottom-0 flex flex-row w-3/5 justify-center space-x-8"
           >
             <div
               className={`link transition-colors duration-300 ease-in-out ${
@@ -42,42 +42,58 @@ export default function Navbar() {
                 <h2 className={`text-2xl font-roboto ${navStyle}`}>EXPLORE</h2>
               </Link>
             </div>
+            {user ? (
+              <>
+                <div
+                  className={`link transition-colors duration-300 ease-in-out ${
+                    pathname.startsWith("/projects")
+                      ? "bg-[#8cb669] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
+                      : "bg-[#CCCCCC] border border-transparent h-3/5 flex items-center rounded-t-md px-4 text-gray-700"
+                  }`}
+                >
+                  <Link href="/projects">
+                    <h2 className={`text-2xl font-roboto ${navStyle}`}>
+                      PROJECTS
+                    </h2>
+                  </Link>
+                </div>
 
-            <div
-              className={`link transition-colors duration-300 ease-in-out ${
-                pathname.startsWith("/projects")
-                  ? "bg-[#8cb669] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
-                  : "bg-[#CCCCCC] border border-transparent h-3/5 flex items-center rounded-t-md px-4 text-gray-700"
-              }`}
-            >
-              <Link href="/projects">
-                <h2 className={`text-2xl font-roboto ${navStyle}`}>PROJECTS</h2>
-              </Link>
-            </div>
-
-            <div
-              className={`link transition-colors duration-300 ease-in-out ${
-                pathname.startsWith("/profile")
-                  ? "bg-[#8cb669] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
-                  : "bg-[#CCCCCC] border border-transparent h-3/5 flex items-center rounded-t-md px-4  text-gray-700"
-              }`}
-            >
-              <Link href="/profile">
-                <h2 className={`text-2xl font-roboto ${navStyle}`}>PROFILE</h2>
-              </Link>
-            </div>
+                <div
+                  className={`link transition-colors duration-300 ease-in-out ${
+                    pathname.startsWith("/profile")
+                      ? "bg-[#8cb669] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
+                      : "bg-[#CCCCCC] border border-transparent h-3/5 flex items-center rounded-t-md px-4  text-gray-700"
+                  }`}
+                >
+                  <Link href="/profile">
+                    <h2 className={`text-2xl font-roboto ${navStyle}`}>
+                      PROFILE
+                    </h2>
+                  </Link>
+                </div>
+              </>
+            ) : null}
           </div>
-
           <div className="flex flex-col absolute right-0 justify-center items-center gap-1 mr-6 text-white">
             <div className="flex items-center space-x-4">
-              <h4>{user ? `${user.forName} ${user.lastName}` : "Guest"}</h4>
               {user ? (
-                <button onClick={handleLogout} className="btn">
-                  Logout
-                </button>
+                <>
+                  <div className="flex flex-col  text-black p-2 ">
+                    <h4 className="text-md font-semibold">{`${user.forName} ${user.lastName}`}</h4>
+                    <span className="text-sm text-gray-500">{`ID: ${user.userId}`}</span>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="btn py-2 px-4 bg-red-500 text-white rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50"
+                  >
+                    Logout
+                  </button>
+                </>
               ) : (
-                <Link href="/login">
-                  <button className="btn">Login</button>
+                <Link href="/">
+                  <button className="btn py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
+                    Login
+                  </button>
                 </Link>
               )}
             </div>

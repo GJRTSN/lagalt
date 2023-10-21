@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { getUserById } from "../api/Users"; // adjust the import path
 import { User } from "../types/types";
 import { getProjectsByUser } from "../api/project/get";
+import { useUserContext } from "../contexts/userContext";
 
 export default function ProfileProjects({ userId }) {
+  const { user } = useUserContext();
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {

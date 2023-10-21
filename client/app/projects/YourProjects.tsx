@@ -42,9 +42,12 @@ export default function YourProjects({ userId }: YourProjectsProps) {
           <table className="min-w-max w-full table-auto">
             <thead>
               <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                <th className="py-3 px-6 text-left">Project ID</th>
-                <th className="py-3 px-6 text-left">Project Name</th>
+                <th className="py-3 px-6 text-left">ID</th>
+                <th className="py-3 px-6 text-left">Name</th>
+                <th className="py-3 px-6 text-left">Industry</th>
                 <th className="py-3 px-6 text-left">Status</th>
+                <th className="py-3 px-6 text-left">Participants</th>
+                <th className="py-3 px-6 text-left">Applications</th>
                 <th className="py-3 px-6 text-left">Actions</th>
               </tr>
             </thead>
@@ -66,7 +69,22 @@ export default function YourProjects({ userId }: YourProjectsProps) {
                   </td>
                   <td className="py-3 px-6 text-left">
                     <div className="flex items-center">
+                      <span>{project.industryName}</span>
+                    </div>
+                  </td>
+                  <td className="py-3 px-6 text-left">
+                    <div className="flex items-center">
                       <span>{project.status}</span>
+                    </div>
+                  </td>
+                  <td className="py-3 px-6 text-left">
+                    <div className="flex items-center">
+                      <span>{project.participants.length}</span>
+                    </div>
+                  </td>
+                  <td className="py-3 px-6 text-left">
+                    <div className="flex items-center">
+                      <span>{project.workApplications.length}</span>
                     </div>
                   </td>
                   <td className="py-3 text-left">

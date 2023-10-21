@@ -1,59 +1,42 @@
 "use client";
 import React, { ChangeEvent, useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { registerNewUser } from "../api/user/post";
 import logo from "@/public/lagalt_clean.png";
 import Image from "next/image";
 
 const Register = () => {
   const router = useRouter();
 
-  const [formData, setFormData] = useState({
+  const [registerUser, setRegisterUser] = useState({
+    username: "",
     forName: "",
     lastName: "",
-    description: "",
-    country: "",
     email: "",
+    age: 18,
+    country: "",
+    userRole: "",
+    password: "",
   });
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setRegisterUser({ ...registerUser, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Your backend API URL
-    const apiEndpoint = "https://lagalt-case-1.azurewebsites.net/users";
-
     try {
-      const response = await fetch(apiEndpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.status === 201) {
-        const data = await response.json();
-        console.log("User created:", data);
-
-        // TODO: Implement login functionality here if required.
-        // For example, you could save the user token to localStorage.
-
-        // Redirect to explore page
-        router.push("/explore");
-      } else {
-        // Handle errors, maybe update the component's state to display an error message
-        console.error(
-          "Failed to register user:",
-          response.status,
-          await response.json()
-        );
-      }
+      const data = await registerNewUser(registerUser);
+      console.log("User created:", data);
+      router.push("/explore");
     } catch (error) {
-      console.error("Error:", error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.error("An unknown error occurred");
+      }
     }
   };
 
@@ -72,7 +55,7 @@ const Register = () => {
               htmlFor="username"
               className="block text-sm font-medium mb-1"
             >
-              Username:
+              Username
             </label>
             <input
               type="text"
@@ -90,7 +73,7 @@ const Register = () => {
                 htmlFor="forName"
                 className="block text-sm font-medium  mb-1"
               >
-                First Name:
+                First Name
               </label>
               <input
                 type="text"
@@ -106,7 +89,7 @@ const Register = () => {
                 htmlFor="lastName"
                 className="block text-sm font-medium mb-1"
               >
-                Last Name:
+                Last Name
               </label>
               <input
                 type="text"
@@ -121,7 +104,7 @@ const Register = () => {
 
           <div className="mb-4">
             <label htmlFor="email" className="block text-sm font-medium  mb-1">
-              Email:
+              Email
             </label>
             <input
               type="text"
@@ -136,7 +119,7 @@ const Register = () => {
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
               <label htmlFor="age" className="block text-sm font-medium  mb-1">
-                Birthday:
+                Age
               </label>
               <input
                 type="text"
@@ -151,7 +134,7 @@ const Register = () => {
                 htmlFor="country"
                 className="block text-sm font-medium  mb-1"
               >
-                Country:
+                Country
               </label>
               <input
                 type="text"
@@ -165,16 +148,19 @@ const Register = () => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="title" className="block text-sm font-medium  mb-1">
-              Title:
+            <label
+              htmlFor="userRole"
+              className="block text-sm font-medium  mb-1"
+            >
+              Role
             </label>
             <input
               type="text"
-              id="title"
-              name="title"
+              id="userRole"
+              name="userRole"
               className="w-full px-3 py-2 border rounded-md text-black"
               onChange={handleChange}
-              placeholder="Enter your title"
+              placeholder="Web Developer? Video Editor? Artist? ..."
             />
           </div>
           <div className="mb-6">
@@ -182,7 +168,7 @@ const Register = () => {
               htmlFor="password"
               className="block text-sm font-medium  mb-1"
             >
-              Password:
+              Password
             </label>
             <input
               type="password"

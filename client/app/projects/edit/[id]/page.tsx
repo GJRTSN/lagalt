@@ -383,7 +383,7 @@ export default function UpdateProject() {
                     onChange={handleInputChange}
                     value={formData.description}
                     placeholder={formData.description}
-                    className="text-black mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="text-black mt-1 block w-full h-auto py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     rows={3}
                   />
                 </div>
