@@ -4,11 +4,12 @@ import { useRouter } from "next/navigation";
 import { registerNewUser } from "../api/user/post";
 import logo from "@/public/lagalt_clean.png";
 import Image from "next/image";
+import { RegisterUserData } from "../types/UserTypes";
 
 const Register = () => {
   const router = useRouter();
 
-  const [registerUser, setRegisterUser] = useState({
+  const [registerUser, setRegisterUser] = useState<RegisterUserData>({
     username: "",
     forName: "",
     lastName: "",
@@ -22,17 +23,22 @@ const Register = () => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setRegisterUser({ ...registerUser, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setRegisterUser({
+      ...registerUser,
+      [name]: name === "age" ? Number(value) : value,
+    });
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const data = await registerNewUser(registerUser);
+      const data = await registerNewUser(registerUser as RegisterUserData);
       console.log("User created:", data);
       router.push("/explore");
     } catch (error) {
       if (error instanceof Error) {
+        console.log(registerUser);
         console.error(error.message);
       } else {
         console.error("An unknown error occurred");
@@ -122,7 +128,7 @@ const Register = () => {
                 Age
               </label>
               <input
-                type="text"
+                type="number"
                 id="age"
                 name="age"
                 onChange={handleChange}

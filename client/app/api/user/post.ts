@@ -1,12 +1,14 @@
+import { RegisterUserData } from "@/app/types/UserTypes";
 import axios from "axios";
 
-export async function registerNewUser(registerUserData: object) {
+export async function registerNewUser(registerUserData: RegisterUserData) {
   try {
     const response = await axios.post(
-      "https://lagalt-case-1.azurewebsites.net/users/",
+      "https://localhost:8080/users",
       registerUserData
     );
-    if (response.status === 201) {
+    if (response.status === 200 || 201) {
+      console.log(registerUserData);
       return response.data;
     } else {
       throw new Error(
