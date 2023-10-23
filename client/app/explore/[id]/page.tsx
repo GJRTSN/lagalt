@@ -60,7 +60,7 @@ const ExploreProject: React.FC = () => {
               <h2 className="text-2xl font-bold mb-1 text-black">
                 Skills required
               </h2>
-              <div className="flex flex-wrap mt-2">
+              <div className="flex flex-wrap justify-center mt-2">
                 {project.skillsRequiredNames.map((skill, index) => (
                   <span
                     key={index}

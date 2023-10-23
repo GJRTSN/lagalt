@@ -10,14 +10,19 @@ const Register = () => {
   const router = useRouter();
 
   const [registerUser, setRegisterUser] = useState<RegisterUserData>({
-    username: "",
     forName: "",
     lastName: "",
-    email: "",
-    age: 18,
+    description: "",
     country: "",
+    email: "",
     userRole: "",
+    includeProjects: false,
+    username: "",
     password: "",
+    age: 18,
+    skillIds: [14],
+    skillNames: ["PHP"],
+    profileVisible: true,
   });
 
   const handleChange = (
