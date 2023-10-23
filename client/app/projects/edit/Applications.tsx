@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-import avatar from "@/public/nick.jpg";
+import placeholder from "@/public/placholderpp.jpg";
 import { acceptApplication } from "@/app/api/Participants";
 
 export default function Applications({
@@ -50,7 +50,7 @@ export default function Applications({
               <div className="flex items-center">
                 <div className="relative w-10 h-10">
                   <Image
-                    src={avatar} // You might want to replace this with the applicant's actual avatar if available
+                    src={placeholder}
                     alt="avatar"
                     layout="fill"
                     objectFit="cover"

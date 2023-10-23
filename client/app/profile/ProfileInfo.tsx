@@ -4,14 +4,10 @@ import { useEffect, useState } from "react";
 import placeholder from "@/public/placholderpp.jpg";
 
 interface ProfileInfoProps {
-  isProfileVisible: boolean;
-  userId: number; // Add userId prop
+  userId: number;
 }
 
-export default function ProfileInfo({
-  isProfileVisible,
-  userId,
-}: ProfileInfoProps) {
+export default function ProfileInfo({ userId }: ProfileInfoProps) {
   const [userData, setUserData] = useState<any>(null);
 
   useEffect(() => {
@@ -30,59 +26,41 @@ export default function ProfileInfo({
   }
 
   return (
-    <div className="mt-10 flex space-x-4 text-black bg-gray-300 p-4 rounded-xl">
-      <div className="w-1/2">
-        <h2 className="text-2xl">
-          {userData.forName} {userData.lastName}
-        </h2>
-        <div className="mt-2">
-          {!isProfileVisible && (
-            <p className="italic text-black mt-8">
-              {userData.forName} {userData.lastName} has set the profile to
-              hidden
-            </p>
-          )}
-          {isProfileVisible && (
-            <>
-              <p className="font-bold text-lg">
-                Title:{" "}
-                <span className="font-light">{userData.description}</span>
-              </p>
-              <p className="font-bold text-lg">
-                Location: <span className="font-light">{userData.country}</span>
-              </p>
-              <p className="font-bold text-lg">
-                Age: <span className="font-light">{userData.age}</span>
-              </p>
-              {/*<p className="font-bold text-lg">
-                Work model: <span className="font-light">{userData.workModel}</span>
-              </p> 
-              <br />
-              <div>
-                <p className="font-bold text-lg">
-                  Rating:{" "}
-                  <span className="font-light">
-                    {limitRating(userData.rating)}/5
-                  </span>
-                </p>
-                <div className="flex items-center">
-                  {ratingStars(userData.rating)} {/* Render star images 
-                </div> 
-              </div> */}
-            </>
-          )}
+    <div className="bg-gray-300 p-4 rounded-xl mt-10 text-black">
+      {/* Row 1 */}
+      <div className="flex space-x-4 mb-4">
+        {/* Column 1 */}
+        <div className="flex-1 p-4 rounded-lg">
+          <h2 className="text-2xl font-semibold mb-4">
+            {userData.forName} {userData.lastName}
+          </h2>
+          <div className="grid grid-cols-2 gap-4 text-md">
+            <div className="font-bold">Role</div>
+            <div className="">{userData.userRole}</div>
+
+            <div className="font-bold">Location</div>
+            <div className="">{userData.country}</div>
+
+            <div className="font-bold">Age</div>
+            <div className="">{userData.age}</div>
+          </div>
+        </div>
+
+        {/* Column 2 */}
+        <div className="flex-1 p-4  rounded-lg flex justify-center items-center">
+          <Image
+            src={placeholder}
+            alt="User-picture"
+            width={200}
+            height={200}
+            className="rounded-lg"
+          />
         </div>
       </div>
-      <div className="flex w-1/2 justify-end items-center">
-        <Image
-          src={placeholder}
-          alt="User-picture"
-          width={200}
-          height={200}
-          style={{
-            borderRadius: 10,
-          }}
-        />
+      {/* Row 2 */}
+      <div className=" p-4 rounded-lg">
+        <p className="font-bold text-lg mb-2">Description</p>
+        <p className="font-light">{userData.description}</p>
       </div>
     </div>
   );

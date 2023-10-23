@@ -51,7 +51,7 @@ export default function Participants({
               <td className="px-4 py-4">{participant.lastName}</td>
               <td className="px-4 py-4">{participant.userRole}</td>
               <td className="py-4">
-                <Link href={`/profile/`}>
+                <Link href={`/profile/${participant.userId}`}>
                   <button
                     type="button"
                     className="bg-yellow-400 py-1 mx-1 px-2 rounded-md text-white"

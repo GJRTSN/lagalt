@@ -11,12 +11,16 @@ import { useParams } from "next/navigation";
 import { ProjectComment, UpdatedProjectDTO } from "@/app/types/types";
 import Link from "next/link";
 import ApplyProject from "../ApplyProject";
+import { useUserContext } from "@/app/contexts/userContext";
+import { MoonLoader } from "react-spinners";
 
 const ViewProject: React.FC = () => {
   const [project, setProject] = useState<UpdatedProjectDTO | null>(null);
   const [comments, setComments] = useState<ProjectComment[] | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newComment, setNewComment] = useState("");
+  const { user, updateUser } = useUserContext();
+  const userId = user?.userId;
 
   const params = useParams();
   const id = Number(params.id);
@@ -30,8 +34,6 @@ const ViewProject: React.FC = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-
-  const userId = 2; // REPLACE THIS WITH ACTUAL USERID
 
   const handleSend = async (message: string) => {
     console.log(message);
@@ -91,7 +93,7 @@ const ViewProject: React.FC = () => {
       <div className="h-full min-h-screen bg-white pb-12">
         <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center "></div>
         <div className="flex flex-col justify-center items-center mt-8">
-          <p className="text-black">Loading project...</p>;
+          <MoonLoader color="#8cb669" />
         </div>
       </div>
     );
@@ -103,15 +105,43 @@ const ViewProject: React.FC = () => {
       <div className="flex flex-col items-center mt-8 ">
         <div className="w-2/4 bg-gray-100 p-4 text-black rounded-lg mb-12">
           <div className="flex flex-col items-center mb-12">
-            <h1 className="text-3xl font-bold mb-2 text-black">
-              {project.title}
-            </h1>
-            <p className="text-lg text-black">
-              <strong>Project ID:</strong> {project.projectId}
-            </p>
-            <p className="text-lg text-black mb-2">
-              <strong>Industry:</strong> {project.industryName}
-            </p>
+            <div className="p-4 bg-white rounded-lg shadow-md">
+              <h1 className="text-3xl font-extrabold mb-4 text-black">
+                {project.title}
+              </h1>
+              <div className="grid grid-cols-2 gap-4 mb-4 border-b-2 pb-4">
+                <div>
+                  <span className="block text-gray-700 font-semibold">ID</span>
+                  <span className="block text-black">{project.projectId}</span>
+                </div>
+                <div>
+                  <span className="block text-gray-700 font-semibold">
+                    Industry
+                  </span>
+                  <span className="block text-black">
+                    {project.industryName}
+                  </span>
+                </div>
+              </div>
+              <div className="mb-4">
+                <div className="flex items-center gap-4">
+                  <div>
+                    <span className="block text-gray-700 font-semibold">
+                      Owner
+                    </span>
+                    <span className="block text-black">
+                      {project.ownerName}
+                    </span>
+                  </div>
+                  <Link href={`/profile/${project.ownerUserId}`}>
+                    <p className="text-white bg-blue-500 py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300">
+                      Visit Profile
+                    </p>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
             <div className="text-lg">
               <h2 className="text-2xl font-bold mb-1 text-center text-black">
                 Skills required
@@ -128,7 +158,6 @@ const ViewProject: React.FC = () => {
               </div>
             </div>
           </div>
-
           <h2 className="text-2xl font-bold mb-4 text-black">Description</h2>
           <div className="bg-[#FDFDFD] w-full h-auto rounded-md mb-4 p-2">
             {project.description}
@@ -158,7 +187,6 @@ const ViewProject: React.FC = () => {
               </li>
             </ul>
           </div>
-
           <p className="text-lg mb-4 text-black">
             <h2 className={titleCSS}>Participants</h2>
 
@@ -192,7 +220,14 @@ const ViewProject: React.FC = () => {
               </tbody>
             </table>
           </p>
-          <div className="flex flex-col items-center mb-4">
+
+          <div
+            id="applyToProject"
+            className="flex flex-col items-center mb-4"
+            style={{
+              display: project.ownerUserId === userId ? "none" : "flex",
+            }}
+          >
             <h2 className={`${titleCSS} mb-4 mt-4`}>Join the project</h2>
             <button
               type="submit"

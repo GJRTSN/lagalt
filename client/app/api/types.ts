@@ -115,6 +115,7 @@ export interface UpdateUserDTO {
   lastName: string;
   description: string;
   country: string;
+  title: string;
   email: string;
   userRole: string;
   includeProjects: boolean;

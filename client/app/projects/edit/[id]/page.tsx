@@ -11,6 +11,7 @@ import {
   getAllProjects,
   getAllSkills,
 } from "@/app/api/Projects";
+import { MoonLoader } from "react-spinners";
 
 import { removeParticipant } from "@/app/api/Participants";
 import Participants from "../Participants";
@@ -234,14 +235,9 @@ export default function UpdateProject() {
   if (!formData) {
     return (
       <div className="h-full min-h-screen bg-white pb-12">
-        <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center ">
-          <p className="text-black">
-            YOU ARE CURRENTLY <strong className="text-red-500">EDITING</strong>{" "}
-            A PROJECT!
-          </p>
-        </div>
+        <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center "></div>
         <div className="flex flex-col justify-center items-center mt-8">
-          <p className="text-black">Loading project...</p>;
+          <MoonLoader color="#8cb669" />
         </div>
       </div>
     );
@@ -252,24 +248,22 @@ export default function UpdateProject() {
       <div
         id=""
         className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center mb-4"
-      >
-        <div className="flex flex-row w-3/4 items-center justify-center">
-          <p className="text-black">
-            YOU ARE CURRENTLY <strong className="text-red-500">EDITING</strong>{" "}
-            PROJECT WITH ID
-          </p>
-          <div className=" w-auto bg-yellow-500 rounded-md py-1 px-3 mx-2">
-            {formData.projectId}
-          </div>
-        </div>
-      </div>
+      ></div>
 
-      <div className="h-3/5 flex bg-white flex-col items-center justify-center">
+      <div className="h-2/4 flex bg-white flex-col items-center justify-center">
         <div
           id="admindash"
-          className="w-3/4 h-full bg-[#CCCCCC] rounded-lg p-4 "
+          className="w-2/4 h-full bg-[#CCCCCC] rounded-lg p-4 mb-8"
         >
           <div className="flex flex-col justify-center">
+            <div className="w-full h-auto flex flex-row justify-center items-center">
+              <h3 className="text-3xl font-bold mb-4 text-black">
+                Editing project with ID:{" "}
+                <span className=" w-auto bg-yellow-500 rounded-md text-white py-1 px-3 mx-2">
+                  {formData.projectId}
+                </span>
+              </h3>
+            </div>
             <form onSubmit={handleSubmit} className="space-y-4 flex flex-col">
               <label
                 htmlFor="title"

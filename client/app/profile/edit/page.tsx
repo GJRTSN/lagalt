@@ -2,20 +2,33 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import Image from "next/image";
 import placeholder from "@/public/placholderpp.jpg";
-import { useRouter } from "next/navigation"; // Import the Next.js router
-import { User, UpdateUserDTO } from "@/app/types/types"; // Replace with your actual types
-import { getUserById, updateUserById } from "../../api/Users";
+import { useRouter } from "next/navigation";
+
 import { Skill } from "@/app/types/types";
 import axios from "axios";
 import { getAllSkills } from "../../api/Projects";
 import Link from "next/link";
 import { useUserContext } from "@/app/contexts/userContext";
+import { UpdateUser } from "@/app/types/UserTypes";
+import { getUserData } from "@/app/api/user/get";
 
 export default function EditProfile() {
   const { user, updateUser } = useUserContext(); // get updateUser
   const userId = user?.userId;
   const router = useRouter();
-  const [userData, setUserData] = useState<UpdateUserDTO | null>(null);
+  const [userData, setUserData] = useState<UpdateUser | null>(null);
+  const [isProfileVisible, setIsProfileVisible] = useState(true);
+
+  const handleToggle = () => {
+    setIsProfileVisible((prevVisible) => {
+      const newVisible = !prevVisible;
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        profileVisible: newVisible,
+      }));
+      return newVisible;
+    });
+  };
 
   // State for dropdowns and selections
   const [skills, setSkills] = useState<Skill[]>([]);
@@ -45,25 +58,17 @@ export default function EditProfile() {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `https://lagalt-case-1.azurewebsites.net/users/${userId}`
-        );
-        setUserData(response.data);
-        setSelectedSkills(response.data.skills || []);
-      } catch (error) {
-        console.error("Error fetching user:", error);
+      if (userId) {
+        // Check for userId's existence before making API call
+        const { userData, isProfileVisible, existingSkills } =
+          await getUserData(userId);
+        setUserData(userData);
+        setIsProfileVisible(isProfileVisible);
+        setSelectedSkills(existingSkills);
       }
     };
     fetchData();
   }, [userId]);
-
-  useEffect(() => {
-    const matchingSkills = skills.filter((s) =>
-      s.name.toLowerCase().includes(newSkill.toLowerCase())
-    );
-    setSearchedSkills(matchingSkills);
-  }, [newSkill, skills]);
 
   useEffect(() => {
     // Fetch the skills from the API just like you did in UpdateProject
@@ -79,35 +84,11 @@ export default function EditProfile() {
     fetchData();
   }, []);
 
-  // Fetch initial data
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userDataResponse = await axios.get(
-          `https://lagalt-case-1.azurewebsites.net/users/${userId}`
-        );
-
-        // Update userData state
-        setUserData(userDataResponse.data);
-
-        // Set selectedSkills to the user's skills if they exist
-        if (userDataResponse.data.skills) {
-          setSelectedSkills(userDataResponse.data.skills);
-        } else {
-          setSelectedSkills([]); // If the user has no skills, set it as an empty array
-        }
-      } catch (error) {
-        console.error("Error fetching user and skills:", error);
-      }
-    };
-    fetchData();
-  }, [userId]);
-
   useEffect(() => {
     if (newSkill) {
       // Filter skills based on the input
       const matchingSkills = skills.filter((skill) =>
-        skill.name.toLowerCase().startsWith(newSkill.toLowerCase())
+        skill.name.toLowerCase().includes(newSkill.toLowerCase())
       );
       setFilteredSkills(matchingSkills);
     } else {
@@ -116,26 +97,33 @@ export default function EditProfile() {
     }
   }, [newSkill, skills]);
 
-  useEffect(() => {
-    // Update the filtered skills based on the newSkill input
-    setFilteredSkills(
-      skills.filter((skill) =>
-        skill.name.toLowerCase().includes(newSkill.toLowerCase())
-      )
-    );
-  }, [newSkill, skills]);
-
-  const handleDiscardChanges = () => {
-    router.push("/profile");
-  };
-
   const addSkill = (skill: Skill) => {
     if (selectedSkills.some((s) => s.id === skill.id)) return;
-    setSelectedSkills((prev) => [...prev, skill]);
+    setSelectedSkills((prev) => {
+      const newSkills = [...prev, skill];
+      console.log(
+        "Successfully added skill:",
+        skill,
+        "The new selected skills are:",
+        newSkills
+      );
+
+      return newSkills;
+    });
   };
 
   const removeSkill = (id: number) => {
-    setSelectedSkills((prev) => prev.filter((skill) => skill.id !== id));
+    setSelectedSkills((prev) => {
+      const newSkills = prev.filter((skill) => skill.id !== id);
+      console.log(
+        "Successfully removed skill id:",
+        id,
+        "The new selected skills are:",
+        newSkills
+      );
+
+      return newSkills;
+    });
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -145,7 +133,8 @@ export default function EditProfile() {
 
     const updatedUserData = {
       ...userData,
-      skills: selectedSkills.map((skill) => skill.name),
+      skillIds: selectedSkills.map((skill) => skill.id), // Extracting skill IDs
+      profileVisible: isProfileVisible, // Include profileVisible in the updated data
     };
 
     try {
@@ -160,7 +149,7 @@ export default function EditProfile() {
       );
 
       if (userResponse.status === 200) {
-        console.log("User updated:", userResponse.data);
+        console.log("Server returned:", userResponse.data);
         updateUser(userResponse.data); // update user in context and localStorage
         router.push("/profile");
       }
@@ -169,64 +158,144 @@ export default function EditProfile() {
     }
   };
 
+  const handleDiscardChanges = () => {
+    router.push("/profile");
+  };
+
   return (
     <form>
       <div className="h-screen bg-white">
         {/* Header */}
         <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center">
           <div className="w-2/4 flex justify-between">
-            <p className="text-black italic py-2">Editing</p>
+            <p className="text-black italic py-2"></p>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="flex bg-white flex-col items-center justify-center">
+        <div className="bg-white flex flex-col items-center justify-center p-4 rounded-xl text-black">
           <div className="w-2/4">
             {/* Edit Profile Info */}
-            <div className="mt-10 flex space-x-4 text-black bg-gray-300 p-4 rounded-xl">
-              <div className="w-1/2">
-                <div className="flex items-center mb-4">
-                  <p className="font-bold mr-2 w-24">Firstname:</p>
+            <div className="mt-10 bg-gray-300 p-4 rounded-xl">
+              <div className="w-full h-auto  flex flex-row items-center justify-between">
+                <h3 className="text-3xl font-bold mb-4">Edit your profile</h3>
+                <label className="relative inline-flex cursor-pointer select-none items-center">
                   <input
-                    type="text"
-                    name="forName"
-                    className="border border-gray-300 rounded-md p-1 w-full bg-gray-100"
-                    placeholder="Enter your firstname"
-                    value={userData?.forName || ""}
-                    onChange={handleInputChange}
+                    type="checkbox"
+                    checked={isProfileVisible}
+                    onChange={handleToggle}
+                    className="sr-only"
                   />
-                </div>
+                  <span className="label flex items-center text-sm font-medium text-black">
+                    {isProfileVisible ? "Visible" : "Hidden"}
+                  </span>
+                  <span
+                    className={`slider mx-4 flex h-8 w-[60px] items-center rounded-full p-1 duration-200 ${
+                      isProfileVisible ? "bg-green-500" : "bg-gray-500"
+                    }`}
+                  >
+                    <span
+                      className={`dot h-6 w-6 rounded-full bg-white duration-200 ${
+                        isProfileVisible ? "translate-x-[28px]" : ""
+                      }`}
+                    ></span>
+                  </span>
+                </label>
+              </div>
 
-                <div className="flex items-center mb-4">
-                  <p className="font-bold mr-2 w-24">Lastname:</p>
-                  <input
-                    type="text"
-                    name="lastName"
-                    className="border border-gray-300 rounded-md p-1 w-full bg-gray-100"
-                    placeholder="Enter your lastname"
-                    value={userData?.lastName || ""}
-                    onChange={handleInputChange}
-                  />
+              {/* Row 1 */}
+              <div className="flex space-x-4">
+                {/* Column 1 */}
+                <div className="flex-1 p-4  rounded-lg">
+                  <div className="flex items-center mb-4">
+                    <p className="font-bold mr-2 w-24">Firstname</p>
+                    <input
+                      type="text"
+                      name="forName"
+                      className="border border-gray-300 rounded-md p-1 w-full bg-gray-100"
+                      placeholder="Enter your firstname"
+                      value={userData?.forName || ""}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="flex items-center mb-4">
+                    <p className="font-bold mr-2 w-24">Lastname</p>
+                    <input
+                      type="text"
+                      name="lastName"
+                      className="border border-gray-300 rounded-md p-1 w-full bg-gray-100"
+                      placeholder="Enter your lastname"
+                      value={userData?.lastName || ""}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="flex items-center mb-4">
+                    <p className="font-bold mr-2 w-24">Age</p>
+                    <input
+                      type="text"
+                      name="age"
+                      className="border border-gray-300 rounded-md p-1 w-full bg-gray-100"
+                      placeholder="Enter your age"
+                      value={userData?.age || ""}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="flex items-center mb-4">
+                    <p className="font-bold mr-2 w-24">Role</p>
+                    <input
+                      type="text"
+                      name="userRole"
+                      className="border border-gray-300 rounded-md p-1 w-full bg-gray-100"
+                      placeholder="Enter your role"
+                      value={userData?.userRole || ""}
+                      onChange={(e) => {
+                        if (userData) {
+                          setUserData({
+                            ...userData,
+                            userRole: e.target.value,
+                          });
+                        }
+                      }}
+                    />
+                  </div>
+                  <div className="flex items-center mb-4">
+                    <p className="font-bold mr-2 w-24">Country</p>
+                    <input
+                      type="text"
+                      className="border border-gray-300 rounded-md p-1 w-full bg-gray-100"
+                      placeholder="Enter your country"
+                      value={userData?.country || ""}
+                      onChange={(e) => {
+                        if (userData) {
+                          setUserData({ ...userData, country: e.target.value });
+                        }
+                      }}
+                    />
+                  </div>
                 </div>
-
-                <div className="flex items-center mb-4">
-                  <p className="font-bold mr-2 w-24">Age:</p>
-                  <input
-                    type="text"
-                    name="age"
-                    className="border border-gray-300 rounded-md p-1 w-full bg-gray-100"
-                    placeholder="Enter your age"
-                    value={userData?.age || ""}
-                    onChange={handleInputChange}
-                  />
+                {/* Column 2 */}
+                <div className="flex-1 p-4 rounded-lg flex justify-center items-center">
+                  <div className="rounded-lg flex flex-col items-center justify-center h-72">
+                    <Image
+                      src={placeholder}
+                      alt="User-placeholder"
+                      width={200}
+                      height={200}
+                      className="rounded-lg" // Use className for consistency
+                    />
+                    <button className="bg-green-500 hover:bg-green-700 text-white p-1 rounded-md mt-3">
+                      Upload
+                    </button>
+                  </div>
                 </div>
-
-                <div className="flex items-center mb-4">
-                  <p className="font-bold mr-2 w-24">Title:</p>
-                  <input
-                    type="text"
-                    className="border border-gray-300 rounded-md p-1 w-full bg-gray-100"
-                    placeholder="Enter your title"
+              </div>
+              {/* Row 2 */}
+              <div className="p-4 rounded-lg mb-8">
+                <div className="flex flex-col mb-4">
+                  <p className="font-bold mr-2 w-24 mb-2">Description</p>
+                  <textarea
+                    className="border border-gray-300 rounded-md p-1 w-full h-36 bg-gray-100"
+                    placeholder="Describe yourself or your skills"
                     value={userData?.description || ""}
                     onChange={(e) => {
                       if (userData) {
@@ -238,43 +307,32 @@ export default function EditProfile() {
                     }}
                   />
                 </div>
-
-                <div className="flex items-center mb-4">
-                  <p className="font-bold mr-2 w-24">Country:</p>
-                  <input
-                    type="text"
-                    className="border border-gray-300 rounded-md p-1 w-full bg-gray-100"
-                    placeholder="Enter your country"
-                    value={userData?.country || ""}
-                    onChange={(e) => {
-                      if (userData) {
-                        setUserData({ ...userData, country: e.target.value });
-                      }
-                    }}
-                  />
-                </div>
               </div>
-
-              <div className="flex w-1/2 justify-center items-center">
-                <div className="rounded-lg flex flex-col items-center justify-center h-72">
-                  <Image
-                    src={placeholder}
-                    alt="User-placeholder"
-                    width={200}
-                    height={200}
-                    style={{ borderRadius: 10 }}
-                  />
-                  <button className="bg-green-500 hover:bg-green-700 text-white p-1 rounded-md mt-3">
-                    Upload
-                  </button>
-                </div>
+              <div className="flex items-center mb-4">
+                <p className="font-bold mr-2 w-24">Username</p>
+                <input
+                  type="text"
+                  name="username"
+                  className="border border-gray-300 rounded-md p-1 w-full bg-gray-100"
+                  value={userData?.username || ""}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="flex items-center mb-4">
+                <p className="font-bold mr-2 w-24">Password</p>
+                <input
+                  type="password"
+                  name="password"
+                  className="border border-gray-300 rounded-md p-1 w-full bg-gray-100"
+                  value={userData?.password || ""}
+                  onChange={handleInputChange}
+                />
               </div>
             </div>
-
             <div className="mt-8 text-black bg-gray-300 p-4 rounded-xl">
               <label
                 htmlFor="skillSearch"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm  text-gray-700 font-bold"
               >
                 Skills
               </label>
@@ -321,7 +379,6 @@ export default function EditProfile() {
                 </ul>
               </div>
             </div>
-
             <div className="flex justify-end mt-4 gap-4">
               <Link href="/profile">
                 <button
