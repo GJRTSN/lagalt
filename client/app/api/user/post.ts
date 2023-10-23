@@ -4,7 +4,7 @@ import axios from "axios";
 export async function registerNewUser(registerUserData: RegisterUserData) {
   try {
     const response = await axios.post(
-      "https://localhost:8080/users",
+      "https://lagalt-case-1.azurewebsites.net/users",
       registerUserData
     );
     if (response.status === 200 || 201) {

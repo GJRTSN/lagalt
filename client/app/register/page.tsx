@@ -5,9 +5,11 @@ import { registerNewUser } from "../api/user/post";
 import logo from "@/public/lagalt_clean.png";
 import Image from "next/image";
 import { RegisterUserData } from "../types/UserTypes";
+import { useUserContext } from "../contexts/userContext";
 
 const Register = () => {
   const router = useRouter();
+  const { setUser } = useUserContext();
 
   const [registerUser, setRegisterUser] = useState<RegisterUserData>({
     forName: "",
@@ -40,7 +42,19 @@ const Register = () => {
     try {
       const data = await registerNewUser(registerUser as RegisterUserData);
       console.log("User created:", data);
-      router.push("/explore");
+      if (data) {
+        // Assume the data object contains the registered user's data
+        // Update the user context
+        const loggedInUser = {
+          userId: data.userId,
+          username: data.username,
+          forName: data.forName,
+          lastName: data.lastName,
+          // ... other user properties
+        };
+        setUser(loggedInUser); // Assume setUser is obtained from useUserContext
+        router.push("/explore");
+      }
     } catch (error) {
       if (error instanceof Error) {
         console.log(registerUser);
