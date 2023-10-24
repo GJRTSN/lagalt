@@ -16,26 +16,16 @@ export default function Applications({
   }, [initialApplications]);
 
   const handleAccept = async (applicationId) => {
+    onAccept();
     try {
       await acceptApplication(applicationId);
-      // Remove the accepted application from the state
-      const updatedApplications = applications.filter(
-        (app) => app.applicationId !== applicationId
-      );
-      setApplications(updatedApplications);
-
-      // Call the onAccept callback to inform the parent component
-      if (onAccept) {
-        onAccept();
-      }
     } catch (error) {
       console.error("There was a problem accepting the application:", error);
-      // handle errors, maybe set an error state or display a notification
     }
   };
 
   return (
-    <p className="text-lg mb-4 text-black">
+    <div className="text-lg mb-4 text-black">
       <h2 className="text-2xl font-bold mb-4 text-black">
         Applications ({applications.length})
       </h2>
@@ -60,15 +50,11 @@ export default function Applications({
                 <div className="ml-4">
                   <h3 className="text-lg font-semibold text-gray-800">
                     {application.forName}{" "}
-                    {/* No lastName in workApplications */}
                   </h3>
-                  {/* Removed userRole, as it doesn't appear in the workApplications structure */}
                 </div>
               </div>
               <div>
                 <Link href={`/profile/${application.userId}`}>
-                  {" "}
-                  {/* Adjusted link to use userId */}
                   <button className="bg-yellow-400 py-1 mx-1 px-2 rounded-md text-white">
                     View profile
                   </button>
@@ -79,10 +65,7 @@ export default function Applications({
               <h3 className="font-semibold text-black mb-2">
                 Application Letter
               </h3>
-              <p className="text-gray-600">
-                {application.motivation}{" "}
-                {/* Displaying the actual application letter */}
-              </p>
+              <p className="text-gray-600">{application.motivation} </p>
             </div>
             <div className="p-4 bg-white border-t flex flex-row justify-center items-center">
               <div className="flex justify-end">
@@ -104,6 +87,6 @@ export default function Applications({
           </div>
         ))}
       </div>
-    </p>
+    </div>
   );
 }

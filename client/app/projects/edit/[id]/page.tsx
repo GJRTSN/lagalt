@@ -1,6 +1,12 @@
 "use client";
 
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Industry, Skill, UpdatedProjectDTO } from "@/app/types/types";
@@ -26,6 +32,7 @@ export default function UpdateProject() {
   const [formData, setFormData] = useState<UpdatedProjectDTO | null>(null);
   const [project, setProject] = useState<UpdatedProjectDTO | null>(null);
   const [refreshParticipants, setRefreshParticipants] = useState(false);
+  const [refreshApplications, setRefreshApplications] = useState(false);
 
   // State for dropdowns and selections
   const [skills, setSkills] = useState<Skill[]>([]);
@@ -36,27 +43,29 @@ export default function UpdateProject() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredSkills, setFilteredSkills] = useState<Skill[]>([]);
 
-  const handleApplicationAccept = () => {
-    setRefreshParticipants((prev) => !prev); // toggles the refresh state
-  };
+  const fetchProject = useCallback(async () => {
+    if (id) {
+      try {
+        const projectsData = await getAllProjects();
+        const selectedProject = projectsData.find(
+          (proj: UpdatedProjectDTO) => proj.projectId === Number(id)
+        );
+        setProject(selectedProject || null);
+      } catch (error) {
+        console.error("There was an error fetching the projects", error);
+      }
+    }
+  }, [id]);
 
   useEffect(() => {
-    const fetchProject = async () => {
-      if (id) {
-        try {
-          const projectsData = await getAllProjects();
-          const selectedProject = projectsData.find(
-            (proj: UpdatedProjectDTO) => proj.projectId === Number(id)
-          );
-          setProject(selectedProject || null);
-        } catch (error) {
-          console.error("There was an error fetching the projects", error);
-        }
-      }
-    };
-
     fetchProject();
-  }, [id]);
+  }, [fetchProject]); // Note: fetchProject is now a dependency
+
+  // const handleApplicationAccept = async () => {
+  //   await fetchProject();
+  //   setRefreshParticipants((prev) => !prev);
+  //   // setRefreshApplications((prev) => !prev); // toggles the refresh state
+  // };
 
   // Fetch initial data
   useEffect(() => {
@@ -389,11 +398,13 @@ export default function UpdateProject() {
                 participants={project.participants}
                 removeParticipant={removeParticipant}
                 projectId={formData.projectId}
-                shouldRefresh={refreshParticipants}
+                onParticipantRemoval={fetchProject}
               />
               <Applications
                 applications={project.workApplications}
-                onAccept={handleApplicationAccept}
+                onAccept={fetchProject}
+
+                // onAccept={handleApplicationAccept}
               />
             </form>
           </div>

@@ -13,7 +13,7 @@ import { UpdateUser } from "@/app/types/UserTypes";
 import { getUserData } from "@/app/api/user/get";
 
 export default function EditProfile() {
-  const { user, updateUser } = useUserContext(); // get updateUser
+  const { user, updateUser } = useUserContext();
   const userId = user?.userId;
   const router = useRouter();
   const [userData, setUserData] = useState<UpdateUser | null>(null);
@@ -33,7 +33,7 @@ export default function EditProfile() {
   // State for dropdowns and selections
   const [skills, setSkills] = useState<Skill[]>([]);
   const [selectedSkills, setSelectedSkills] = useState<Skill[]>([]);
-  const [newSkill, setNewSkill] = useState(""); // for adding new skills
+  const [newSkill, setNewSkill] = useState("");
 
   // State for UI elements
   const [searchTerm, setSearchTerm] = useState("");
@@ -59,7 +59,6 @@ export default function EditProfile() {
   useEffect(() => {
     const fetchData = async () => {
       if (userId) {
-        // Check for userId's existence before making API call
         const { userData, isProfileVisible, existingSkills } =
           await getUserData(userId);
         setUserData(userData);
@@ -71,7 +70,6 @@ export default function EditProfile() {
   }, [userId]);
 
   useEffect(() => {
-    // Fetch the skills from the API just like you did in UpdateProject
     const fetchData = async () => {
       try {
         const fetchedSkills = await getAllSkills();
@@ -86,13 +84,11 @@ export default function EditProfile() {
 
   useEffect(() => {
     if (newSkill) {
-      // Filter skills based on the input
       const matchingSkills = skills.filter((skill) =>
         skill.name.toLowerCase().includes(newSkill.toLowerCase())
       );
       setFilteredSkills(matchingSkills);
     } else {
-      // If input is empty, clear the filtered skills
       setFilteredSkills([]);
     }
   }, [newSkill, skills]);
@@ -128,13 +124,13 @@ export default function EditProfile() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // Ensure userData and selectedSkills are available
+
     if (!userData || !selectedSkills) return;
 
     const updatedUserData = {
       ...userData,
-      skillIds: selectedSkills.map((skill) => skill.id), // Extracting skill IDs
-      profileVisible: isProfileVisible, // Include profileVisible in the updated data
+      skillIds: selectedSkills.map((skill) => skill.id),
+      profileVisible: isProfileVisible,
     };
 
     try {
@@ -150,7 +146,7 @@ export default function EditProfile() {
 
       if (userResponse.status === 200) {
         console.log("Server returned:", userResponse.data);
-        updateUser(userResponse.data); // update user in context and localStorage
+        updateUser(userResponse.data);
         router.push("/profile");
       }
     } catch (error) {
@@ -165,17 +161,14 @@ export default function EditProfile() {
   return (
     <form>
       <div className="h-screen bg-white">
-        {/* Header */}
         <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center">
           <div className="w-2/4 flex justify-between">
             <p className="text-black italic py-2"></p>
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="bg-white flex flex-col items-center justify-center p-4 rounded-xl text-black">
           <div className="w-2/4">
-            {/* Edit Profile Info */}
             <div className="mt-10 bg-gray-300 p-4 rounded-xl">
               <div className="w-full h-auto  flex flex-row items-center justify-between">
                 <h3 className="text-3xl font-bold mb-4">Edit your profile</h3>
@@ -203,9 +196,7 @@ export default function EditProfile() {
                 </label>
               </div>
 
-              {/* Row 1 */}
               <div className="flex space-x-4">
-                {/* Column 1 */}
                 <div className="flex-1 p-4  rounded-lg">
                   <div className="flex items-center mb-4">
                     <p className="font-bold mr-2 w-24">Firstname</p>
@@ -273,7 +264,7 @@ export default function EditProfile() {
                     />
                   </div>
                 </div>
-                {/* Column 2 */}
+
                 <div className="flex-1 p-4 rounded-lg flex justify-center items-center">
                   <div className="rounded-lg flex flex-col items-center justify-center h-72">
                     <Image
@@ -281,7 +272,7 @@ export default function EditProfile() {
                       alt="User-placeholder"
                       width={200}
                       height={200}
-                      className="rounded-lg" // Use className for consistency
+                      className="rounded-lg"
                     />
                     <button className="bg-green-500 hover:bg-green-700 text-white p-1 rounded-md mt-3">
                       Upload
@@ -289,7 +280,7 @@ export default function EditProfile() {
                   </div>
                 </div>
               </div>
-              {/* Row 2 */}
+
               <div className="p-4 rounded-lg mb-8">
                 <div className="flex flex-col mb-4">
                   <p className="font-bold mr-2 w-24 mb-2">Description</p>

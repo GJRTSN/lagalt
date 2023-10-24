@@ -83,6 +83,7 @@ export interface ProjectComment {
 
 export interface ApplyProjectProps {
   isOpen: boolean;
+  isSent: boolean;
   onClose: () => void;
   onSend: (message: string) => void;
 }

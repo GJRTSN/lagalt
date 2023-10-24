@@ -8,10 +8,13 @@ export async function acceptApplication(applicationId: number) {
     const response = await apiClient.post(
       `/api/workapplications/accept/${applicationId}`
     );
-    // You might want to return some data or handle the response accordingly.
-    return response.data; // or return true if you don't expect a response body
+
+    if (response.data && Object.keys(response.data).length !== 0) {
+      return response.data;
+    } else {
+      return null;
+    }
   } catch (error) {
-    // Handle or throw error as needed
     console.error("There was a problem with the fetch operation:", error);
   }
 }

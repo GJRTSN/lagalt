@@ -5,7 +5,7 @@ export default function Participants({
   participants: initialParticipants,
   removeParticipant,
   projectId,
-  shouldRefresh,
+  onParticipantRemoval,
 }) {
   const [participants, setParticipants] = useState(initialParticipants);
 
@@ -13,21 +13,37 @@ export default function Participants({
     setParticipants(initialParticipants);
   }, [initialParticipants]);
 
+  // const handleParticipantRemoval = async (userId) => {
+  //   try {
+  //     await removeParticipant(projectId, userId);
+  //     // If the removal is successful, update the local state
+  //     const updatedParticipants = participants.filter(
+  //       (participant) => participant.userId !== userId
+  //     );
+  //     setParticipants(updatedParticipants);
+  //   } catch (error) {
+  //     console.error("There was an error removing the participant:", error);
+  //     // Here, you can handle errors, for example, by showing a notification to the user
+  //   }
+  // };
+
   const handleParticipantRemoval = async (userId) => {
     try {
       await removeParticipant(projectId, userId);
-      // If the removal is successful, update the local state
       const updatedParticipants = participants.filter(
         (participant) => participant.userId !== userId
       );
       setParticipants(updatedParticipants);
+      if (onParticipantRemoval) {
+        onParticipantRemoval();
+      }
     } catch (error) {
       console.error("There was an error removing the participant:", error);
-      // Here, you can handle errors, for example, by showing a notification to the user
     }
   };
+
   return (
-    <p className="text-lg mb-4 text-black">
+    <div className="text-lg mb-4 text-black">
       <h2 className="text-2xl font-bold mb-4 text-black">
         Participants ({participants.length})
       </h2>
@@ -72,6 +88,6 @@ export default function Participants({
           ))}
         </tbody>
       </table>
-    </p>
+    </div>
   );
 }

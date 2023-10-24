@@ -18,6 +18,7 @@ const ViewProject: React.FC = () => {
   const [project, setProject] = useState<UpdatedProjectDTO | null>(null);
   const [comments, setComments] = useState<ProjectComment[] | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSent, setIsSent] = useState(false);
   const [newComment, setNewComment] = useState("");
   const { user, updateUser } = useUserContext();
   const userId = user?.userId;
@@ -38,7 +39,10 @@ const ViewProject: React.FC = () => {
   const handleSend = async (message: string) => {
     console.log(message);
     await applyToProject(message, project.projectId, userId);
-    setIsModalOpen(false);
+    setIsSent(true);
+    setTimeout(() => {
+      setIsModalOpen(false); // Reset the isSent state here
+    }, 2000); // 2000 milliseconds = 2 seconds
   };
 
   useEffect(() => {
@@ -105,40 +109,27 @@ const ViewProject: React.FC = () => {
       <div className="flex flex-col items-center mt-8 ">
         <div className="w-2/4 bg-gray-100 p-4 text-black rounded-lg mb-12">
           <div className="flex flex-col items-center mb-12">
-            <div className="p-4 bg-white rounded-lg shadow-md">
-              <h1 className="text-3xl font-extrabold mb-4 text-black">
-                {project.title}
-              </h1>
-              <div className="grid grid-cols-2 gap-4 mb-4 border-b-2 pb-4">
-                <div>
-                  <span className="block text-gray-700 font-semibold">ID</span>
-                  <span className="block text-black">{project.projectId}</span>
-                </div>
-                <div>
-                  <span className="block text-gray-700 font-semibold">
-                    Industry
-                  </span>
-                  <span className="block text-black">
-                    {project.industryName}
-                  </span>
-                </div>
+            <h1 className="text-3xl font-extrabold mb-4 text-black">
+              {project.title}
+            </h1>
+            <div className="p-4 w-2/6 bg-white rounded-lg shadow-md mb-8">
+              <div className="flex justify-between border-b-2 pb-4 mb-4">
+                <span className="text-gray-700 font-semibold">ID:</span>
+                <span className="text-black">{project.projectId}</span>
               </div>
-              <div className="mb-4">
-                <div className="flex items-center gap-4">
-                  <div>
-                    <span className="block text-gray-700 font-semibold">
-                      Owner
-                    </span>
-                    <span className="block text-black">
-                      {project.ownerName}
-                    </span>
-                  </div>
-                  <Link href={`/profile/${project.ownerUserId}`}>
-                    <p className="text-white bg-blue-500 py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300">
-                      Visit Profile
-                    </p>
-                  </Link>
+              <div className="flex justify-between border-b-2 pb-4 mb-4">
+                <span className="text-gray-700 font-semibold">Industry:</span>
+                <span className="text-black">{project.industryName}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center w-full">
+                  <span className="text-gray-700 font-semibold">Owner:</span>
                 </div>
+                <Link href={`/profile/${project.ownerUserId}`}>
+                  <p className="text-white text-sm bg-blue-500 py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300">
+                    {project.ownerName}
+                  </p>
+                </Link>
               </div>
             </div>
 
@@ -187,48 +178,51 @@ const ViewProject: React.FC = () => {
               </li>
             </ul>
           </div>
-          <p className="text-lg mb-4 text-black">
-            <h2 className={titleCSS}>Participants</h2>
-
-            <table className="table-auto border-collapse w-full">
-              <thead>
-                <tr className="rounded-lg text-sm font-medium text-gray-700 text-left">
-                  <th className="px-4 py-2 bg-gray-200">Firstname</th>
-                  <th className="px-4 py-2 bg-gray-200">Lastname</th>
-                  <th className="px-4 py-2 bg-gray-200">Role</th>
-                  <th className=" py-2 bg-gray-200">Profile</th>
-                </tr>
-              </thead>
-              <tbody className="text-sm font-normal text-gray-700">
-                {project.participants.map((participant, index) => (
-                  <tr
-                    key={index}
-                    className="bg-white hover:bg-gray-100 border-b border-gray-200 py-10"
-                  >
-                    <td className="px-4 py-4">{participant.forName}</td>
-                    <td className="px-4 py-4">{participant.lastName}</td>
-                    <td className="px-4 py-4">{participant.userRole}</td>
-                    <td className="py-4">
-                      <Link href={`/profile/${participant.userId}`}>
-                        <button className="bg-green-400 py-1 mx-1 px-2 rounded-md text-white">
-                          Visit
-                        </button>
-                      </Link>
-                    </td>
+          <h2 className={titleCSS}>Participants</h2>
+          {project.participants.length > 0 ? (
+            <p className="text-lg mb-4 text-black">
+              <table className="table-auto border-collapse w-full">
+                <thead>
+                  <tr className="rounded-lg text-sm font-medium text-gray-700 text-left">
+                    <th className="px-4 py-2 bg-gray-200">Firstname</th>
+                    <th className="px-4 py-2 bg-gray-200">Lastname</th>
+                    <th className="px-4 py-2 bg-gray-200">Role</th>
+                    <th className=" py-2 bg-gray-200">Profile</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </p>
+                </thead>
+                <tbody className="text-sm font-normal text-gray-700">
+                  {project.participants.map((participant, index) => (
+                    <tr
+                      key={index}
+                      className="bg-white hover:bg-gray-300 border-b border-gray-200 py-10"
+                    >
+                      <td className="px-4 py-4">{participant.forName}</td>
+                      <td className="px-4 py-4">{participant.lastName}</td>
+                      <td className="px-4 py-4">{participant.userRole}</td>
+                      <td className="py-4">
+                        <Link href={`/profile/${participant.userId}`}>
+                          <button className="bg-green-400 py-1 mx-1 px-2 rounded-md text-white">
+                            Visit
+                          </button>
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </p>
+          ) : (
+            <p>No participants yet.</p>
+          )}
 
           <div
             id="applyToProject"
-            className="flex flex-col items-center mb-4"
+            className="flex flex-col items-center m-1 mt-8 p-4 bg-green-50 rounded-lg"
             style={{
               display: project.ownerUserId === userId ? "none" : "flex",
             }}
           >
-            <h2 className={`${titleCSS} mb-4 mt-4`}>Join the project</h2>
+            <h2 className={`${titleCSS} mb-4 `}>Join the project!</h2>
             <button
               type="submit"
               onClick={handleOpenModal}
@@ -240,11 +234,12 @@ const ViewProject: React.FC = () => {
               isOpen={isModalOpen}
               onClose={handleCloseModal}
               onSend={handleSend}
+              isSent={isSent}
             />
           </div>
 
           <div className="mt-8">
-            <h2 className={titleCSS}>All project comments</h2>
+            <h2 className={titleCSS}>Comments</h2>
 
             {comments ? (
               comments.length > 0 ? (
@@ -267,7 +262,7 @@ const ViewProject: React.FC = () => {
               <p>Loading comments...</p>
             )}
           </div>
-          <h2 className={titleCSS}>Post new comment</h2>
+          <h2 className="text-lg mt-4 mb-2 font-bold">Post new comment</h2>
           <div className="flex space-x-3 mb-4">
             <form className="flex-1" onSubmit={handleCommentPost}>
               <div className="rounded-md shadow-sm">
