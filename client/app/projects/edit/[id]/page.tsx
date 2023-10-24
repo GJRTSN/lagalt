@@ -22,6 +22,8 @@ import { MoonLoader } from "react-spinners";
 import { removeParticipant } from "@/app/api/Participants";
 import Participants from "../Participants";
 import Applications from "../Applications";
+import DeleteModal from "./DeleteProject";
+import { deleteProject } from "@/app/api/project/delete";
 
 export default function UpdateProject() {
   const router = useRouter();
@@ -42,6 +44,7 @@ export default function UpdateProject() {
   // State for UI elements
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredSkills, setFilteredSkills] = useState<Skill[]>([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // State to manage modal visibility
 
   const fetchProject = useCallback(async () => {
     if (id) {
@@ -219,6 +222,11 @@ export default function UpdateProject() {
     });
   };
 
+  const handleDeleteProject = async () => {
+    await deleteProject(id); // Call deleteProject function with project ID
+    router.push("/projects"); // Redirect to projects page after deletion
+  };
+
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
@@ -254,6 +262,11 @@ export default function UpdateProject() {
 
   return (
     <div className="h-full min-h-screen bg-white">
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onDelete={handleDeleteProject}
+      />
       <div
         id=""
         className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center mb-4"
@@ -395,16 +408,14 @@ export default function UpdateProject() {
                 </div>
               </div>
               <Participants
-                participants={project.participants}
+                participants={project ? project.participants : []}
                 removeParticipant={removeParticipant}
                 projectId={formData.projectId}
                 onParticipantRemoval={fetchProject}
               />
               <Applications
-                applications={project.workApplications}
+                applications={project ? project.workApplications : []}
                 onAccept={fetchProject}
-
-                // onAccept={handleApplicationAccept}
               />
             </form>
           </div>
@@ -417,12 +428,16 @@ export default function UpdateProject() {
             >
               Save
             </button>
+            <Link href="/projects">
+              <button className="text-center w-1/8 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                Discard
+              </button>
+            </Link>
 
-            <button className="text-center w-1/8 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-              Discard
-            </button>
-
-            <button className="text-center w-1/8 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            <button
+              onClick={() => setIsDeleteModalOpen(true)}
+              className="text-center w-1/8 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            >
               Delete
             </button>
           </div>

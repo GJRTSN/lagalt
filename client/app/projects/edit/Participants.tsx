@@ -45,7 +45,7 @@ export default function Participants({
   return (
     <div className="text-lg mb-4 text-black">
       <h2 className="text-2xl font-bold mb-4 text-black">
-        Participants ({participants.length})
+        Participants ({participants?.length})
       </h2>
 
       <table className="table-auto border-collapse w-full">

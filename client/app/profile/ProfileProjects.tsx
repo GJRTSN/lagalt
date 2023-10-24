@@ -31,7 +31,7 @@ export default function ProfileProjects({ userId }: ProfileProjectsProps) {
                   <th className="py-3 px-6 text-left">Name</th>
                   <th className="py-3 px-6 text-left">Industry</th>
                   <th className="py-3 px-6 text-left">Status</th>
-                  <th className="py-3 px-6 text-left">Actions</th>
+                  <th className="py-3 px-6 text-center">Actions</th>
                 </tr>
               </thead>
               <tbody className="text-gray-600 text-sm font-light">
@@ -61,9 +61,9 @@ export default function ProfileProjects({ userId }: ProfileProjectsProps) {
                       </div>
                     </td>
                     <td className="py-3 text-left">
-                      <div className="flex items-center">
+                      <div className="flex items-center justify-center">
                         <Link href={`/projects/${project.projectId}`}>
-                          <button className="bg-green-700 py-1 mx-1 px-2 rounded-md text-white">
+                          <button className="bg-green-700 hover:bg-green-500 py-1 mx-1 px-2 rounded-md text-white">
                             View
                           </button>
                         </Link>

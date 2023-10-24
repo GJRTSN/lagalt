@@ -17,6 +17,8 @@ import { MoonLoader } from "react-spinners";
 const ViewProject: React.FC = () => {
   const [project, setProject] = useState<UpdatedProjectDTO | null>(null);
   const [comments, setComments] = useState<ProjectComment[] | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const [newComment, setNewComment] = useState("");
@@ -37,7 +39,7 @@ const ViewProject: React.FC = () => {
   };
 
   const handleSend = async (message: string) => {
-    console.log(message);
+    setRefreshKey(refreshKey + 1);
     await applyToProject(message, project.projectId, userId);
     setIsSent(true);
     setTimeout(() => {
@@ -61,7 +63,7 @@ const ViewProject: React.FC = () => {
     };
 
     fetchProject();
-  }, [id]);
+  }, [id, refreshKey]);
 
   useEffect(() => {
     async function fetchComments() {
@@ -194,14 +196,14 @@ const ViewProject: React.FC = () => {
                   {project.participants.map((participant, index) => (
                     <tr
                       key={index}
-                      className="bg-white hover:bg-gray-300 border-b border-gray-200 py-10"
+                      className="bg-white  border-b border-gray-200 py-10"
                     >
                       <td className="px-4 py-4">{participant.forName}</td>
                       <td className="px-4 py-4">{participant.lastName}</td>
                       <td className="px-4 py-4">{participant.userRole}</td>
                       <td className="py-4">
                         <Link href={`/profile/${participant.userId}`}>
-                          <button className="bg-green-400 py-1 mx-1 px-2 rounded-md text-white">
+                          <button className="bg-green-700 hover:bg-green-500 py-1 mx-1 px-2 rounded-md text-white">
                             Visit
                           </button>
                         </Link>
@@ -219,17 +221,29 @@ const ViewProject: React.FC = () => {
             id="applyToProject"
             className="flex flex-col items-center m-1 mt-8 p-4 bg-green-50 rounded-lg"
             style={{
-              display: project.ownerUserId === userId ? "none" : "flex",
+              display:
+                project.ownerUserId === userId ||
+                project.participants.some(
+                  (participant) => participant.userId === userId
+                )
+                  ? "none"
+                  : "flex",
             }}
           >
-            <h2 className={`${titleCSS} mb-4 `}>Join the project!</h2>
-            <button
-              type="submit"
-              onClick={handleOpenModal}
-              className="text-center w-1/4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              APPLY
-            </button>
+            <h2 className={`${titleCSS} mb-4 `}>Join the project?</h2>
+            {project.workApplications.some(
+              (application) => application.userId === userId
+            ) ? (
+              <p className="">You have already applied for this project.</p>
+            ) : (
+              <button
+                type="submit"
+                onClick={handleOpenModal}
+                className="text-center w-1/4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                APPLY
+              </button>
+            )}
             <ApplyProject
               isOpen={isModalOpen}
               onClose={handleCloseModal}

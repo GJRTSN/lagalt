@@ -12,7 +12,11 @@ export default function Applications({
   const [applications, setApplications] = useState(initialApplications);
 
   useEffect(() => {
-    setApplications(initialApplications);
+    // Filter the applications where accepted = true
+    const acceptedApplications = initialApplications.filter(
+      (application) => application.accepted
+    );
+    setApplications(acceptedApplications);
   }, [initialApplications]);
 
   const handleAccept = async (applicationId) => {
@@ -24,10 +28,17 @@ export default function Applications({
     }
   };
 
+  const handleDecline = (applicationId) => {
+    const updatedApplications = applications.filter(
+      (application) => application.applicationId !== applicationId
+    );
+    setApplications(updatedApplications);
+  };
+
   return (
     <div className="text-lg mb-4 text-black">
       <h2 className="text-2xl font-bold mb-4 text-black">
-        Applications ({applications.length})
+        Applications ({applications?.length})
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -78,6 +89,7 @@ export default function Applications({
                 </button>
                 <button
                   type="button"
+                  onClick={() => handleDecline(application.applicationId)}
                   className="bg-red-400 hover:bg-red-600 py-1 mx-1 px-2 rounded-md text-white"
                 >
                   Decline

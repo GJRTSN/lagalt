@@ -78,8 +78,8 @@ export default function Projects() {
       <div className="h-3/5 flex bg-white flex-col items-center justify-center">
         {showAdminDash && <YourProjects userId={user?.userId} />}
 
-        {showCollabs && <YourCollaborations />}
-        {showApplications && <YourApplications />}
+        {showCollabs && <YourCollaborations userId={user?.userId} />}
+        {showApplications && <YourApplications userId={user?.userId} />}
       </div>
     </div>
   );
