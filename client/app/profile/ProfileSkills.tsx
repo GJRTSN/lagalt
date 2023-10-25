@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserById } from "../api/Users";
+import { getUserById } from "@/app/api/user/get";
 import { User } from "@/app/types/UserTypes";
 
 export default function ProfileSkills({ userId }: Partial<User>) {

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, FormEvent, ChangeEvent } from "react";
-import { getAllProjects, getProjectComments } from "@/app/api/Projects";
+import { getAllProjects, getProjectComments } from "@/app/api/project/get";
 import { applyToProject } from "@/app/api/project/post";
 import { ProjectComment } from "@/app/types/types";
 import { useUserContext } from "@/app/contexts/userContext";

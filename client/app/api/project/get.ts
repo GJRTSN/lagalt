@@ -71,3 +71,25 @@ export async function getProjectsByUser(userId: number) {
     throw error;
   }
 }
+
+export async function acceptApplication(applicationId: number) {
+  try {
+    const response = await fetch(
+      `https://lagalt-case-1.azurewebsites.net/api/workapplications/accept/${applicationId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Application acceptance unsuccessful");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+  }
+}

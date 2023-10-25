@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserById } from "@/app/api/Users";
+import { getUserById } from "@/app/api/user/get";
 import { User } from "@/app/types/UserTypes";
 import placeholder from "@/public/placholderpp.jpg";
 import Image from "next/image";

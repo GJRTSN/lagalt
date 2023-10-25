@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useUserContext } from "@/app/contexts/userContext";
-import { getAllSkills } from "../../api/Projects";
+import { getAllSkills } from "@/app/api/project/get";
 import { getUserData } from "@/app/api/user/get";
 import { UpdateUser } from "@/app/types/UserTypes";
 import { useRouter } from "next/navigation";

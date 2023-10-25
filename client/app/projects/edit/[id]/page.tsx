@@ -7,23 +7,22 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import Link from "next/link";
-import { useParams } from "next/navigation";
 import { Industry, Project, Skill } from "@/app/types/ProjectTypes";
-import { useRouter } from "next/navigation";
-import axios from "axios";
 import {
   getAllIndustries,
   getAllProjects,
   getAllSkills,
 } from "@/app/api/project/get";
+import { removeParticipant } from "@/app/api/participant/delete";
+import { deleteProject } from "@/app/api/project/delete";
 import { MoonLoader } from "react-spinners";
-
-import { removeParticipant } from "@/app/api/Participants";
+import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import Participants from "../Participants";
 import Applications from "../Applications";
 import DeleteModal from "./DeleteProject";
-import { deleteProject } from "@/app/api/project/delete";
+import Link from "next/link";
+import axios from "axios";
 
 export default function UpdateProject() {
   const router = useRouter();
@@ -33,8 +32,6 @@ export default function UpdateProject() {
   // State for managing form data
   const [formData, setFormData] = useState<Project | null>(null);
   const [project, setProject] = useState<Project | null>(null);
-  const [refreshParticipants, setRefreshParticipants] = useState(false);
-  const [refreshApplications, setRefreshApplications] = useState(false);
 
   // State for dropdowns and selections
   const [skills, setSkills] = useState<Skill[]>([]);

@@ -24,3 +24,19 @@ export async function getUserData(userId: number) {
     throw error;
   }
 }
+
+export async function getUserById(userId: number) {
+  try {
+    const response = await fetch(
+      `https://lagalt-case-1.azurewebsites.net/users/${userId}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const user = await response.json();
+    return user;
+  } catch (error) {
+    console.error(`Error fetching user with ID ${userId}: `, error);
+    return null;
+  }
+}
