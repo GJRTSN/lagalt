@@ -96,8 +96,8 @@ export default function Explore() {
       </div>
       <div className="w-full flex flex-col items-center ">
         {filteredProjects.length ? (
-          filteredProjects.map((project, index) => (
-            <ExploreCard key={index} project={project} />
+          filteredProjects.map((project) => (
+            <ExploreCard key={project.projectId} project={project} />
           ))
         ) : (
           <p className="text-black mt-8">No projects found.</p>

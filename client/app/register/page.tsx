@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { registerNewUser } from "../api/user/post";
 import logo from "@/public/lagalt_clean.png";
 import Image from "next/image";
-import { RegisterUserData } from "../types/UserTypes";
+import { RegisterUserData, User } from "../types/UserTypes";
 import { useUserContext } from "../contexts/userContext";
 
 const Register = () => {
@@ -22,8 +22,8 @@ const Register = () => {
     username: "",
     password: "",
     age: 18,
-    skillIds: [14],
-    skillNames: ["PHP"],
+    skillIds: [],
+    skillNames: [],
     profileVisible: true,
   });
 
@@ -45,14 +45,25 @@ const Register = () => {
       if (data) {
         // Assume the data object contains the registered user's data
         // Update the user context
-        const loggedInUser = {
+        const loggedInUser: User = {
           userId: data.userId,
           username: data.username,
           forName: data.forName,
           lastName: data.lastName,
-          // ... other user properties
+          description: "", // Set default values or retrieve from `data` if available
+          country: "",
+          email: "",
+          userRole: "",
+          includeProjects: false,
+          projects: [],
+          password: "", // It's typically not safe to handle passwords on the client-side
+          age: 0,
+          skillIds: [],
+          skillNames: [],
+          profileVisible: false,
         };
-        setUser(loggedInUser); // Assume setUser is obtained from useUserContext
+        setUser(loggedInUser);
+        // Assume setUser is obtained from useUserContext
         router.push("/explore");
       }
     } catch (error) {
