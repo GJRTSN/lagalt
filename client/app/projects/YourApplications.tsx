@@ -1,27 +1,35 @@
 import React, { useEffect, useState } from "react";
+import { deleteApplication } from "@/app/api/project/delete";
 import { getAllProjects } from "@/app/api/project/get";
-import { withdrawApplication } from "@/app/api/project/put";
+import { Project, ProjectComment } from "../types/ProjectTypes";
+import { User } from "../types/UserTypes";
 import Link from "next/link";
 
-export default function YourApplications({ userId }) {
+export default function YourApplications({ userId }: Partial<User>) {
   const [projects, setProjects] = useState([]);
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      const allProjects = await getAllProjects();
-      const appliedProjects = allProjects.filter((project) =>
-        project.workApplications.some(
-          (application) => application.userId === userId
-        )
-      );
-      setProjects(appliedProjects);
-    };
+  const fetchProjects = async () => {
+    const allProjects = await getAllProjects();
+    const appliedProjects = allProjects.filter((project: Project) =>
+      project.workApplications.some(
+        (application) => application.userId === userId
+      )
+    );
+    setProjects(appliedProjects);
+  };
 
+  useEffect(() => {
     fetchProjects();
   }, [userId]);
 
-  const handleWithdraw = async (projectId) => {
-    await withdrawApplication(projectId, userId);
+  const handleWithdraw = async (applicationId: number) => {
+    console.log(applicationId);
+    try {
+      await deleteApplication(applicationId);
+      fetchProjects();
+    } catch (error) {
+      console.error("Failed to withdraw application:", error);
+    }
   };
 
   return (
@@ -48,7 +56,7 @@ export default function YourApplications({ userId }) {
               </tr>
             </thead>
             <tbody>
-              {projects.map((project, index) => (
+              {projects.map((project: Project, index) => (
                 <tr
                   className={`${
                     index % 2 === 0 ? "bg-white" : "bg-gray-100"
@@ -65,12 +73,19 @@ export default function YourApplications({ userId }) {
                         View
                       </button>
                     </Link>
-                    <button
-                      onClick={() => handleWithdraw(project.projectId)}
-                      className="bg-orange-600 hover:bg-yellow-500 py-1 mx-1 px-2 rounded-md text-white"
-                    >
-                      Withdraw
-                    </button>
+                    {project.workApplications.map((application, appIndex) =>
+                      application.userId === userId ? (
+                        <button
+                          key={appIndex}
+                          onClick={() =>
+                            handleWithdraw(application.applicationId)
+                          }
+                          className="bg-orange-600 hover:bg-yellow-500 py-1 mx-1 px-2 rounded-md text-white"
+                        >
+                          Withdraw
+                        </button>
+                      ) : null
+                    )}
                   </td>
                 </tr>
               ))}

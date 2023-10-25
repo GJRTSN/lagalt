@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { getAllProjects } from "@/app/api/project/get";
-import ExploreCard from "@/app/explore/ExploreCard";
-import { ExploreProjectCard } from "@/app/types/ProjectTypes";
+import { Project } from "@/app/types/ProjectTypes";
 import { MoonLoader } from "react-spinners";
+import ExploreCard from "@/app/explore/ExploreCard";
 
 export default function Explore() {
-  const [projects, setProjects] = useState<ExploreProjectCard[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [selectedIndustryIds, setSelectedIndustryIds] = useState<number[]>([]);
 
   const industries = [

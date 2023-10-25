@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ApplyProjectProps } from "../types/types";
+import { ApplyProjectProps } from "@/app/types/ProjectTypes";
 
 const ApplyProject: React.FC<ApplyProjectProps> = ({
   isOpen,

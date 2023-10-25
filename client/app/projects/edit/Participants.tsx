@@ -1,33 +1,21 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { Participant, ParticipantsProps } from "@/app/types/ParticipantsTypes";
 
 export default function Participants({
   participants: initialParticipants,
   removeParticipant,
   projectId,
   onParticipantRemoval,
-}) {
-  const [participants, setParticipants] = useState(initialParticipants);
+}: ParticipantsProps) {
+  const [participants, setParticipants] =
+    useState<Participant[]>(initialParticipants);
 
   useEffect(() => {
     setParticipants(initialParticipants);
   }, [initialParticipants]);
 
-  // const handleParticipantRemoval = async (userId) => {
-  //   try {
-  //     await removeParticipant(projectId, userId);
-  //     // If the removal is successful, update the local state
-  //     const updatedParticipants = participants.filter(
-  //       (participant) => participant.userId !== userId
-  //     );
-  //     setParticipants(updatedParticipants);
-  //   } catch (error) {
-  //     console.error("There was an error removing the participant:", error);
-  //     // Here, you can handle errors, for example, by showing a notification to the user
-  //   }
-  // };
-
-  const handleParticipantRemoval = async (userId) => {
+  const handleParticipantRemoval = async (userId: number) => {
     try {
       await removeParticipant(projectId, userId);
       const updatedParticipants = participants.filter(
@@ -54,7 +42,7 @@ export default function Participants({
             <th className="px-4 py-2 bg-gray-200">Firstname</th>
             <th className="px-4 py-2 bg-gray-200">Lastname</th>
             <th className="px-4 py-2 bg-gray-200">Role</th>
-            <th className=" py-2 bg-gray-200">Action</th>
+            <th className=" py-2 bg-gray-200 text-center">Action</th>
           </tr>
         </thead>
         <tbody className="text-sm font-normal text-gray-700">
@@ -66,13 +54,13 @@ export default function Participants({
               <td className="px-4 py-4">{participant.forName}</td>
               <td className="px-4 py-4">{participant.lastName}</td>
               <td className="px-4 py-4">{participant.userRole}</td>
-              <td className="py-4">
+              <td className="py-4 flex justify-center">
                 <Link href={`/profile/${participant.userId}`}>
                   <button
                     type="button"
                     className="bg-yellow-400 py-1 mx-1 px-2 rounded-md text-white"
                   >
-                    View profile
+                    Visit
                   </button>
                 </Link>
 

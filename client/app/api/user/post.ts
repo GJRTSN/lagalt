@@ -7,7 +7,8 @@ export async function registerNewUser(registerUserData: RegisterUserData) {
       "https://lagalt-case-1.azurewebsites.net/users",
       registerUserData
     );
-    if (response.status === 200 || 201) {
+
+    if (response.status === 200 || response.status === 201) {
       console.log(registerUserData);
       return response.data;
     } else {
@@ -18,6 +19,7 @@ export async function registerNewUser(registerUserData: RegisterUserData) {
       );
     }
   } catch (error) {
-    throw new Error(`Error: ${error.message}`);
+    // Assert the error as an instance of Error to access the message property
+    throw new Error(`Error: ${(error as Error).message}`);
   }
 }

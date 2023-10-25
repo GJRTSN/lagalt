@@ -1,28 +1,28 @@
 "use client";
 
 import React, { useEffect, useState, FormEvent, ChangeEvent } from "react";
-import {
-  getAllProjects,
-  getProjectComments,
-  postComment,
-  applyToProject,
-} from "@/app/api/Projects";
-import { useParams } from "next/navigation";
-import { ProjectComment, UpdatedProjectDTO } from "@/app/types/types";
-import Link from "next/link";
-import ApplyProject from "../ApplyProject";
+import { getAllProjects, getProjectComments } from "@/app/api/Projects";
+import { applyToProject } from "@/app/api/project/post";
+import { ProjectComment } from "@/app/types/types";
 import { useUserContext } from "@/app/contexts/userContext";
+import { postComment } from "@/app/api/project/post";
+import { useParams } from "next/navigation";
 import { MoonLoader } from "react-spinners";
+import { Project } from "@/app/types/ProjectTypes";
+import ApplyProject from "@/app/projects/ApplyProject";
+import Link from "next/link";
 
 const ViewProject: React.FC = () => {
-  const [project, setProject] = useState<UpdatedProjectDTO | null>(null);
+  const [project, setProject] = useState<Project | null>(null);
   const [comments, setComments] = useState<ProjectComment[] | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSent, setIsSent] = useState(false);
+
   const [newComment, setNewComment] = useState("");
-  const { user, updateUser } = useUserContext();
+
+  const { user } = useUserContext();
   const userId = user?.userId;
 
   const params = useParams();
@@ -39,12 +39,17 @@ const ViewProject: React.FC = () => {
   };
 
   const handleSend = async (message: string) => {
+    if (!project) {
+      console.error("Project is undefined");
+      return;
+    }
+
     setRefreshKey(refreshKey + 1);
-    await applyToProject(message, project.projectId, userId);
+    await applyToProject(message, project.projectId, userId!);
     setIsSent(true);
     setTimeout(() => {
-      setIsModalOpen(false); // Reset the isSent state here
-    }, 2000); // 2000 milliseconds = 2 seconds
+      setIsModalOpen(false);
+    }, 2000);
   };
 
   useEffect(() => {
@@ -53,7 +58,7 @@ const ViewProject: React.FC = () => {
         try {
           const projectsData = await getAllProjects();
           const selectedProject = projectsData.find(
-            (proj: UpdatedProjectDTO) => proj.projectId === Number(id)
+            (proj: Project) => proj.projectId === Number(id)
           );
           setProject(selectedProject || null);
         } catch (error) {
@@ -230,20 +235,48 @@ const ViewProject: React.FC = () => {
                   : "flex",
             }}
           >
-            <h2 className={`${titleCSS} mb-4 `}>Join the project?</h2>
-            {project.workApplications.some(
-              (application) => application.userId === userId
-            ) ? (
-              <p className="">You have already applied for this project.</p>
-            ) : (
-              <button
-                type="submit"
-                onClick={handleOpenModal}
-                className="text-center w-1/4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              >
-                APPLY
-              </button>
-            )}
+            <h2 className={`${titleCSS} mb-4`}>Join the project?</h2>
+            {(() => {
+              const userApplication = project.workApplications.find(
+                (application) => application.userId === userId
+              );
+
+              if (userApplication) {
+                if (userApplication.accepted) {
+                  return (
+                    <p className="">
+                      You have already applied for this project.
+                    </p>
+                  );
+                } else {
+                  return (
+                    <>
+                      <p className="bg-pink-200 p-2 w-4/5 h-auto rounded-md text-center mb-4">
+                        Your previous application was declined. You are welcome
+                        to try again.
+                      </p>
+                      <button
+                        type="submit"
+                        onClick={handleOpenModal}
+                        className="text-center w-1/4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      >
+                        APPLY
+                      </button>
+                    </>
+                  );
+                }
+              } else {
+                return (
+                  <button
+                    type="submit"
+                    onClick={handleOpenModal}
+                    className="text-center w-1/4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    APPLY
+                  </button>
+                );
+              }
+            })()}
             <ApplyProject
               isOpen={isModalOpen}
               onClose={handleCloseModal}

@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { getUserById } from "../api/Users"; // adjust the import path if necessary
-import { User, Project } from "../types/types"; // adjust the import path if necessary
+import { User, UserProfile } from "@/app/types/UserTypes";
+import { getUserById } from "@/app/api/Users";
 import Link from "next/link";
 
-interface ProfileProjectsProps {
-  userId: number;
-}
-
-export default function ProfileProjects({ userId }: ProfileProjectsProps) {
+export default function ProfileProjects({ userId }: Partial<User>) {
   const [userData, setUserData] = useState<Partial<User>>({ projects: [] });
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const userDataFromApi = await getUserById(userId);
-      setUserData(userDataFromApi);
+      if (userId) {
+        const userDataFromApi = await getUserById(userId);
+
+        setUserData(userDataFromApi);
+      }
     };
     fetchUserData();
   }, [userId]);

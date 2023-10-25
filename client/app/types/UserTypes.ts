@@ -1,5 +1,5 @@
-import { ProjAdminList } from "./ProjectTypes";
-import { Skill } from "./types";
+import { Participant, ProjAdminList, WorkApplication } from "./ProjectTypes";
+import { Skill } from "./ProjectTypes";
 
 export interface RegisterUserData {
   username: string;
@@ -50,4 +50,37 @@ export interface UserProfile {
   skillIds: number[];
   skillNames: string[];
   profileVisible: boolean;
+}
+
+export interface User {
+  userId: number;
+  forName: string;
+  lastName: string;
+  description: string;
+  country: string;
+  email: string;
+  userRole: string;
+  includeProjects: boolean;
+  projects: UserProject[];
+  username: string;
+  password: string;
+  age: number;
+  skillIds: number[];
+  skillNames: string[];
+  profileVisible: boolean;
+}
+
+interface UserProject {
+  projectId: number;
+  title: string;
+  description: string;
+  status: string;
+  ownerUserId: number;
+  ownerName: string;
+  participants: Participant[];
+  industryName: string;
+  skillsRequiredNames: string[];
+  industryId: number;
+  skillsRequiredIds: number[];
+  workApplications: WorkApplication[];
 }

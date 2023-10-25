@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ProjectComment } from "../types/ProjectTypes";
 
 export async function getAllProjects() {
   try {
@@ -45,44 +46,6 @@ export async function getProjectComments(id: number) {
   } catch (error) {
     console.error(`Error fetching comments from project with ID ${id} `, error);
     return [];
-  }
-}
-
-export async function postComment(
-  comment: string,
-  projectId: number
-): Promise<ProjectComment | null> {
-  try {
-    const response = await fetch(
-      `https://lagalt-case-1.azurewebsites.net/api/comments/project/${projectId}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ content: comment, projectId }), // assuming the API accepts a JSON body with these keys
-      }
-    );
-
-    // Check if the response is successful
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    // Assuming the server responds with the created comment object
-    // that matches the ProjectComment structure.
-    const data: ProjectComment = await response.json();
-
-    // Optionally, verify the structure of the returned data
-    if (!data || !data.id || !data.content) {
-      console.error("Invalid response data", data);
-      return null;
-    }
-
-    return data;
-  } catch (error) {
-    console.error("Error posting new comment: ", error);
-    return null;
   }
 }
 

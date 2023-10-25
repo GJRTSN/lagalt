@@ -1,8 +1,8 @@
-import Link from "next/link";
-import { ExploreProjectCard } from "@/app/types/ProjectTypes";
 import { useUserContext } from "../contexts/userContext";
+import { Project } from "@/app/types/ProjectTypes";
+import Link from "next/link";
 
-export default function ExploreCard({ project }: ExploreProjectCard) {
+export default function ExploreCard({ project }: { project: Project }) {
   const { user } = useUserContext();
 
   return (

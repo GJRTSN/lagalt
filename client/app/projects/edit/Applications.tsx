@@ -4,12 +4,14 @@ import Image from "next/image";
 
 import placeholder from "@/public/placholderpp.jpg";
 import { acceptApplication } from "@/app/api/Participants";
+import { declineApplication } from "@/app/api/participant/put";
 
 export default function Applications({
   applications: initialApplications,
   onAccept,
-}) {
-  const [applications, setApplications] = useState(initialApplications);
+}: ApplicationsProps) {
+  const [applications, setApplications] =
+    useState<Application[]>(initialApplications);
 
   useEffect(() => {
     // Filter the applications where accepted = true
@@ -19,7 +21,7 @@ export default function Applications({
     setApplications(acceptedApplications);
   }, [initialApplications]);
 
-  const handleAccept = async (applicationId) => {
+  const handleAccept = async (applicationId: number) => {
     onAccept();
     try {
       await acceptApplication(applicationId);
@@ -28,11 +30,16 @@ export default function Applications({
     }
   };
 
-  const handleDecline = (applicationId) => {
-    const updatedApplications = applications.filter(
-      (application) => application.applicationId !== applicationId
-    );
-    setApplications(updatedApplications);
+  const handleDecline = async (applicationId: number) => {
+    try {
+      await declineApplication(applicationId);
+      const updatedApplications = applications.filter(
+        (application) => application.applicationId !== applicationId
+      );
+      setApplications(updatedApplications);
+    } catch (error) {
+      console.error("There was a problem declining the application:", error);
+    }
   };
 
   return (
@@ -66,16 +73,13 @@ export default function Applications({
               </div>
               <div>
                 <Link href={`/profile/${application.userId}`}>
-                  <button className="bg-yellow-400 py-1 mx-1 px-2 rounded-md text-white">
-                    View profile
+                  <button className="bg-yellow-400 text-sm py-1 mx-1 px-2 rounded-md text-white">
+                    Visit
                   </button>
                 </Link>
               </div>
             </div>
             <div className="p-4 bg-gray-200">
-              <h3 className="font-semibold text-black mb-2">
-                Application Letter
-              </h3>
               <p className="text-gray-600">{application.motivation} </p>
             </div>
             <div className="p-4 bg-white border-t flex flex-row justify-center items-center">
@@ -83,14 +87,14 @@ export default function Applications({
                 <button
                   type="button"
                   onClick={() => handleAccept(application.applicationId)}
-                  className="bg-green-400 hover:bg-green-600 py-1 mx-1 px-2 rounded-md text-white"
+                  className="text-sm font-medium bg-green-400 hover:bg-green-600 py-1 mx-1 px-2 rounded-md text-white"
                 >
                   Accept
                 </button>
                 <button
                   type="button"
                   onClick={() => handleDecline(application.applicationId)}
-                  className="bg-red-400 hover:bg-red-600 py-1 mx-1 px-2 rounded-md text-white"
+                  className="text-sm font-medium bg-red-400 hover:bg-red-600 py-1 mx-1 px-2 rounded-md text-white"
                 >
                   Decline
                 </button>

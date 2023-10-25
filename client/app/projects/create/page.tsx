@@ -2,7 +2,7 @@
 
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
-import { Industry, Skill, CreateProjectDTO } from "@/app/api/types";
+import { Industry, Project, Skill } from "@/app/types/ProjectTypes";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import {
@@ -14,24 +14,26 @@ import { useUserContext } from "@/app/contexts/userContext";
 
 export default function CreateProject() {
   const { user } = useUserContext();
-  const { userId } = user;
+  const userId = user?.userId;
 
   const router = useRouter();
-  const initialFormState: CreateProjectDTO = {
+  const initialFormState: Project = {
     description: "",
     industryId: 1,
     industryName: "Web Development",
     ownerName: "",
-    ownerUserId: userId,
+    ownerUserId: userId ? userId : 0,
     projectId: 0,
     skillsRequiredIds: [],
     skillsRequiredNames: [],
     status: "",
     title: "",
+    participants: [],
+    workApplications: [],
   };
 
   const [skills, setSkills] = useState<Skill[]>([]);
-  const [formData, setFormData] = useState<CreateProjectDTO>(initialFormState);
+  const [formData, setFormData] = useState<Project>(initialFormState);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredSkills, setFilteredSkills] = useState<Skill[]>([]);
   const [selectedSkills, setSelectedSkills] = useState<Skill[]>([]);
@@ -53,7 +55,7 @@ export default function CreateProject() {
         const projects = await getAllProjects();
         if (projects.length) {
           const maxProjectId = Math.max(
-            ...projects.map((p: CreateProjectDTO) => p.projectId)
+            ...projects.map((p: Project) => p.projectId)
           );
           setNewProjectId(maxProjectId + 1);
         }

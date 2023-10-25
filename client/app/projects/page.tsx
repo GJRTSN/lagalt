@@ -1,12 +1,10 @@
 "use client";
 
-import { useState, useEffect, useContext } from "react";
-import React, { ReactNode, ChangeEvent } from "react";
+import React, { useState, ReactNode, ChangeEvent } from "react";
+import { useUserContext } from "../contexts/userContext";
 import YourCollaborations from "./YourCollaborations";
 import YourApplications from "./YourApplications";
 import YourProjects from "./YourProjects";
-import { UserContext, useUserContext } from "../contexts/userContext";
-import { getProjectsByUser } from "../api/project/get";
 
 type ToggleLabelProps = {
   checked: boolean;
@@ -48,6 +46,10 @@ export default function Projects() {
   const [showCollabs, setShowCollabs] = useState(true);
   const [showApplications, setShowApplications] = useState(true);
 
+  if (!user || user.userId === undefined || user.userId === 0) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="h-full min-h-screen bg-white">
       <div
@@ -76,10 +78,11 @@ export default function Projects() {
         </ToggleLabel>
       </div>
       <div className="h-3/5 flex bg-white flex-col items-center justify-center">
-        {showAdminDash && <YourProjects userId={user?.userId} />}
-
-        {showCollabs && <YourCollaborations userId={user?.userId} />}
-        {showApplications && <YourApplications userId={user?.userId} />}
+        {showAdminDash && <YourProjects userId={user.userId as number} />}
+        {showCollabs && <YourCollaborations userId={user.userId as number} />}
+        {showApplications && (
+          <YourApplications userId={user.userId as number} />
+        )}
       </div>
     </div>
   );

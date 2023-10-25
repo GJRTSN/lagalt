@@ -43,9 +43,7 @@ export default function Profile() {
             <ProfileInfo userId={userId} />
           ) : (
             <div className="bg-gray-300 p-4 rounded-xl mt-10 text-black">
-              {/* Row 1 */}
               <div className="flex space-x-4 mb-4">
-                {/* Column 1 */}
                 <div className="flex-1 p-4  rounded-lg">
                   <h2 className="text-2xl mb-4">
                     {userData.forName} {userData.lastName}
@@ -55,7 +53,7 @@ export default function Profile() {
                     User has set their profile to private.
                   </p>
                 </div>
-                {/* Column 2 */}
+
                 <div className="flex-1 p-4  rounded-lg flex justify-center items-center">
                   <Image
                     src={privateProfile}
@@ -66,7 +64,6 @@ export default function Profile() {
                   />
                 </div>
               </div>
-              {/* Row 2 */}
             </div>
           )}
 

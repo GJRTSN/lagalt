@@ -1,17 +1,17 @@
-import React, { useEffect, useState, useContext } from "react";
-import Link from "next/link";
-import { ProjAdminList } from "../types/types";
-import { UserContext } from "../contexts/userContext";
+import React, { useEffect, useState } from "react";
 import { getProjectsByUser } from "../api/project/get";
+import { Project } from "../types/ProjectTypes";
+import { User } from "../types/UserTypes";
+import Link from "next/link";
 
-type YourProjectsProps = {
-  userId: number | null;
-};
-
-export default function YourProjects({ userId }: YourProjectsProps) {
+export default function YourProjects({ userId }: Partial<User>) {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
+    if (!projects) {
+      console.error("Project is undefined");
+      return;
+    }
     const getProjects = async () => {
       if (userId) {
         const projectsFromApi = await getProjectsByUser(userId);
@@ -52,7 +52,7 @@ export default function YourProjects({ userId }: YourProjectsProps) {
               </tr>
             </thead>
             <tbody className="text-gray-600 text-sm font-light">
-              {projects.map((project: ProjAdminList, index) => (
+              {projects.map((project: Project, index) => (
                 <tr
                   className="border-b border-gray-200 hover:bg-gray-100"
                   key={index}
@@ -84,7 +84,19 @@ export default function YourProjects({ userId }: YourProjectsProps) {
                   </td>
                   <td className="py-3 px-6 text-left">
                     <div className="flex items-center">
-                      <span>{project.workApplications.length}</span>
+                      <span
+                        className={`${
+                          project.workApplications.filter((app) => app.accepted)
+                            .length > 0
+                            ? "bg-red-500 py-1 px-2 rounded-lg text-white"
+                            : ""
+                        }`}
+                      >
+                        {
+                          project.workApplications.filter((app) => app.accepted)
+                            .length
+                        }
+                      </span>
                     </div>
                   </td>
                   <td className="py-3 text-left">

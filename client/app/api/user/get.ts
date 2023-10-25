@@ -7,11 +7,12 @@ export async function getUserData(userId: number) {
     );
     const data = response.data;
 
-    // Map the skillIds and skillNames to an array of Skill objects
-    const existingSkills = data.skillIds.map((id, index) => ({
-      id,
-      name: data.skillNames[index],
-    }));
+    const existingSkills = data.skillIds.map(
+      (id: number, index: string | number) => ({
+        id,
+        name: data.skillNames[index],
+      })
+    );
 
     return {
       userData: data,
@@ -20,6 +21,6 @@ export async function getUserData(userId: number) {
     };
   } catch (error) {
     console.error("Error fetching user:", error);
-    throw error; // Optionally re-throw the error if you want to handle it upstream
+    throw error;
   }
 }

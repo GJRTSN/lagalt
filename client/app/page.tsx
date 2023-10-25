@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { UserContext } from "@/app/contexts/userContext";
+import { useUserContext } from "@/app/contexts/userContext";
 import axios from "axios";
 import Link from "next/link";
 import logo from "@/public/lagalt_dark.svg";
@@ -13,10 +13,11 @@ export default function Home() {
   const [userId, setUserId] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const { setUser } = useContext(UserContext);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleLogin = async (event) => {
+  const { setUser } = useUserContext();
+
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       const response = await axios.get(

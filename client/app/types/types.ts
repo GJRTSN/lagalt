@@ -9,16 +9,6 @@ export interface ProjAdminList {
   skillsRequiredNames: string[];
 }
 
-export interface Skill {
-  id: number;
-  name: string;
-}
-
-export interface Industry {
-  id: number;
-  name: string;
-}
-
 export interface CreateProjectDTO {
   description: string;
   industryId: number;

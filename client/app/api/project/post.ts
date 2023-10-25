@@ -50,3 +50,36 @@ export async function postComment(
     return null;
   }
 }
+
+// export async function postComment(
+//   comment: string,
+//   projectId: number
+// ): Promise<ProjectComment | null> {
+//   try {
+//     const response = await fetch(
+//       `https://lagalt-case-1.azurewebsites.net/api/comments/project/${projectId}`,
+//       {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ content: comment, projectId }),
+//       }
+//     );
+
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+//     const data: ProjectComment = await response.json();
+
+//     if (!data || !data.id || !data.content) {
+//       console.error("Invalid response data", data);
+//       return null;
+//     }
+
+//     return data;
+//   } catch (error) {
+//     console.error("Error posting new comment: ", error);
+//     return null;
+//   }
+// }

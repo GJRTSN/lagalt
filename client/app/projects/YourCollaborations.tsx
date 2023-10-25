@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { getAllProjects } from "@/app/api/project/get"; // Assume you have this function
-import Link from "next/link";
 import { removeParticipant } from "@/app/api/participant/delete";
+import { getAllProjects } from "@/app/api/project/get";
+import { User } from "@/app/types/UserTypes";
+import Link from "next/link";
+import { Project } from "../types/ProjectTypes";
 
-export default function YourCollaborations({ userId }) {
+export default function YourCollaborations({ userId }: Partial<User>) {
   const [projects, setProjects] = useState([]);
-
-  const [isJoined, setIsJoined] = useState([]);
-
-  // useEffect(() => {
-  //   setIsJoined(initialStatus);
-  // }, [isJoined]);
 
   useEffect(() => {
     const fetchProjects = async () => {
       const allProjects = await getAllProjects();
-      const participantProjects = allProjects.filter((project) =>
+      const participantProjects = allProjects.filter((project: Project) =>
         project.participants.some(
           (participant) => participant.userId === userId
         )
@@ -26,25 +22,21 @@ export default function YourCollaborations({ userId }) {
     fetchProjects();
   }, [userId]);
 
-  const handleLeaveProject = async (projectId, userId) => {
-    // projectId added as an argument
+  const handleLeaveProject = async (projectId: number, userId: number) => {
     try {
       await removeParticipant(projectId, userId);
-      // Fetch updated project data to reflect the changes
       const updatedProjects = await getAllProjects();
-      const participantProjects = updatedProjects.filter((project) =>
+      const participantProjects = updatedProjects.filter((project: Project) =>
         project.participants.some(
           (participant) => participant.userId === userId
         )
       );
-      setProjects(participantProjects); // Update the projects state
-      if (onParticipantRemoval) {
-        onParticipantRemoval();
-      }
+      setProjects(participantProjects);
     } catch (error) {
       console.error("There was an error removing the participant:", error);
     }
   };
+
   return (
     <div id="collabs" className="w-3/4 h-1/4 m-4 bg-[#CCCCCC] rounded-lg p-4">
       <h3 className="text-black text-4xl font-bold font-roboto">
@@ -66,7 +58,7 @@ export default function YourCollaborations({ userId }) {
               </tr>
             </thead>
             <tbody>
-              {projects.map((project, index) => (
+              {projects.map((project: Project, index) => (
                 <tr
                   className={`${
                     index % 2 === 0 ? "bg-white" : "bg-gray-100"
@@ -86,9 +78,11 @@ export default function YourCollaborations({ userId }) {
                     <button
                       type="button"
                       className="bg-red-700 hover:bg-red-500 py-1 mx-1 px-2 rounded-md text-white"
-                      onClick={() =>
-                        handleLeaveProject(project.projectId, userId)
-                      }
+                      onClick={() => {
+                        if (userId) {
+                          handleLeaveProject(project.projectId, userId);
+                        }
+                      }}
                     >
                       Leave
                     </button>

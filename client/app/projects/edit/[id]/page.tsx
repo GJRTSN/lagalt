@@ -9,14 +9,14 @@ import React, {
 } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { Industry, Skill, UpdatedProjectDTO } from "@/app/types/types";
+import { Industry, Project, Skill } from "@/app/types/ProjectTypes";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import {
   getAllIndustries,
   getAllProjects,
   getAllSkills,
-} from "@/app/api/Projects";
+} from "@/app/api/project/get";
 import { MoonLoader } from "react-spinners";
 
 import { removeParticipant } from "@/app/api/Participants";
@@ -31,8 +31,8 @@ export default function UpdateProject() {
   const id = Number(params.id);
 
   // State for managing form data
-  const [formData, setFormData] = useState<UpdatedProjectDTO | null>(null);
-  const [project, setProject] = useState<UpdatedProjectDTO | null>(null);
+  const [formData, setFormData] = useState<Project | null>(null);
+  const [project, setProject] = useState<Project | null>(null);
   const [refreshParticipants, setRefreshParticipants] = useState(false);
   const [refreshApplications, setRefreshApplications] = useState(false);
 
@@ -44,14 +44,14 @@ export default function UpdateProject() {
   // State for UI elements
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredSkills, setFilteredSkills] = useState<Skill[]>([]);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // State to manage modal visibility
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const fetchProject = useCallback(async () => {
     if (id) {
       try {
         const projectsData = await getAllProjects();
         const selectedProject = projectsData.find(
-          (proj: UpdatedProjectDTO) => proj.projectId === Number(id)
+          (proj: Project) => proj.projectId === Number(id)
         );
         setProject(selectedProject || null);
       } catch (error) {
@@ -62,23 +62,14 @@ export default function UpdateProject() {
 
   useEffect(() => {
     fetchProject();
-  }, [fetchProject]); // Note: fetchProject is now a dependency
+  }, [fetchProject]);
 
-  // const handleApplicationAccept = async () => {
-  //   await fetchProject();
-  //   setRefreshParticipants((prev) => !prev);
-  //   // setRefreshApplications((prev) => !prev); // toggles the refresh state
-  // };
-
-  // Fetch initial data
   useEffect(() => {
-    // Function to fetch projects, skills, and industries
     const fetchData = async () => {
       try {
         const [fetchedProjects, fetchedSkills, fetchedIndustries] =
           await Promise.all([
             getAllProjects(),
-            // getProjectById(id),
             getAllSkills(),
             getAllIndustries(),
           ]);
@@ -88,25 +79,22 @@ export default function UpdateProject() {
 
         if (id) {
           const selectedProject = fetchedProjects.find(
-            (proj: UpdatedProjectDTO) => proj.projectId === Number(id)
+            (proj: Project) => proj.projectId === Number(id)
           );
 
           if (selectedProject) {
-            // Set form data from the selected project
             setFormData(selectedProject);
 
-            // Set selected skills from the selected project, ensuring the structure matches your 'Skill' type.
-            // Assuming that 'skillsRequiredNames' and 'skillsRequiredIds' are the properties holding the skills data in your project.
             setSelectedSkills(
               selectedProject.skillsRequiredNames.map(
                 (skillName: string, index: number) => ({
-                  id: selectedProject.skillsRequiredIds[index], // map the skill id
-                  name: skillName, // map the skill name
+                  id: selectedProject.skillsRequiredIds[index],
+                  name: skillName,
                 })
               )
             );
           } else {
-            setFormData(null); // Reset form data if no project is selected
+            setFormData(null);
           }
         }
       } catch (error) {

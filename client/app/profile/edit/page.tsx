@@ -1,16 +1,15 @@
 "use client";
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import Image from "next/image";
-import placeholder from "@/public/placholderpp.jpg";
-import { useRouter } from "next/navigation";
-
-import { Skill } from "@/app/types/types";
-import axios from "axios";
-import { getAllSkills } from "../../api/Projects";
-import Link from "next/link";
 import { useUserContext } from "@/app/contexts/userContext";
-import { UpdateUser } from "@/app/types/UserTypes";
+import { getAllSkills } from "../../api/Projects";
 import { getUserData } from "@/app/api/user/get";
+import { UpdateUser } from "@/app/types/UserTypes";
+import { useRouter } from "next/navigation";
+import { Skill } from "@/app/types/ProjectTypes";
+import placeholder from "@/public/placholderpp.jpg";
+import Image from "next/image";
+import Link from "next/link";
+import axios from "axios";
 
 export default function EditProfile() {
   const { user, updateUser } = useUserContext();
@@ -22,10 +21,11 @@ export default function EditProfile() {
   const handleToggle = () => {
     setIsProfileVisible((prevVisible) => {
       const newVisible = !prevVisible;
-      setUserData((prevUserData) => ({
-        ...prevUserData,
-        profileVisible: newVisible,
-      }));
+      setUserData((prevUserData) => {
+        if (!prevUserData) return null;
+        return { ...prevUserData, profileVisible: newVisible };
+      });
+
       return newVisible;
     });
   };
@@ -43,10 +43,13 @@ export default function EditProfile() {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setUserData((prevUserData) => ({
-      ...prevUserData,
-      [name]: value,
-    }));
+    setUserData(
+      (prevUserData) =>
+        ({
+          ...prevUserData,
+          [name]: value,
+        } as UpdateUser)
+    );
   };
 
   useEffect(() => {

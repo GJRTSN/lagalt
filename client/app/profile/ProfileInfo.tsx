@@ -1,24 +1,21 @@
-import Image from "next/image";
-import { getUserById } from "../api/Users";
 import { useEffect, useState } from "react";
+import { getUserById } from "@/app/api/Users";
+import { User } from "@/app/types/UserTypes";
 import placeholder from "@/public/placholderpp.jpg";
+import Image from "next/image";
 
-interface ProfileInfoProps {
-  userId: number;
-}
-
-export default function ProfileInfo({ userId }: ProfileInfoProps) {
+export default function ProfileInfo({ userId }: Partial<User>) {
   const [userData, setUserData] = useState<any>(null);
 
   useEffect(() => {
-    getUserById(userId) // Use userId prop here
-      .then((data) => {
-        setUserData(data);
-        // console.log("Fetched userData data:", data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+    if (userId)
+      getUserById(userId)
+        .then((data) => {
+          setUserData(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
   }, [userId]);
 
   if (!userData) {
