@@ -34,6 +34,13 @@ export interface UpdateUser {
   skills: Skill[];
 }
 
+export interface ReducedUser {
+  userId: number;
+  username: string;
+  forName: string;
+  lastName: string;
+}
+
 export interface UserProfile {
   userId: number;
   forName: string;

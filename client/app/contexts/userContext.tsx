@@ -6,13 +6,7 @@ import React, {
   ReactNode,
   useContext,
 } from "react";
-
-interface User {
-  userId: number | null;
-  username: string | null;
-  forName: string | null;
-  lastName: string | null;
-}
+import { User } from "../types/UserTypes";
 
 interface UserContextProps {
   user: User | null;
@@ -30,12 +24,14 @@ export const UserContext = createContext<UserContextProps | undefined>(
 );
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(() => {
-    const savedUser = localStorage.getItem("user");
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
+  const [user, setUser] = useState<User | null>(null);
 
-  const router = useRouter();
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -44,6 +40,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       localStorage.removeItem("user");
     }
   }, [user]);
+
+  const router = useRouter();
 
   const logout = () => {
     setUser(null);

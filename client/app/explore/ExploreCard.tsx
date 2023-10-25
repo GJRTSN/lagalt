@@ -2,11 +2,40 @@ import { useUserContext } from "../contexts/userContext";
 import { Project } from "@/app/types/ProjectTypes";
 import Link from "next/link";
 
+function checkSkillMatch(
+  userSkills: number[] = [],
+  projectSkills: number[] = []
+): boolean {
+  return userSkills.some((skillId) => projectSkills.includes(skillId));
+}
+
+function getMatchingSkills(
+  userSkills: string[] = [],
+  projectSkillsNames: string[] = []
+): string[] {
+  return projectSkillsNames.filter((skillName) =>
+    userSkills.includes(skillName)
+  );
+}
+
 export default function ExploreCard({ project }: { project: Project }) {
   const { user } = useUserContext();
+  const skillMatch = checkSkillMatch(
+    user?.skillIds ?? [],
+    project.skillsRequiredIds
+  );
+
+  const matchingSkills = getMatchingSkills(
+    user?.skillNames ?? [],
+    project.skillsRequiredNames
+  );
 
   return (
-    <div className="mt-8 w-4/5 h-auto bg-gray-200 rounded-lg shadow-lg p-4 flex flex-col text-black">
+    <div
+      className={`mt-8 w-4/5 h-auto p-4 flex flex-col text-black ${
+        skillMatch ? "bg-[rgb(246,255,244)]" : "bg-gray-200"
+      } rounded-lg shadow-lg`}
+    >
       <h2 className="text-2xl font-bold mb-2">{project.title}</h2>
       <div className="flex flex-row items-start">
         <div className="w-1/4 flex flex-col items-start ml-4">
@@ -29,7 +58,21 @@ export default function ExploreCard({ project }: { project: Project }) {
           <div>
             <strong>Skills required:</strong>
           </div>
-          <div>{project.skillsRequiredNames.join(", ")}</div>
+          <div>
+            {project.skillsRequiredNames.map((skillName, index) => (
+              <span
+                key={index}
+                className={
+                  matchingSkills.includes(skillName)
+                    ? "font-bold text-green-400"
+                    : ""
+                }
+              >
+                {skillName}
+                {index < project.skillsRequiredNames.length - 1 ? ", " : ""}
+              </span>
+            ))}
+          </div>
         </div>
         <div className="w-1/4 ml-4 flex items-center justify-end">
           <Link
