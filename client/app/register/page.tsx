@@ -22,8 +22,8 @@ const Register = () => {
     username: "",
     password: "",
     age: 18,
-    skillIds: [14],
-    skillNames: ["PHP"],
+    skillIds: [],
+    skillNames: [],
     profileVisible: true,
   });
 
