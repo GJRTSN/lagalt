@@ -119,7 +119,7 @@ const ViewProject: React.FC = () => {
             <h1 className="text-3xl font-extrabold mb-4 text-black">
               {project.title}
             </h1>
-            <div className="p-4 w-2/6 bg-white rounded-lg shadow-md mb-8">
+            <div className="p-4 w-3/6 bg-white rounded-lg shadow-md mb-8">
               <div className="flex justify-between border-b-2 pb-4 mb-4">
                 <span className="text-gray-700 font-semibold">ID:</span>
                 <span className="text-black">{project.projectId}</span>
