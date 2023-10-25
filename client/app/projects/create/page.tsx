@@ -50,6 +50,7 @@ export default function CreateProject() {
       }
     };
 
+    // Fetch the last project ID to pre-assign an ID for the new project
     const getLastProjectId = async () => {
       try {
         const projects = await getAllProjects();
@@ -63,6 +64,8 @@ export default function CreateProject() {
         console.error("Failed to fetch projects", error);
       }
     };
+
+    // Fetch the list of industries
 
     const getIndustries = async () => {
       try {
@@ -87,6 +90,7 @@ export default function CreateProject() {
     }
   }, [newProjectId]);
 
+  // Filter skills based on the search term
   useEffect(() => {
     if (searchTerm) {
       const results = skills.filter((skill) =>
@@ -97,6 +101,8 @@ export default function CreateProject() {
       setFilteredSkills([]);
     }
   }, [searchTerm, skills]);
+
+  // Update the selected skills in the form
 
   useEffect(() => {
     setFormData((prev) => ({

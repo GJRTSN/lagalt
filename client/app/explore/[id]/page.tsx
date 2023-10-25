@@ -13,6 +13,7 @@ const ExploreProject: React.FC = () => {
   const id = params.id;
 
   useEffect(() => {
+    // Fetch the project based on the provided project ID.
     const fetchProject = async () => {
       if (id) {
         try {

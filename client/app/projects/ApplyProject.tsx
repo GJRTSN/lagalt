@@ -9,6 +9,7 @@ const ApplyProject: React.FC<ApplyProjectProps> = ({
 }) => {
   const [applicationText, setApplicationText] = useState("");
 
+   // If the modal is not open, return null
   if (!isOpen) return null;
 
   return (

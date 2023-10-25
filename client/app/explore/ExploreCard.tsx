@@ -2,6 +2,8 @@ import { useUserContext } from "../contexts/userContext";
 import { Project } from "@/app/types/ProjectTypes";
 import Link from "next/link";
 
+// Check if there is a match between user's skills and project's required skills.
+
 function checkSkillMatch(
   userSkills: number[] = [],
   projectSkills: number[] = []
@@ -18,6 +20,7 @@ function getMatchingSkills(
   );
 }
 
+// ExploreCard component that displays project information.
 export default function ExploreCard({ project }: { project: Project }) {
   const { user } = useUserContext();
   const skillMatch = checkSkillMatch(

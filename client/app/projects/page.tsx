@@ -12,6 +12,7 @@ type ToggleLabelProps = {
   children: ReactNode;
 };
 
+// ToggleLabel component to create toggle switches with labels
 const ToggleLabel: React.FC<ToggleLabelProps> = ({
   checked,
   onChange,
@@ -46,6 +47,7 @@ export default function Projects() {
   const [showCollabs, setShowCollabs] = useState(true);
   const [showApplications, setShowApplications] = useState(true);
 
+  // If user data is not available, display a loading message
   if (!user || user.userId === undefined || user.userId === 0) {
     return <div>Loading...</div>;
   }

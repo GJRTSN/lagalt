@@ -10,6 +10,7 @@ export default function Profile() {
   const { user } = useUserContext();
   const userId = user?.userId;
 
+  // Check if the user is authenticated (userId exists) or not
   if (userId || userId === undefined || userId === 0) {
     return (
       <div className="h-screen bg-white">

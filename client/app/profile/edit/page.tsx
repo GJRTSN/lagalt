@@ -18,6 +18,7 @@ export default function EditProfile() {
   const [userData, setUserData] = useState<UpdateUser | null>(null);
   const [isProfileVisible, setIsProfileVisible] = useState(true);
 
+  // Function to toggle profile visibility
   const handleToggle = () => {
     setIsProfileVisible((prevVisible) => {
       const newVisible = !prevVisible;
@@ -30,12 +31,10 @@ export default function EditProfile() {
     });
   };
 
-  // State for dropdowns and selections
   const [skills, setSkills] = useState<Skill[]>([]);
   const [selectedSkills, setSelectedSkills] = useState<Skill[]>([]);
   const [newSkill, setNewSkill] = useState("");
 
-  // State for UI elements
   const [searchTerm, setSearchTerm] = useState("");
   const [searchedSkills, setSearchedSkills] = useState<Skill[]>([]);
 
@@ -111,6 +110,7 @@ export default function EditProfile() {
     });
   };
 
+  // Remove a skill from the selected skills list
   const removeSkill = (id: number) => {
     setSelectedSkills((prev) => {
       const newSkills = prev.filter((skill) => skill.id !== id);
@@ -125,6 +125,7 @@ export default function EditProfile() {
     });
   };
 
+  // Handle form submission
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -157,6 +158,7 @@ export default function EditProfile() {
     }
   };
 
+  //Doesn't save changes and goes back to profile page
   const handleDiscardChanges = () => {
     router.push("/profile");
   };

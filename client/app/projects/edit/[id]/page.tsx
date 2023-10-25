@@ -29,16 +29,13 @@ export default function UpdateProject() {
   const params = useParams();
   const id = Number(params.id);
 
-  // State for managing form data
   const [formData, setFormData] = useState<Project | null>(null);
   const [project, setProject] = useState<Project | null>(null);
 
-  // State for dropdowns and selections
   const [skills, setSkills] = useState<Skill[]>([]);
   const [industries, setIndustries] = useState<Industry[]>([]);
   const [selectedSkills, setSelectedSkills] = useState<Skill[]>([]);
 
-  // State for UI elements
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredSkills, setFilteredSkills] = useState<Skill[]>([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -57,10 +54,12 @@ export default function UpdateProject() {
     }
   }, [id]);
 
+  // Fetch project data when the component mounts
   useEffect(() => {
     fetchProject();
   }, [fetchProject]);
 
+  // Fetch additional data (skills and industries) when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -175,7 +174,6 @@ export default function UpdateProject() {
   };
 
   const removeSkill = (id: number) => {
-    // Update the selectedSkills state by removing the skill with the given ID
     setSelectedSkills((prev) => prev.filter((skill) => skill.id !== id));
 
     // Update the formData state to reflect the removal of the skill

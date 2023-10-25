@@ -8,6 +8,7 @@ import Link from "next/link";
 export default function YourApplications({ userId }: Partial<User>) {
   const [projects, setProjects] = useState([]);
 
+  // Function to fetch and set the user's applied projects
   const fetchProjects = async () => {
     const allProjects = await getAllProjects();
     const appliedProjects = allProjects.filter((project: Project) =>
@@ -15,6 +16,7 @@ export default function YourApplications({ userId }: Partial<User>) {
         (application) => application.userId === userId
       )
     );
+    // Filter projects where the user has applied
     setProjects(appliedProjects);
   };
 
@@ -22,6 +24,7 @@ export default function YourApplications({ userId }: Partial<User>) {
     fetchProjects();
   }, [userId]);
 
+  // Function to handle the withdrawal of an application
   const handleWithdraw = async (applicationId: number) => {
     console.log(applicationId);
     try {

@@ -28,6 +28,7 @@ export const UserContext = createContext<UserContextProps | undefined>(
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
+  // Initialize user context with user data stored in local storage.
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
@@ -35,6 +36,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
   }, []);
 
+  // Store user data in local storage when it changes.
   useEffect(() => {
     if (user) {
       localStorage.setItem("user", JSON.stringify(user));
@@ -50,6 +52,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     router.push("/");
   };
 
+  // Update the user information and store it in local storage.
   const updateUser = (updatedUser: User) => {
     setUser(updatedUser);
     localStorage.setItem("user", JSON.stringify(updatedUser));
@@ -62,6 +65,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   );
 };
 
+// Ensure that the context is available.
 export const useUserContext = () => {
   const context = useContext(UserContext);
   if (!context) {

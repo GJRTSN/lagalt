@@ -50,13 +50,13 @@ const Register = () => {
           username: data.username,
           forName: data.forName,
           lastName: data.lastName,
-          description: "", // Set default values or retrieve from `data` if available
+          description: "", 
           country: "",
           email: "",
           userRole: "",
           includeProjects: false,
           projects: [],
-          password: "", // It's typically not safe to handle passwords on the client-side
+          password: "", 
           age: 0,
           skillIds: [],
           skillNames: [],

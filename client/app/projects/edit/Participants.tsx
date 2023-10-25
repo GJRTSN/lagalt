@@ -12,6 +12,7 @@ export default function Participants({
     useState<Participant[]>(initialParticipants);
 
   useEffect(() => {
+    // Update participants when the component mounts
     setParticipants(initialParticipants);
   }, [initialParticipants]);
 
@@ -21,6 +22,7 @@ export default function Participants({
       const updatedParticipants = participants.filter(
         (participant) => participant.userId !== userId
       );
+      // Update the participants list after removal
       setParticipants(updatedParticipants);
       if (onParticipantRemoval) {
         onParticipantRemoval();

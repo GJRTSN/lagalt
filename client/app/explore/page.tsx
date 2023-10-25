@@ -26,6 +26,7 @@ export default function Explore() {
     );
   };
 
+  //Function to filter projects by industry
   const filteredProjects = projects.filter((project) =>
     selectedIndustryIds.length
       ? selectedIndustryIds.includes(project.industryId)

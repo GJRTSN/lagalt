@@ -14,12 +14,14 @@ export default function Applications({
     useState<Application[]>(initialApplications);
 
   useEffect(() => {
+        // Filter accepted applications when the component mounts
     const acceptedApplications = initialApplications.filter(
       (application) => application.accepted
     );
     setApplications(acceptedApplications);
   }, [initialApplications]);
 
+  //Accept applications
   const handleAccept = async (applicationId: number) => {
     onAccept();
     try {
@@ -29,6 +31,7 @@ export default function Applications({
     }
   };
 
+  //Decline applications
   const handleDecline = async (applicationId: number) => {
     try {
       await declineApplication(applicationId);

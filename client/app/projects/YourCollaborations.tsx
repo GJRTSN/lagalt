@@ -16,12 +16,14 @@ export default function YourCollaborations({ userId }: Partial<User>) {
           (participant) => participant.userId === userId
         )
       );
+      // Filter projects where the user is a participant
       setProjects(participantProjects);
     };
 
     fetchProjects();
   }, [userId]);
 
+  // Function to handle leaving a project
   const handleLeaveProject = async (projectId: number, userId: number) => {
     try {
       await removeParticipant(projectId, userId);
@@ -31,6 +33,7 @@ export default function YourCollaborations({ userId }: Partial<User>) {
           (participant) => participant.userId === userId
         )
       );
+      // Filter updated projects where the user is still a participant
       setProjects(participantProjects);
     } catch (error) {
       console.error("There was an error removing the participant:", error);

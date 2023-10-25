@@ -38,6 +38,7 @@ const ViewProject: React.FC = () => {
     setIsModalOpen(false);
   };
 
+  // Function to send an application to the project
   const handleSend = async (message: string) => {
     if (!project) {
       console.error("Project is undefined");
@@ -70,6 +71,7 @@ const ViewProject: React.FC = () => {
     fetchProject();
   }, [id, refreshKey]);
 
+  // Fetch project comments
   useEffect(() => {
     async function fetchComments() {
       const projectComments = await getProjectComments(id);
@@ -85,9 +87,12 @@ const ViewProject: React.FC = () => {
     }
   }, [id]);
 
+  // Handle comment input change
   const handleCommentChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNewComment(event.target.value);
   };
+
+  // Handle posting a new comment
 
   const handleCommentPost = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -99,6 +104,7 @@ const ViewProject: React.FC = () => {
     }
   };
 
+  // Render loading UI while project data is being fetched
   if (!project) {
     return (
       <div className="h-full min-h-screen bg-white pb-12">

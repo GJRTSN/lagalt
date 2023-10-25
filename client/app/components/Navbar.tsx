@@ -12,6 +12,7 @@ export default function Navbar() {
   const navStyle =
     "cursor-pointer transition-transform duration-200 transform hover:-translate-y-1 ease-in-out";
 
+  // Function to handle user logout
   const handleLogout = () => {
     logout();
   };
