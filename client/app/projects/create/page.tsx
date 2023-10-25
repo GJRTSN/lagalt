@@ -9,7 +9,7 @@ import {
   getAllIndustries,
   getAllProjects,
   getAllSkills,
-} from "@/app/api/Projects";
+} from "@/app/api/project/get";
 import { useUserContext } from "@/app/contexts/userContext";
 
 export default function CreateProject() {

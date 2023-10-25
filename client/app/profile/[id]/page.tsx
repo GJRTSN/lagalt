@@ -1,16 +1,12 @@
 "use client";
 import ProfileInfo from "@/app/profile/ProfileInfo";
 import ProfileProjects from "@/app/profile/ProfileProjects";
-import Link from "next/link";
 import ProfileSkills from "@/app/profile/ProfileSkills";
 import { useEffect, useState } from "react";
-import { useUserContext } from "@/app/contexts/userContext";
-import { useParams } from "next/navigation";
-import { getUserById } from "@/app/api/Users";
-import Image from "next/image";
-import placeholder from "@/public/placholderpp.jpg";
-import privateProfile from "@/public/lock-solid.svg";
 import { getUserData } from "@/app/api/user/get";
+import { useParams } from "next/navigation";
+import privateProfile from "@/public/lock-solid.svg";
+import Image from "next/image";
 
 export default function Profile() {
   const params = useParams();

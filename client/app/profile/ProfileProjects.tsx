@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { User, UserProfile } from "@/app/types/UserTypes";
-import { getUserById } from "@/app/api/Users";
+import { getUserById } from "@/app/api/user/get";
+import { User } from "@/app/types/UserTypes";
 import Link from "next/link";
 
 export default function ProfileProjects({ userId }: Partial<User>) {

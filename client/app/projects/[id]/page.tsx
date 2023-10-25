@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, FormEvent, ChangeEvent } from "react";
-import { getAllProjects, getProjectComments } from "@/app/api/Projects";
+import { getAllProjects, getProjectComments } from "@/app/api/project/get";
 import { applyToProject } from "@/app/api/project/post";
 import { ProjectComment } from "@/app/types/types";
 import { useUserContext } from "@/app/contexts/userContext";
@@ -119,7 +119,7 @@ const ViewProject: React.FC = () => {
             <h1 className="text-3xl font-extrabold mb-4 text-black">
               {project.title}
             </h1>
-            <div className="p-4 w-2/6 bg-white rounded-lg shadow-md mb-8">
+            <div className="p-4 w-3/6 bg-white rounded-lg shadow-md mb-8">
               <div className="flex justify-between border-b-2 pb-4 mb-4">
                 <span className="text-gray-700 font-semibold">ID:</span>
                 <span className="text-black">{project.projectId}</span>

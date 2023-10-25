@@ -3,12 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { getAllProjects } from "@/app/api/project/get";
 import { useParams } from "next/navigation";
-import { CreateProjectDTO } from "@/app/types/types";
-import Image from "next/image";
+import { Project } from "@/app/types/ProjectTypes";
 import logo from "@/public/lock-solid.svg";
+import Image from "next/image";
 
 const ExploreProject: React.FC = () => {
-  const [project, setProject] = useState<CreateProjectDTO | null>(null);
+  const [project, setProject] = useState<Project | null>(null);
   const params = useParams();
   const id = params.id;
 
@@ -18,7 +18,7 @@ const ExploreProject: React.FC = () => {
         try {
           const projectsData = await getAllProjects();
           const selectedProject = projectsData.find(
-            (proj: CreateProjectDTO) => proj.projectId === Number(id)
+            (proj: Project) => proj.projectId === Number(id)
           );
           setProject(selectedProject || null);
         } catch (error) {
@@ -42,25 +42,30 @@ const ExploreProject: React.FC = () => {
   }
 
   return (
-    <div className="h-screen bg-white">
+    <div className="h-full min-h-screen bg-white">
       <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center "></div>
-      <div className="flex flex-col items-center mt-8">
-        <div className="w-2/4 bg-gray-100 p-4 text-black rounded-lg">
+      <div className="flex flex-col items-center mt-8 ">
+        <div className="w-2/4 bg-gray-100 p-4 text-black rounded-lg mb-12">
           <div className="flex flex-col items-center mb-12">
-            <h1 className="text-3xl font-bold mb-2 text-black">
+            <h1 className="text-3xl font-extrabold mb-4 text-black">
               {project.title}
             </h1>
-            <p className="text-lg text-black">
-              <strong>Project ID:</strong> {project.projectId}
-            </p>
-            <p className="text-lg text-black mb-2">
-              <strong>Industry:</strong> {project.industryName}
-            </p>
-            <div className="text-lg text-center">
-              <h2 className="text-2xl font-bold mb-1 text-black">
+            <div className="p-4 w-3/6 bg-white rounded-lg shadow-md mb-8">
+              <div className="flex justify-between border-b-2 pb-4 mb-4">
+                <span className="text-gray-700 font-semibold">ID:</span>
+                <span className="text-black">{project.projectId}</span>
+              </div>
+              <div className="flex justify-between  pb-2 ">
+                <span className="text-gray-700 font-semibold">Industry:</span>
+                <span className="text-black">{project.industryName}</span>
+              </div>
+            </div>
+
+            <div className="text-lg">
+              <h2 className="text-2xl font-bold mb-1 text-center text-black">
                 Skills required
               </h2>
-              <div className="flex flex-wrap justify-center mt-2">
+              <div className="flex flex-wrap mt-2">
                 {project.skillsRequiredNames.map((skill, index) => (
                   <span
                     key={index}
@@ -72,17 +77,11 @@ const ExploreProject: React.FC = () => {
               </div>
             </div>
           </div>
+          <h2 className="text-2xl font-bold mb-4 text-black">Description</h2>
+          <div className="bg-[#FDFDFD] w-full h-auto rounded-md mb-4 p-2">
+            {project.description}
+          </div>
           <div className="flex flex-col items-center bg-gray-200 p-4 rounded-lg border border-gray-400">
-            <p className="text-lg mb-4 text-black">
-              Please log in to view more details and apply to join
-            </p>
-            {/* <button
-              type="button"
-              disabled
-              className="text-center w-1/4 bg-gray-400 text-white font-bold py-2 px-4 rounded cursor-not-allowed"
-            >
-              View all details
-            </button> */}
             <Image
               src={logo}
               alt="content-lock"
@@ -90,6 +89,9 @@ const ExploreProject: React.FC = () => {
               height={30}
               className="text-gray-300 opacity-25"
             />
+            <p className="text-lg mt-2 text-black">
+              Sign in to view more and join the project.
+            </p>
           </div>
         </div>
       </div>

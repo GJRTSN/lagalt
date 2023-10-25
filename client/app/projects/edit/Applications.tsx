@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import placeholder from "@/public/placholderpp.jpg";
-import { acceptApplication } from "@/app/api/Participants";
+import { acceptApplication } from "@/app/api/participant/post";
 import { declineApplication } from "@/app/api/participant/put";
 
 export default function Applications({
@@ -14,7 +14,6 @@ export default function Applications({
     useState<Application[]>(initialApplications);
 
   useEffect(() => {
-    // Filter the applications where accepted = true
     const acceptedApplications = initialApplications.filter(
       (application) => application.accepted
     );

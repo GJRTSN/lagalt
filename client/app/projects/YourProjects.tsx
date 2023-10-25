@@ -22,7 +22,10 @@ export default function YourProjects({ userId }: Partial<User>) {
   }, [userId]);
 
   return (
-    <div id="admindash" className="w-3/4 h-full bg-[#CCCCCC] rounded-lg p-4 ">
+    <div
+      id="admindash"
+      className="w-3/4 h-full bg-[#c2c2c2] rounded-lg p-4 shadow-lg mb-4 "
+    >
       <div className="w-1/2 float-right">
         <Link href="/projects/create">
           <button className="w-auto h-8 bg-green-600 rounded-md px-2 float-right">

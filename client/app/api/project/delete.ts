@@ -35,3 +35,20 @@ export async function deleteApplication(applicationId: number) {
     throw error;
   }
 }
+
+export async function removeParticipant(id: number, userId: number) {
+  try {
+    const response = await fetch(
+      `https://lagalt-case-1.azurewebsites.net/projects/projects/${id}/participants/${userId}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Participant removal failed");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
