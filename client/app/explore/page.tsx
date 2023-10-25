@@ -5,8 +5,14 @@ import { getAllProjects } from "@/app/api/project/get";
 import ExploreCard from "@/app/explore/ExploreCard";
 import { ExploreProjectCard } from "@/app/types/ProjectTypes";
 import { MoonLoader } from "react-spinners";
+import { useSession } from "next-auth/react"; // Assuming you're using NextAuth
+import { getUserId } from "../api/user/route"; // Adjust the import path as needed
+
 
 export default function Explore() {
+  const { data: session } = useSession(); // Access the user's session
+  const [userId, setUserId] = useState(null);
+
   const [projects, setProjects] = useState<ExploreProjectCard[]>([]);
   const [selectedIndustryIds, setSelectedIndustryIds] = useState<number[]>([]);
 
@@ -39,6 +45,21 @@ export default function Explore() {
     };
     getProjects();
   }, []);
+
+  useEffect(() => {
+    if (session) {
+      // Inside this block, the user is logged in, and you have access to their session.
+      const fetchUserId = async () => {
+        const id = await getUserId(); // Call the getUserId function
+        setUserId(id);
+      };
+
+      fetchUserId();
+
+      console.log("User Session Token:", session); // Log the session object
+    }
+  }, [session]);
+  
 
   function IndustryFilter() {
     return (

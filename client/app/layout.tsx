@@ -1,9 +1,9 @@
-"use client";
-
 import { UserProvider } from "@/app/contexts/userContext";
 import "./globals.css";
 import type { Metadata } from "next";
 import Navbar from "./components/Navbar";
+import AuthStatus from "./components/authStatus";
+import SessionProviderWrapper from "@/utils/sessionProviderWrapper"
 
 // export const metadata: Metadata = {
 //   title: "Lagalt - The Collaboration Platform",
@@ -16,13 +16,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <UserProvider>
-      <html lang="en">
-        <body>
-          <Navbar />
-          {children}
-        </body>
-      </html>
-    </UserProvider>
+    <SessionProviderWrapper>
+      <UserProvider>
+        <html lang="en">
+          <body>
+            <AuthStatus />
+            <Navbar />
+            {children}
+          </body>
+        </html>
+      </UserProvider>
+    </SessionProviderWrapper>
   );
 }
