@@ -1,68 +1,104 @@
-import logo from "@/public/noroff.png";
-import { Skill } from "./ProjectData";
-import { Industry } from "./ProjectData";
-import { Status } from "./ProjectData";
+import axios from "axios";
+import { ProjectComment } from "../types/ProjectTypes";
 
-export interface User {
-  id: number;
-  name: string;
-}
-
-export interface Project {
-  id: number;
-  name: string;
-  owner: string;
-  industry: Industry;
-  skillsRequired: Skill[];
-  status: Status;
-  participants: User[];
-  viewCount: number;
-  logo: string;
-}
-
-export const addNewProject = (newProject: Project) => {
-  // Fetch existing projects from local storage or set an empty array if none exist
-  const currentProjects = JSON.parse(localStorage.getItem("projects") || "[]");
-
-  // Add the new project to the array
-  currentProjects.push(newProject);
-
-  // Save the updated project list back to local storage
-  localStorage.setItem("projects", JSON.stringify(currentProjects));
-};
-
-let dummyData: Project[] = [
-  {
-    id: 9001,
-    name: "JAVA CONSOLE GAME",
-    owner: "Owner 1",
-    industry: { id: 1, name: "Web Development" },
-    skillsRequired: [
-      { id: 1, name: "Java" },
-      { id: 2, name: "Spring Boot" },
-      { id: 3, name: "Hibernate" },
-    ],
-    status: { id: 1, name: "Not started" },
-    participants: [
-      { id: 1, name: "Jostein Gjertsen" },
-      { id: 2, name: "Michal Pajestka" },
-    ],
-    viewCount: 4873,
-    logo: "/client/public/noroff.png",
-  },
-];
-
-export default dummyData;
-
-export const getProjects = () => {
-  // Try to fetch projects from local storage
-  const storedProjects = localStorage.getItem("projects");
-
-  if (!storedProjects) {
-    // If no projects are stored, return an empty array or default value
+export async function getAllProjects() {
+  try {
+    const response = await fetch(
+      "https://lagalt-case-1.azurewebsites.net/projects/"
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const projects = await response.json();
+    return projects;
+  } catch (error) {
+    console.error("Error fetching projects: ", error);
     return [];
   }
+}
 
-  // Parse the stored JSON string and return the projects
-  return JSON.parse(storedProjects);
+export async function getProjectById(id: number) {
+  try {
+    const response = await fetch(
+      `https://lagalt-case-1.azurewebsites.net/projects/${id}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const project = await response.json();
+    return project;
+  } catch (error) {
+    console.error(`Error fetching project with ID ${id}: `, error);
+    return null;
+  }
+}
+
+export async function getProjectComments(id: number) {
+  try {
+    const response = await fetch(
+      `https://lagalt-case-1.azurewebsites.net/api/comments/project/${id}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const comments = await response.json();
+    return comments;
+  } catch (error) {
+    console.error(`Error fetching comments from project with ID ${id} `, error);
+    return [];
+  }
+}
+
+export async function getAllSkills() {
+  try {
+    const response = await fetch(
+      "https://lagalt-case-1.azurewebsites.net/projects/skills/"
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const skills = await response.json();
+    return skills;
+  } catch (error) {
+    console.error("Error fetching skills: ", error);
+    return [];
+  }
+}
+
+export async function getAllIndustries() {
+  try {
+    const response = await fetch(
+      "https://lagalt-case-1.azurewebsites.net/projects/industries/"
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const industries = await response.json();
+    return industries;
+  } catch (error) {
+    console.error("Error fetching industries: ", error);
+    return [];
+  }
+}
+
+export const applyToProject = async (
+  applicationText: string,
+  projectId: number,
+  userId: number
+): Promise<void> => {
+  const url = "https://lagalt-case-1.azurewebsites.net/api/workapplications/";
+  const data = {
+    accepted: true,
+    applicationId: 0,
+    forName: "string",
+    motivation: applicationText,
+    projectId: projectId,
+    userId: userId,
+  };
+  console.log(data);
+  try {
+    await axios.post(url, data);
+  } catch (error) {
+    console.error("Error applying to project:", error);
+  }
 };

@@ -1,97 +1,100 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
+import { getAllProjects } from "@/app/api/project/get";
 import { useParams } from "next/navigation";
+import { CreateProjectDTO } from "@/app/types/types";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { getAllProjects } from "@/app/api/getProjects";
+import logo from "@/public/lock-solid.svg";
 
-export default function ProjectPage() {
+const ExploreProject: React.FC = () => {
+  const [project, setProject] = useState<CreateProjectDTO | null>(null);
   const params = useParams();
-  const id = Number(params.id);
-
-  const [project, setProject] = useState<Project | null>(null);
-
-  interface Project {
-    projectId: number;
-    title: string;
-    description: string;
-    status: string;
-    ownerUserId: number;
-    ownerName: string;
-    industry: string | null;
-    skillsRequired: string[];
-  }
+  const id = params.id;
 
   useEffect(() => {
-    const getProjects = async () => {
-      const projectsFromApi = await getAllProjects();
-      const matchedProject = projectsFromApi.find(
-        (proj: Project) => proj.projectId === id
-      );
-
-      setProject(matchedProject || null);
+    const fetchProject = async () => {
+      if (id) {
+        try {
+          const projectsData = await getAllProjects();
+          const selectedProject = projectsData.find(
+            (proj: CreateProjectDTO) => proj.projectId === Number(id)
+          );
+          setProject(selectedProject || null);
+        } catch (error) {
+          console.error("There was an error fetching the projects", error);
+        }
+      }
     };
 
-    getProjects();
+    fetchProject();
   }, [id]);
-
-  console.log(project);
 
   if (!project) {
     return (
-      <div className="h-full min-h-screen bg-white">
+      <div className="h-full min-h-screen bg-white pb-12">
         <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center "></div>
-        <div className="flex flex-col items-center mt-8 p-4">
-          <h1 className="text-3xl font-bold text-center mb-8 text-gray-400">
-            Loading project ...
-          </h1>
+        <div className="flex flex-col justify-center items-center mt-8">
+          <p className="text-black">Loading project...</p>;
         </div>
       </div>
     );
   }
 
   return (
-    <div className="h-full min-h-screen bg-white">
+    <div className="h-screen bg-white">
       <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center "></div>
-      <div className="flex flex-col items-center mt-8 p-4">
-        <div className="w-3/4 bg-gray-100 p-4 text-black rounded-lg">
-          <h1 className="text-3xl font-bold text-center mb-8 text-black">
-            {project.title}
-          </h1>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <p className="font-bold">Project ID:</p>
-              <p>{project.projectId}</p>
+      <div className="flex flex-col items-center mt-8">
+        <div className="w-2/4 bg-gray-100 p-4 text-black rounded-lg">
+          <div className="flex flex-col items-center mb-12">
+            <h1 className="text-3xl font-bold mb-2 text-black">
+              {project.title}
+            </h1>
+            <p className="text-lg text-black">
+              <strong>Project ID:</strong> {project.projectId}
+            </p>
+            <p className="text-lg text-black mb-2">
+              <strong>Industry:</strong> {project.industryName}
+            </p>
+            <div className="text-lg text-center">
+              <h2 className="text-2xl font-bold mb-1 text-black">
+                Skills required
+              </h2>
+              <div className="flex flex-wrap justify-center mt-2">
+                {project.skillsRequiredNames.map((skill, index) => (
+                  <span
+                    key={index}
+                    className="m-1 bg-blue-100 text-blue-800 text-sm py-1 px-3 rounded-full"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
             </div>
-
-            <div>
-              <p className="font-bold">Owner:</p>
-              <p>{project.ownerName}</p>
-            </div>
-            <div>
-              <p className="font-bold">Industry:</p>
-              <p>{project.industry || "Not specified"}</p>
-            </div>
-            <div>
-              <p className="font-bold">Status:</p>
-              <p>{project.status}</p>
-            </div>
-            <div>
-              <p className="font-bold">Skills Required:</p>
-              <p>
-                {project.skillsRequired.length
-                  ? project.skillsRequired.join(", ")
-                  : "Not specified"}
-              </p>
-            </div>
-            <div className="w-3/4 mt-4">
-              <p className="font-bold">Description:</p>
-              <p className="text-black text-lg">{project.description}</p>
-            </div>
+          </div>
+          <div className="flex flex-col items-center bg-gray-200 p-4 rounded-lg border border-gray-400">
+            <p className="text-lg mb-4 text-black">
+              Please log in to view more details and apply to join
+            </p>
+            {/* <button
+              type="button"
+              disabled
+              className="text-center w-1/4 bg-gray-400 text-white font-bold py-2 px-4 rounded cursor-not-allowed"
+            >
+              View all details
+            </button> */}
+            <Image
+              src={logo}
+              alt="content-lock"
+              width={30}
+              height={30}
+              className="text-gray-300 opacity-25"
+            />
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default ExploreProject;

@@ -1,13 +1,24 @@
 "use client";
 
-import { useState } from "react";
-import AdminProject from "./AdminProject";
-import Collaborations from "./Collaborations";
-import Applications from "./Applications";
+import React, { useState, ReactNode, ChangeEvent } from "react";
+import { useUserContext } from "../contexts/userContext";
+import YourCollaborations from "./YourCollaborations";
+import YourApplications from "./YourApplications";
+import YourProjects from "./YourProjects";
 
-const ToggleLabel = ({ checked, onChange, children }) => (
+type ToggleLabelProps = {
+  checked: boolean;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  children: ReactNode;
+};
+
+const ToggleLabel: React.FC<ToggleLabelProps> = ({
+  checked,
+  onChange,
+  children,
+}) => (
   <div className="flex items-center">
-    <p className="font-roboto font-semibold text-[#FDFDFD]">{children}</p>
+    <p className="text-sm text-[#FDFDFD]">{children}</p>
     <label
       className={`${
         checked ? "bg-green-400" : "bg-gray-400"
@@ -29,9 +40,15 @@ const ToggleLabel = ({ checked, onChange, children }) => (
 );
 
 export default function Projects() {
+  const { user } = useUserContext();
+
   const [showAdminDash, setShowAdminDash] = useState(true);
   const [showCollabs, setShowCollabs] = useState(true);
   const [showApplications, setShowApplications] = useState(true);
+
+  if (!user || user.userId === undefined || user.userId === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="h-full min-h-screen bg-white">
@@ -61,9 +78,11 @@ export default function Projects() {
         </ToggleLabel>
       </div>
       <div className="h-3/5 flex bg-white flex-col items-center justify-center">
-        {showAdminDash && <AdminProject />}
-        {showCollabs && <Collaborations />}
-        {showApplications && <Applications />}
+        {showAdminDash && <YourProjects userId={user.userId as number} />}
+        {showCollabs && <YourCollaborations userId={user.userId as number} />}
+        {showApplications && (
+          <YourApplications userId={user.userId as number} />
+        )}
       </div>
     </div>
   );
