@@ -45,12 +45,12 @@ export default function ProfileInfo({ userId }: Partial<User>) {
 
         {/* Column 2 */}
         <div className="flex-1 p-4  rounded-lg flex justify-center items-center">
-          <Image
-            src={placeholder}
-            alt="User-picture"
+          <img
+            src={userData?.profilePicture}
+            alt="User-placeholder"
             width={200}
             height={200}
-            className="rounded-lg"
+            className="rounded-lg object-cover"
           />
         </div>
       </div>

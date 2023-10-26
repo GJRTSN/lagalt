@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import Image from "next/image";
 
 import placeholder from "@/public/placholderpp.jpg";
 import { acceptApplication } from "@/app/api/participant/post";
 import { declineApplication } from "@/app/api/participant/put";
+import { getUserData } from "@/app/api/user/get";
 
 export default function Applications({
   applications: initialApplications,
@@ -12,6 +12,9 @@ export default function Applications({
 }: ApplicationsProps) {
   const [applications, setApplications] =
     useState<Application[]>(initialApplications);
+  const [applicantImages, setApplicantImages] = useState<{
+    [key: string]: string;
+  }>({});
 
   useEffect(() => {
     // Filter accepted applications when the component mounts
@@ -44,12 +47,34 @@ export default function Applications({
     }
   };
 
+  const fetchProfilePicture = useCallback(async (userId: number) => {
+    try {
+      const response = await getUserData(userId);
+      return response.profilePicture || placeholder;
+    } catch (error) {
+      console.error("There was an error fetching the profile picture:", error);
+      return placeholder; // Return placeholder image URL in case of an error
+    }
+  }, []);
+
+  const fetchAllProfilePictures = async () => {
+    const images: { [key: number]: string } = {};
+    for (let application of applications) {
+      const image = await fetchProfilePicture(application.userId);
+      images[application.userId] = image;
+    }
+    setApplicantImages(images);
+  };
+
+  useEffect(() => {
+    fetchAllProfilePictures();
+  }, [applications, fetchProfilePicture]);
+
   return (
     <div className="text-lg mb-4 text-black">
       <h2 className="text-2xl font-bold mb-4 text-black">
         Applications ({applications?.length})
       </h2>
-
       {applications?.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {applications.map((application, index) => (
@@ -60,11 +85,9 @@ export default function Applications({
               <div className="p-4 border-b flex justify-between bg-white items-center">
                 <div className="flex items-center">
                   <div className="relative w-10 h-10">
-                    <Image
-                      src={placeholder}
+                    <img
+                      src={applicantImages[application.userId]}
                       alt="avatar"
-                      layout="fill"
-                      objectFit="cover"
                       className="rounded-full"
                     />
                   </div>
@@ -108,7 +131,7 @@ export default function Applications({
         </div>
       ) : (
         <p className="text-center">
-          There are currently no participants in this project.
+          There are currently no applicants for this project.
         </p>
       )}
     </div>

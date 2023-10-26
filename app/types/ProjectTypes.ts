@@ -23,6 +23,7 @@ export interface ProjAdminList {
 export interface Project {
   description: string;
   industryId: number;
+  projectPicture: string;
   industryName: string;
   ownerName: string;
   ownerUserId: number;

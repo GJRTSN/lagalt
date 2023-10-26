@@ -195,7 +195,7 @@ export default function UpdateProject() {
         ? prevFormData.skillsRequiredNames.filter(
             (name) => name !== skillToRemove
           )
-        : [...prevFormData.skillsRequiredNames]; // if no matching skill, copy the existing array
+        : [...prevFormData.skillsRequiredNames];
 
       return {
         ...prevFormData,
@@ -206,14 +206,14 @@ export default function UpdateProject() {
   };
 
   const handleDeleteProject = async () => {
-    await deleteProject(id); // Call deleteProject function with project ID
-    router.push("/projects"); // Redirect to projects page after deletion
+    await deleteProject(id);
+    router.push("/projects");
   };
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    if (!formData) return; // Ensure formData is not null
+    if (!formData) return;
     console.log("Updating project with data:", formData);
 
     try {
@@ -267,6 +267,21 @@ export default function UpdateProject() {
         >
           <div className="flex flex-col justify-center">
             <form onSubmit={handleSubmit} className="space-y-4 flex flex-col">
+              <label
+                htmlFor="projectPicture"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Project Picture
+              </label>
+              <input
+                type="text"
+                name="projectPicture"
+                value={formData.projectPicture}
+                onChange={handleInputChange}
+                placeholder="Enter an image URL for your project"
+                className="text-black mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+
               <label
                 htmlFor="title"
                 className="block text-sm font-medium text-gray-700"

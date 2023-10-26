@@ -10,7 +10,6 @@ import Image from "next/image";
 
 export default function Home() {
   const router = useRouter();
-  const [userId, setUserId] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -21,10 +20,13 @@ export default function Home() {
     event.preventDefault();
     try {
       const response = await axios.get(
-        `https://lagalt-case-1.azurewebsites.net/users/${userId}`
+        `https://lagalt-case-1.azurewebsites.net/users/`
       );
-      const user = response.data;
-      if (user.username === username && user.password === password) {
+      const users = response.data;
+      const user = users.find(
+        (user: any) => user.username === username && user.password === password
+      );
+      if (user) {
         setUser(user);
         router.push("/explore");
       } else {
@@ -50,22 +52,6 @@ export default function Home() {
           </h2>
           <div className="flex flex-col w-full bg-white p-8 rounded-lg  text-black ">
             <form onSubmit={handleLogin} className="flex flex-col space-y-4">
-              <div className="mb-4">
-                <label
-                  className="block mb-2 text-sm font-bold"
-                  htmlFor="userId"
-                >
-                  User ID
-                </label>
-                <input
-                  className="w-full p-2 border rounded-lg"
-                  type="text"
-                  id="userId"
-                  name="userId"
-                  value={userId}
-                  onChange={(e) => setUserId(e.target.value)}
-                />
-              </div>
               <div className="mb-4">
                 <label
                   className="block mb-2 text-sm font-bold"

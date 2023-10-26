@@ -22,6 +22,8 @@ export interface UpdateUser {
   forName: string;
   lastName: string;
   description: string;
+  profilePicture: string;
+
   country: string;
   title: string;
   email: string;
@@ -46,6 +48,7 @@ export interface UserProfile {
   forName: string;
   lastName: string;
   description: string;
+  profilePicture: string;
   country: string;
   email: string;
   userRole: string;

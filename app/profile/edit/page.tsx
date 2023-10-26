@@ -147,7 +147,7 @@ export default function EditProfile() {
           },
         }
       );
-
+      console.log("NEW PROFILE INFO:", updatedUserData);
       if (userResponse.status === 200) {
         console.log("Server returned:", userResponse.data);
         updateUser(userResponse.data);
@@ -272,16 +272,27 @@ export default function EditProfile() {
 
                 <div className="flex-1 p-4 rounded-lg flex justify-center items-center">
                   <div className="rounded-lg flex flex-col items-center justify-center h-72">
-                    <Image
-                      src={placeholder}
+                    <img
+                      src={userData?.profilePicture}
                       alt="User-placeholder"
                       width={200}
                       height={200}
                       className="rounded-lg"
                     />
-                    <button className="bg-green-500 hover:bg-green-700 text-white p-1 rounded-md mt-3">
-                      Upload
-                    </button>
+                    <label
+                      htmlFor="profilePicture"
+                      className="block text-sm font-medium text-gray-700 mt-2"
+                    >
+                      Picture URL
+                    </label>
+                    <input
+                      type="text"
+                      name="profilePicture"
+                      value={userData?.profilePicture}
+                      onChange={handleInputChange}
+                      placeholder="Enter an image URL for your project"
+                      className="text-black mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
                   </div>
                 </div>
               </div>

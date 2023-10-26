@@ -15,6 +15,7 @@ export async function getUserData(userId: number) {
     );
 
     return {
+      profilePicture: data.profilePicture,
       userData: data,
       isProfileVisible: data.profileVisible,
       existingSkills: existingSkills,

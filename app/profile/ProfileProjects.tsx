@@ -23,7 +23,7 @@ export default function ProfileProjects({ userId }: Partial<User>) {
         <h2 className="text-2xl mb-2 font-bold">Projects</h2>
         <div className="text-black">
           {userData.projects && userData.projects.length > 0 ? (
-            <table className="min-w-max w-full table-auto">
+            <table className="w-full table-auto">
               <thead>
                 <tr className="bg-[#b0d3bb] text-gray-600 uppercase text-sm leading-normal">
                   <th className="py-3 px-6 text-left">ID</th>
