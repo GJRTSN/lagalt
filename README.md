@@ -56,7 +56,7 @@ https://lagalt-case-1.azurewebsites.net/swagger-ui/#/
 
 ## Project Status
 
-TBA
+As of 26.10.2023 the project has reached a MVP-status based on the requirements and feedback from our lecturers.
 
 ## Usage
 
@@ -64,7 +64,7 @@ TBA
 
 ## Demo
 
-TBA
+The application is available at <a href="https:/www.lagalt.zyz">www.lagalt.zyz</a>.
 
 ## Credits
 
