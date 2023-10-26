@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { getUserById } from "@/app/api/user/get";
 import { User } from "@/app/types/UserTypes";
-import placeholder from "@/public/placholderpp.jpg";
-import Image from "next/image";
 
 export default function ProfileInfo({ userId }: Partial<User>) {
   const [userData, setUserData] = useState<any>(null);
@@ -24,9 +22,7 @@ export default function ProfileInfo({ userId }: Partial<User>) {
 
   return (
     <div className="bg-[#e7f7e9] p-4 rounded-xl mt-4 text-black">
-      {/* Row 1 */}
       <div className="flex space-x-4 mb-4">
-        {/* Column 1 */}
         <div className="flex-1 p-4 rounded-lg">
           <h2 className="text-2xl font-semibold mb-4">
             {userData.forName} {userData.lastName}
@@ -42,8 +38,6 @@ export default function ProfileInfo({ userId }: Partial<User>) {
             <div className="">{userData.age}</div>
           </div>
         </div>
-
-        {/* Column 2 */}
         <div className="flex-1 p-4  rounded-lg flex justify-center items-center">
           <img
             src={userData?.profilePicture}
@@ -54,7 +48,6 @@ export default function ProfileInfo({ userId }: Partial<User>) {
           />
         </div>
       </div>
-      {/* Row 2 */}
       <div className=" p-4 rounded-lg">
         <p className="font-bold text-xl mb-2">Description</p>
         <div className="bg-white w-full h-auto p-8 rounded-md">
