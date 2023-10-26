@@ -37,7 +37,7 @@ export default function Profile() {
     <div className="h-screen bg-white">
       <div className="w-full h-16 bg-[#67864e] flex flex-row items-center justify-center mb-8">
         <Link href="profile/edit">
-          <button className="bg-yellow-500 hover:bg-gray-700 font-bold py-1 px-3 rounded">
+          <button className=" border-2 border-yellow-500 hover:bg-gray-700 font-bold py-1 px-3 rounded">
             Edit profile
           </button>
         </Link>

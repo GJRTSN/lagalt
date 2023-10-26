@@ -171,22 +171,17 @@ export default function CreateProject() {
     <div className="h-full min-h-screen bg-white">
       <div
         id=""
-        className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center mb-4"
+        className="w-full bg-[#67864e] h-16 flex flex-row items-center justify-center mb-4"
       >
         <div className="flex flex-row w-3/4 items-center justify-center">
-          <p className="text-black">
-            Creating a new project with pre-assigned ID:
-          </p>
-          <div className=" w-auto bg-yellow-500 rounded-md py-1 px-3 mx-2">
-            {newProjectId}
-          </div>
+          <p className="text-white font-bold">Creating a new project</p>
         </div>
       </div>
 
       <div className="h-3/5 flex bg-white flex-col items-center justify-center">
         <div
           id="admindash"
-          className="w-3/4 h-full bg-[#CCCCCC] rounded-lg p-4 "
+          className="w-2/4 h-full bg-[#f3f3f3] rounded-lg p-4 "
         >
           <div className="flex flex-col justify-center">
             <form onSubmit={handleSubmit} className="space-y-4 flex flex-col">
@@ -201,7 +196,7 @@ export default function CreateProject() {
                 name="title"
                 value={formData.title}
                 onChange={handleInputChange}
-                placeholder=""
+                placeholder="Enter a title for your project"
                 className="text-black mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
               <div>
@@ -310,7 +305,7 @@ export default function CreateProject() {
               </div>
               <button
                 type="submit"
-                className="text-center w-1/4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="text-center w-1/4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
               >
                 Create
               </button>

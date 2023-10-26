@@ -32,9 +32,9 @@ export default function YourProjects({ userId }: Partial<User>) {
         This is an overview of the projects you own and administrate
       </p>
 
-      <div className="w-full p-5">
+      <div className="w-full p-4">
         <div className="bg-white shadow-md rounded my-6">
-          <table className="min-w-max w-full table-auto">
+          <table className=" w-full table-auto">
             <thead>
               <tr className="bg-[#b0d3bb] text-gray-600 uppercase text-sm leading-normal">
                 <th className="py-3 px-6 text-left">ID</th>
@@ -112,8 +112,10 @@ export default function YourProjects({ userId }: Partial<User>) {
               ))}
             </tbody>
           </table>
+        </div>
+        <div className="flex justify-center mt-6">
           <Link href="/projects/create">
-            <button className="w-auto h-8 bg-green-700 font-medium hover:bg-green-500 rounded-md px-2 float-right mt-6">
+            <button className="w-auto h-8 bg-green-700 font-medium hover:bg-green-500 rounded-md px-2">
               New project
             </button>
           </Link>

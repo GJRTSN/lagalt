@@ -126,14 +126,30 @@ const ViewProject: React.FC = () => {
   }
 
   return (
-    <div className="h-full min-h-screen bg-white">
+    <div
+      className="h-full bg-white"
+      style={{ minHeight: "calc(100vh - 4rem)" }}
+    >
       <div className="w-full h-16 bg-[#67864e] flex flex-row items-center justify-center space-x-4">
         {(() => {
+          // Check if the logged-in user is a participant, owner, or applicant on the project
+          const isParticipant = project.participants.some(
+            (participant) => participant.userId === userId
+          );
+
+          if (isParticipant) {
+            return (
+              <p className="text-white bg-gray-400 p-2 rounded-md text-sm truncate">
+                You are participating in this project
+              </p>
+            );
+          }
+
           if (project.ownerUserId === userId) {
             return (
               <div className="w-full h-auto flex flex-row justify-center items-center gap-4">
-                <p className="text-white font-semibold bg-gray-400 px-2 py-1 rounded-md">
-                  You own this project!
+                <p className="text-white  bg-gray-400 px-2 py-1 rounded-md">
+                  You own this project
                 </p>
                 <Link href={`/projects/edit/${project.projectId}`}>
                   <button className="text-md bg-yellow-600 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">
@@ -147,7 +163,6 @@ const ViewProject: React.FC = () => {
           const userApplication = project.workApplications.find(
             (application) => application.userId === userId
           );
-
           if (userApplication) {
             if (userApplication.accepted) {
               return (
@@ -336,7 +351,7 @@ const ViewProject: React.FC = () => {
           )}
         </div>
         <div className="w-2/4 bg-gray-100 p-4 text-black rounded-lg mb-12">
-          <div className="mt-8">
+          <div className="">
             <h2 className={titleCSS}>Comments</h2>
 
             {comments ? (
@@ -360,27 +375,28 @@ const ViewProject: React.FC = () => {
               <p>Loading comments...</p>
             )}
           </div>
-          <h2 className="text-lg mt-4 mb-2 font-bold">Post new comment</h2>
+          <h2 className="text-lg mt-6 mb-2 font-bold">Post new comment</h2>
           <div className="flex space-x-3 mb-4">
-            <form className="flex-1" onSubmit={handleCommentPost}>
-              <div className="rounded-md shadow-sm">
+            <form
+              className="flex-1 flex space-x-3"
+              onSubmit={handleCommentPost}
+            >
+              <div className="flex-grow rounded-md shadow-sm">
                 <input
                   type="text"
                   value={newComment}
                   onChange={handleCommentChange}
                   placeholder="Write a comment..."
                   required
-                  className="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                  className="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent"
                 />
               </div>
-              <div className="flex justify-end mt-2">
-                <button
-                  type="submit"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                >
-                  Post
-                </button>
-              </div>
+              <button
+                type="submit"
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Post
+              </button>
             </form>
           </div>
         </div>

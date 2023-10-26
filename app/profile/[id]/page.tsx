@@ -5,6 +5,7 @@ import ProfileSkills from "@/app/profile/ProfileSkills";
 import { useEffect, useState } from "react";
 import { getUserData } from "@/app/api/user/get";
 import { useParams } from "next/navigation";
+import { MoonLoader } from "react-spinners";
 import privateProfile from "@/public/lock-solid.svg";
 import Image from "next/image";
 
@@ -36,7 +37,16 @@ export default function Profile() {
   }, [userId]);
 
   if (!userData) {
-    return null;
+    return (
+      <div className="h-screen bg-white">
+        <div className="w-full h-16 bg-[#67864e] flex flex-row items-center justify-center">
+          <div className="w-full h-16 bg-[#67864e] flex flex-row items-center text-2xl justify-center space-x-4"></div>
+        </div>
+        <div className="flex bg-white flex-col items-center justify-center mt-8">
+          <MoonLoader color="#8cb669" />
+        </div>
+      </div>
+    );
   }
 
   return (

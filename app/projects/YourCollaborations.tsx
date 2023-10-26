@@ -47,7 +47,7 @@ export default function YourCollaborations({ userId }: Partial<User>) {
         This is an overview of other projects which you are currently
         collaborating on
       </p>
-      <div className="w-full  rounded-lg p-2 my-6">
+      <div className="w-full  rounded-lg p-4 my-6">
         {projects.length > 0 ? (
           <table className="min-w-full shadow-md table-auto">
             <thead className="bg-[#b0d3bb]">

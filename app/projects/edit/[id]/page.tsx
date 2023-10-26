@@ -235,7 +235,7 @@ export default function UpdateProject() {
   if (!formData) {
     return (
       <div className="h-full min-h-screen bg-white pb-12">
-        <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center "></div>
+        <div className="w-full h-16 bg-[#67864e] flex flex-row items-center justify-center "></div>
         <div className="flex flex-col justify-center items-center mt-8">
           <MoonLoader color="#8cb669" />
         </div>
@@ -252,23 +252,20 @@ export default function UpdateProject() {
       />
       <div
         id=""
-        className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center mb-4"
-      ></div>
+        className="w-full h-16 bg-[#67864e] flex flex-row items-center justify-center mb-4"
+      >
+        <h2 className="font-bold">Editing project:</h2>{" "}
+        <span className=" w-auto bg-gray-500 rounded-md font-medium text-white py-1 px-3 mx-2">
+          {formData.title}
+        </span>
+      </div>
 
       <div className="h-2/4 flex bg-white flex-col items-center justify-center">
         <div
           id="admindash"
-          className="w-2/4 h-full bg-[#CCCCCC] rounded-lg p-4 mb-8"
+          className="w-2/4 h-full bg-[#f3f3f3] rounded-lg p-4 mb-8"
         >
           <div className="flex flex-col justify-center">
-            <div className="w-full h-auto flex flex-row justify-center items-center">
-              <h3 className="text-3xl font-bold mb-4 text-black">
-                Editing project with ID:{" "}
-                <span className=" w-auto bg-yellow-500 rounded-md text-white py-1 px-3 mx-2">
-                  {formData.projectId}
-                </span>
-              </h3>
-            </div>
             <form onSubmit={handleSubmit} className="space-y-4 flex flex-col">
               <label
                 htmlFor="title"
@@ -403,7 +400,7 @@ export default function UpdateProject() {
             </form>
           </div>
 
-          <div className="w-full h-auto mt-8 flex flex-row items-center justify-center gap-x-4">
+          <div className="w-full h-auto mt-12 flex flex-row items-center justify-center gap-x-4">
             <button
               type="submit"
               onClick={handleSubmit}
@@ -425,6 +422,7 @@ export default function UpdateProject() {
             </button>
           </div>
         </div>
+        h2
       </div>
     </div>
   );

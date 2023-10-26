@@ -50,13 +50,13 @@ const Register = () => {
           username: data.username,
           forName: data.forName,
           lastName: data.lastName,
-          description: "", 
+          description: "",
           country: "",
           email: "",
           userRole: "",
           includeProjects: false,
           projects: [],
-          password: "", 
+          password: "",
           age: 0,
           skillIds: [],
           skillNames: [],
@@ -217,7 +217,7 @@ const Register = () => {
 
           <button
             type="submit"
-            className="w-full py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md"
+            className="w-full py-2 text-white bg-green-600 hover:bg-green-700 rounded-md"
           >
             Register
           </button>

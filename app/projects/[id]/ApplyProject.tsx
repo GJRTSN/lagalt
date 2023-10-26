@@ -13,14 +13,14 @@ const ApplyProject: React.FC<ApplyProjectProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
+    <div className="fixed inset-0 h-screen flex items-center w-screen justify-center  bg-black bg-opacity-50">
       {isSent ? (
-        <div className="bg-white p-4 rounded-lg shadow-xl w-1/6 h-24 flex items-center justify-center flex-col">
+        <div className="bg-white p-4 rounded-lg shadow-xl  w-2/6  h-32 flex items-center justify-center flex-col">
           <span className="text-lg text-black mb-2">
             Application sent successfully!
           </span>
           <button
-            className="py-2 px-4 bg-green-200 text-black rounded hover:bg-green-300"
+            className="py-2 px-4 mt-4 bg-green-200 text-black rounded hover:bg-green-300"
             onClick={onClose}
           >
             Close

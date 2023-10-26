@@ -44,7 +44,7 @@ export default function YourApplications({ userId }: Partial<User>) {
       <p className="text-black ">
         This overview shows your pending applications for projects to join
       </p>
-      <div className="w-full rounded-lg p-2">
+      <div className="w-full rounded-lg p-4">
         {projects.length > 0 ? (
           <table className="min-w-full shadow-md table-auto my-6">
             <thead className="bg-[#b0d3bb]">

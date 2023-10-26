@@ -87,12 +87,12 @@ export default function Explore() {
       </div>
 
       <div
-        className="w-screen h-96 relative flex justify-center mb-8"
+        className="w-screen h-auto relative flex justify-center mb-8"
         style={{
           backgroundImage: `
-          linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.25) 60%, rgba(255, 255, 255, 0.5) 75%, white 100%),
-          url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=3870&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')
-    `,
+        linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.25) 60%, rgba(255, 255, 255, 0.5) 75%, white 100%),
+        url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=3870&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')
+        `,
           backgroundSize: "cover",
           backgroundPosition: "70% 60%",
           backgroundRepeat: "no-repeat",
@@ -100,16 +100,16 @@ export default function Explore() {
       >
         <div
           id="welcome"
-          className="w-1/2 h-2/5 bg-[#f3f3f3] bg-opacity-90 my-8 text-center rounded-lg p-4 pb-2 shadow-lg"
+          className="w-1/2  bg-[#f3f3f3] bg-opacity-90 my-8 text-center rounded-lg p-4 pb-2 shadow-lg"
         >
           <h2 className="text-black text-4xl mb-4 font-black">
             Welcome to Lagalt!
           </h2>
-          <p className="text-black font-medium text-xl">
+          <p className="text-black  text-lg mb-4">
             On this page you can find all available projects. Use the filter
             above to sort through the different industriees. If a project
             requries skills that you have setup, they will be highlighted{" "}
-            <span className="text-green-400">green</span>.
+            <span className="text-green-500 font-black">green</span>.
           </p>
         </div>
       </div>
