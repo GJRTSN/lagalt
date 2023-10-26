@@ -5,6 +5,7 @@ export interface RegisterUserData {
   username: string;
   forName: string;
   description: string;
+  profilePicture: string;
   lastName: string;
   includeProjects: boolean;
   email: string;

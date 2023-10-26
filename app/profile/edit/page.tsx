@@ -166,7 +166,7 @@ export default function EditProfile() {
   return (
     <form>
       <div className="h-screen bg-white">
-        <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center">
+        <div className="w-full h-16 bg-[#67864e] flex flex-row items-center justify-center">
           <div className="w-2/4 flex justify-between">
             <p className="text-black italic py-2"></p>
           </div>
@@ -174,7 +174,7 @@ export default function EditProfile() {
 
         <div className="bg-white flex flex-col items-center justify-center p-4 rounded-xl text-black">
           <div className="w-2/4">
-            <div className="mt-10 bg-gray-300 p-4 rounded-xl">
+            <div className="mt-4 bg-gray-300 p-4 rounded-xl">
               <div className="w-full h-auto  flex flex-row items-center justify-between">
                 <h3 className="text-3xl font-bold mb-4">Edit your profile</h3>
                 <label className="relative inline-flex cursor-pointer select-none items-center">
