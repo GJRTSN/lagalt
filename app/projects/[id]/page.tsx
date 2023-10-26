@@ -128,9 +128,22 @@ const ViewProject: React.FC = () => {
   return (
     <div className="h-full min-h-screen bg-white">
       <div className="w-full h-16 bg-[#67864e] flex flex-row items-center justify-center space-x-4">
-        <h2 className="text-white truncate font-bold">Join this project?</h2>
-
         {(() => {
+          if (project.ownerUserId === userId) {
+            return (
+              <div className="w-full h-auto flex flex-row justify-center items-center gap-4">
+                <p className="text-white font-semibold bg-gray-400 px-2 py-1 rounded-md">
+                  You own this project!
+                </p>
+                <Link href={`/profile/edit/${project.projectId}`}>
+                  <button className="text-md bg-yellow-600 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">
+                    Edit
+                  </button>
+                </Link>
+              </div>
+            );
+          }
+
           const userApplication = project.workApplications.find(
             (application) => application.userId === userId
           );
@@ -145,7 +158,10 @@ const ViewProject: React.FC = () => {
             } else {
               return (
                 <>
-                  <p className="text-xs bg-pink-200 p-2 rounded-md text-center truncate">
+                  <h2 className="text-white truncate font-bold">
+                    Join this project?
+                  </h2>
+                  <p className="text-sm bg-pink-200 p-2 text-black rounded-md text-center truncate">
                     Previous application declined. Try again.
                   </p>
                   <button
@@ -160,13 +176,18 @@ const ViewProject: React.FC = () => {
             }
           } else {
             return (
-              <button
-                type="submit"
-                onClick={handleOpenModal}
-                className="text-md bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"
-              >
-                APPLY
-              </button>
+              <>
+                <h2 className="text-white truncate font-bold">
+                  Join this project?
+                </h2>
+                <button
+                  type="submit"
+                  onClick={handleOpenModal}
+                  className="text-md bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"
+                >
+                  APPLY
+                </button>
+              </>
             );
           }
         })()}

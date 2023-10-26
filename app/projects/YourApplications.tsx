@@ -40,10 +40,8 @@ export default function YourApplications({ userId }: Partial<User>) {
       id="applications"
       className="w-3/4 h-1/4 m-4 bg-[#f3f3f3] rounded-lg p-4"
     >
-      <h3 className="text-black text-4xl font-bold font-roboto mb-2">
-        Your applications
-      </h3>
-      <p className="text-black font-roboto">
+      <h3 className="text-black text-4xl font-bold  mb-2">Applications</h3>
+      <p className="text-black ">
         This overview shows your pending applications for projects to join
       </p>
       <div className="w-full rounded-lg p-2">

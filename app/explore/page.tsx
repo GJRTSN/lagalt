@@ -100,7 +100,7 @@ export default function Explore() {
       >
         <div
           id="welcome"
-          className="w-1/2 h-36 bg-[#f3f3f3] bg-opacity-90 my-8 text-center rounded-lg p-4 pb-2 shadow-lg"
+          className="w-1/2 h-2/5 bg-[#f3f3f3] bg-opacity-90 my-8 text-center rounded-lg p-4 pb-2 shadow-lg"
         >
           <h2 className="text-black text-4xl mb-4 font-black">
             Welcome to Lagalt!

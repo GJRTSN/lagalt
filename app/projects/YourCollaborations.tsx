@@ -42,9 +42,7 @@ export default function YourCollaborations({ userId }: Partial<User>) {
 
   return (
     <div id="collabs" className="w-3/4 h-1/4 m-4 bg-[#f3f3f3] rounded-lg p-4">
-      <h3 className="text-black text-4xl font-bold font-roboto mb-2">
-        Your collaborations
-      </h3>
+      <h3 className="text-black text-4xl font-bold  mb-2">Collaborations</h3>
       <p className="text-black font-roboto">
         This is an overview of other projects which you are currently
         collaborating on

@@ -27,9 +27,7 @@ export default function YourProjects({ userId }: Partial<User>) {
       className="w-3/4 h-full bg-[#f3f3f3] border-2 border-green-500 rounded-lg p-4 shadow-lg mb-4 "
     >
       <div className="w-1/2 float-right "></div>
-      <h3 className="text-black text-4xl font-bold font-roboto mb-2 ">
-        Your projects
-      </h3>
+      <h3 className="text-black text-4xl font-bold mb-2 ">Projects</h3>
       <p className="text-black font-roboto">
         This is an overview of the projects you own and administrate
       </p>

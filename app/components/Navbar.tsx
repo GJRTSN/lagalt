@@ -40,7 +40,7 @@ export default function Navbar() {
               }`}
             >
               <Link href="/explore">
-                <h2 className={`text-2xl font-roboto ${navStyle}`}>EXPLORE</h2>
+                <h2 className={`text-2xl ${navStyle}`}>EXPLORE</h2>
               </Link>
             </div>
             {user ? (
@@ -53,9 +53,7 @@ export default function Navbar() {
                   }`}
                 >
                   <Link href="/projects">
-                    <h2 className={`text-2xl font-roboto ${navStyle}`}>
-                      PROJECTS
-                    </h2>
+                    <h2 className={`text-2xl ${navStyle}`}>PROJECTS</h2>
                   </Link>
                 </div>
 
@@ -67,9 +65,7 @@ export default function Navbar() {
                   }`}
                 >
                   <Link href="/profile">
-                    <h2 className={`text-2xl font-roboto ${navStyle}`}>
-                      PROFILE
-                    </h2>
+                    <h2 className={`text-2xl  ${navStyle}`}>PROFILE</h2>
                   </Link>
                 </div>
               </>
