@@ -11,8 +11,9 @@
 3. [Figma](#figma)
 4. [Content](#content)
 5. [Features](#features)
-6. [Project Status](#project-status)
-7. [Demo](#demo)
+6. [API Docs](#api-documentation)
+7. [Project Status](#project-status)
+8. [Demo](#demo)
 
 ## Content
 
@@ -26,7 +27,7 @@ TBA
 
 ### Frontend
 
-- <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">JavaScript</a>: (reason why)
+- <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">TypeScript</a>: (reason why)
 - <a href="https://react.dev/">React</a>: (reason why)
 - <a href="https://nextjs.org/">Next</a>: React themselves are collaborating with the Next team and recommends on their homepage to use Next. Next is also developed by Vercel which we will be using for deployment.
 - <a href="https://tailwindcss.com/">Tailwind CSS</a>: (reason why)
@@ -49,9 +50,13 @@ TBA
 
 TBA
 
+## API Documentation
+
+https://lagalt-case-1.azurewebsites.net/swagger-ui/#/
+
 ## Project Status
 
-TBA
+As of 26.10.2023 the project has reached a MVP-status based on the requirements and feedback from our lecturers.
 
 ## Usage
 
@@ -59,7 +64,7 @@ TBA
 
 ## Demo
 
-TBA
+The application is available at <a href="https:/www.lagalt.zyz">www.lagalt.zyz</a>.
 
 ## Credits
 
