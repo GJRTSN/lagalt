@@ -135,7 +135,7 @@ const ViewProject: React.FC = () => {
                 <p className="text-white font-semibold bg-gray-400 px-2 py-1 rounded-md">
                   You own this project!
                 </p>
-                <Link href={`/profile/edit/${project.projectId}`}>
+                <Link href={`/projects/edit/${project.projectId}`}>
                   <button className="text-md bg-yellow-600 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">
                     Edit
                   </button>
