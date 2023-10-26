@@ -13,7 +13,7 @@ async function keycloakSessionLogout(){
 export default function AuthStatus() {
   const { data: session, status } = useSession();
 
-  if (status == "loading") {
+  if (status === "loading") {
     return <div className="my-3">Loading...</div>;
   } else if (session) {
     return (
@@ -22,7 +22,8 @@ export default function AuthStatus() {
         <button
           className="bg-green-500 font-bold text-white py-1 px-2 rounded"
           onClick={() => {
-            keycloakSessionLogout().then(() => signOut({ callbackUrl: "/" }));
+            console.log("JWT Token:", session.user.accessToken); // Log the JWT token
+            signOut({ callbackUrl: "/" });
           }}
         >
           Log out
