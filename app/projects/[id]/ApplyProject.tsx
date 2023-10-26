@@ -9,7 +9,7 @@ const ApplyProject: React.FC<ApplyProjectProps> = ({
 }) => {
   const [applicationText, setApplicationText] = useState("");
 
-   // If the modal is not open, return null
+  // If the modal is not open, return null
   if (!isOpen) return null;
 
   return (
@@ -32,14 +32,14 @@ const ApplyProject: React.FC<ApplyProjectProps> = ({
             Write your application
           </h2>
           <textarea
-            className="w-full h-56 p-2 mb-4 border rounded resize-none"
+            className="w-full h-56 p-2 text-black mb-4 border rounded resize-none"
             placeholder="What is your motivation to join this project?"
             value={applicationText}
             onChange={(e) => setApplicationText(e.target.value)}
           ></textarea>
           <div className="flex justify-end space-x-2">
             <button
-              className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600"
+              className="py-2 px-4 bg-green-500 text-white rounded hover:bg-green-600"
               onClick={() => {
                 onSend(applicationText);
               }}

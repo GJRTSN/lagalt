@@ -20,7 +20,7 @@ export default function Navbar() {
   return (
     <>
       {pathname === "/" || pathname === "/register" ? null : (
-        <div className="w-full h-16 relative bg-[#CCCCCC] flex flex-row justify-center gap-12 items-center">
+        <div className="w-full h-16 relative bg-[#FDFDFD] flex flex-row justify-center gap-12 items-center">
           <Image
             src={logo}
             className="absolute left-0 ml-6 transition ease-in-out 1s p-2 rounded shadow-s hover:opacity-70"
@@ -35,8 +35,8 @@ export default function Navbar() {
             <div
               className={`link transition-colors duration-300 ease-in-out ${
                 pathname.startsWith("/explore")
-                  ? "bg-[#8cb669] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
-                  : "bg-[#CCCCCC] border border-transparent h-3/5 flex items-center rounded-t-md px-4 text-gray-700"
+                  ? "bg-[#67864e] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
+                  : "bg-[#FDFDFD] border border-transparent h-3/5 flex items-center rounded-t-md px-4 text-gray-700"
               }`}
             >
               <Link href="/explore">
@@ -48,8 +48,8 @@ export default function Navbar() {
                 <div
                   className={`link transition-colors duration-300 ease-in-out ${
                     pathname.startsWith("/projects")
-                      ? "bg-[#8cb669] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
-                      : "bg-[#CCCCCC] border border-transparent h-3/5 flex items-center rounded-t-md px-4 text-gray-700"
+                      ? "bg-[#67864e] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
+                      : "bg-[#FDFDFD] border border-transparent h-3/5 flex items-center rounded-t-md px-4 text-gray-700"
                   }`}
                 >
                   <Link href="/projects">
@@ -62,8 +62,8 @@ export default function Navbar() {
                 <div
                   className={`link transition-colors duration-300 ease-in-out ${
                     pathname.startsWith("/profile")
-                      ? "bg-[#8cb669] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
-                      : "bg-[#CCCCCC] border border-transparent h-3/5 flex items-center rounded-t-md px-4  text-gray-700"
+                      ? "bg-[#67864e] border border-transparent h-3/5 flex items-center rounded-t-md px-4"
+                      : "bg-[#FDFDFD] border border-transparent h-3/5 flex items-center rounded-t-md px-4  text-gray-700"
                   }`}
                 >
                   <Link href="/profile">
@@ -81,11 +81,10 @@ export default function Navbar() {
                 <>
                   <div className="flex flex-col  text-black p-2 ">
                     <h4 className="text-md font-semibold">{`${user.forName} ${user.lastName}`}</h4>
-                    <span className="text-sm text-gray-500">{`ID: ${user.userId}`}</span>
                   </div>
                   <button
                     onClick={handleLogout}
-                    className="btn py-2 px-4 bg-red-500 text-white rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50"
+                    className="btn py-1 px-2 text-black border-2 border-gray-700  rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50"
                   >
                     Logout
                   </button>

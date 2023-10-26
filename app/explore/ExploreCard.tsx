@@ -36,15 +36,15 @@ export default function ExploreCard({ project }: { project: Project }) {
   return (
     <div
       className={`mt-8 w-4/5 h-auto p-4 flex flex-col text-black ${
-        skillMatch ? "bg-[rgb(246,255,244)]" : "bg-gray-200"
+        skillMatch
+          ? "bg-gradient-to-r from-white via-green-200 to-green-200"
+          : "bg-[#f3f3f3]"
       } rounded-lg shadow-lg`}
     >
       <h2 className="text-2xl font-bold mb-2">{project.title}</h2>
       <div className="flex flex-row items-start">
         <div className="w-1/4 flex flex-col items-start ml-4">
-          <div>
-            <strong>ID:</strong> {project.projectId}
-          </div>
+          <div>{/* <strong>ID:</strong> {project.projectId} */}</div>
           <div>
             <strong>Owner:</strong> {project.ownerName}
           </div>
@@ -63,20 +63,24 @@ export default function ExploreCard({ project }: { project: Project }) {
           </div>
           <div>
             {project.skillsRequiredNames.map((skillName, index) => (
-              <span
-                key={index}
-                className={
-                  matchingSkills.includes(skillName)
-                    ? "font-bold text-green-400"
-                    : ""
-                }
-              >
-                {skillName}
-                {index < project.skillsRequiredNames.length - 1 ? ", " : ""}
-              </span>
+              <>
+                <span
+                  className={
+                    matchingSkills.includes(skillName)
+                      ? "font-bold text-green-400"
+                      : ""
+                  }
+                >
+                  {skillName}
+                </span>
+                {index < project.skillsRequiredNames.length - 1 && (
+                  <span>, </span>
+                )}
+              </>
             ))}
           </div>
         </div>
+
         <div className="w-1/4 ml-4 flex items-center justify-end">
           <Link
             href={
@@ -85,7 +89,7 @@ export default function ExploreCard({ project }: { project: Project }) {
                 : `/explore/${project.projectId}`
             }
           >
-            <button className="bg-green-500 text-white rounded px-4 py-2 hover:bg-green-700 transition duration-300">
+            <button className="bg-green-500 text-white rounded px-4 py-1 hover:bg-green-700 transition duration-300">
               View
             </button>
           </Link>

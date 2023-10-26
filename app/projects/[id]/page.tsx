@@ -3,14 +3,23 @@
 import React, { useEffect, useState, FormEvent, ChangeEvent } from "react";
 import { getAllProjects, getProjectComments } from "@/app/api/project/get";
 import { applyToProject } from "@/app/api/project/post";
-import { ProjectComment } from "@/app/types/types";
+import { ProjectComment } from "@/app/types/old_types";
 import { useUserContext } from "@/app/contexts/userContext";
 import { postComment } from "@/app/api/project/post";
 import { useParams } from "next/navigation";
 import { MoonLoader } from "react-spinners";
 import { Project } from "@/app/types/ProjectTypes";
-import ApplyProject from "@/app/projects/ApplyProject";
+import ApplyProject from "@/app/projects/[id]/ApplyProject";
 import Link from "next/link";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGithub,
+  faLinkedin,
+  faInstagram,
+  faYoutube,
+} from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 const ViewProject: React.FC = () => {
   const [project, setProject] = useState<Project | null>(null);
@@ -108,7 +117,7 @@ const ViewProject: React.FC = () => {
   if (!project) {
     return (
       <div className="h-full min-h-screen bg-white pb-12">
-        <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center "></div>
+        <div className="w-full h-16 bg-[#67864e] flex flex-row items-center justify-center "></div>
         <div className="flex flex-col justify-center items-center mt-8">
           <MoonLoader color="#8cb669" />
         </div>
@@ -118,7 +127,58 @@ const ViewProject: React.FC = () => {
 
   return (
     <div className="h-full min-h-screen bg-white">
-      <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center "></div>
+      <div className="w-full h-16 bg-[#67864e] flex flex-row items-center justify-center space-x-4">
+        <h2 className="text-white truncate font-bold">Join this project?</h2>
+
+        {(() => {
+          const userApplication = project.workApplications.find(
+            (application) => application.userId === userId
+          );
+
+          if (userApplication) {
+            if (userApplication.accepted) {
+              return (
+                <p className="text-white bg-gray-400 p-2 rounded-md text-sm truncate">
+                  You have already applied for this project.
+                </p>
+              );
+            } else {
+              return (
+                <>
+                  <p className="text-xs bg-pink-200 p-2 rounded-md text-center truncate">
+                    Previous application declined. Try again.
+                  </p>
+                  <button
+                    type="submit"
+                    onClick={handleOpenModal}
+                    className="text-md bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"
+                  >
+                    APPLY
+                  </button>
+                </>
+              );
+            }
+          } else {
+            return (
+              <button
+                type="submit"
+                onClick={handleOpenModal}
+                className="text-md bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"
+              >
+                APPLY
+              </button>
+            );
+          }
+        })()}
+
+        <ApplyProject
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          onSend={handleSend}
+          isSent={isSent}
+        />
+      </div>
+
       <div className="flex flex-col items-center mt-8 ">
         <div className="w-2/4 bg-gray-100 p-4 text-black rounded-lg mb-12">
           <div className="flex flex-col items-center mb-12">
@@ -139,7 +199,7 @@ const ViewProject: React.FC = () => {
                   <span className="text-gray-700 font-semibold">Owner:</span>
                 </div>
                 <Link href={`/profile/${project.ownerUserId}`}>
-                  <p className="text-white text-sm bg-blue-500 py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300">
+                  <p className="text-sm border-2 hover:bg-green-700 hover:text-white border-green-700 py-2 px-4 rounded-lg bg-white text-black transition duration-300">
                     {project.ownerName}
                   </p>
                 </Link>
@@ -163,33 +223,59 @@ const ViewProject: React.FC = () => {
             </div>
           </div>
           <h2 className="text-2xl font-bold mb-4 text-black">Description</h2>
-          <div className="bg-[#FDFDFD] w-full h-auto rounded-md mb-4 p-2">
+          <div className="bg-[#FDFDFD] w-full h-auto rounded-md mb-4 p-6">
             {project.description}
           </div>
           <div className="mb-8">
             <h2 className={`${titleCSS} mb-4`}>Links</h2>{" "}
-            <ul className="list-disc list-inside space-y-2">
-              <li>
-                <a
-                  href="https://www.github.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:underline"
-                >
-                  GitHub
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.youtube.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:underline"
-                >
-                  YouTube
-                </a>
-              </li>
-            </ul>
+            <div className="w-1/2 h-auto flex text-black text-4xl  gap-4">
+              <a
+                href="https://github.com/yourGithubUsername"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FontAwesomeIcon
+                  icon={faGithub}
+                  className=" hover:text-gray-300 cursor-pointer"
+                />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/yourLinkedinUsername/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FontAwesomeIcon
+                  icon={faLinkedin}
+                  className=" hover:text-gray-300 cursor-pointer"
+                />
+              </a>
+              <a
+                href="https://instagram.com/yourInstagramUsername"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FontAwesomeIcon
+                  icon={faInstagram}
+                  className=" hover:text-gray-300 cursor-pointer"
+                />
+              </a>
+              <a
+                href="https://instagram.com/yourInstagramUsername"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FontAwesomeIcon
+                  icon={faYoutube}
+                  className=" hover:text-gray-300 cursor-pointer"
+                />
+              </a>
+              <a href="mailto:yourEmail@example.com">
+                <FontAwesomeIcon
+                  icon={faEnvelope}
+                  className=" hover:text-gray-300 cursor-pointer"
+                />
+              </a>
+            </div>
           </div>
           <h2 className={titleCSS}>Participants</h2>
           {project.participants.length > 0 ? (
@@ -227,70 +313,8 @@ const ViewProject: React.FC = () => {
           ) : (
             <p>No participants yet.</p>
           )}
-
-          <div
-            id="applyToProject"
-            className="flex flex-col items-center m-1 mt-8 p-4 bg-green-50 rounded-lg"
-            style={{
-              display:
-                project.ownerUserId === userId ||
-                project.participants.some(
-                  (participant) => participant.userId === userId
-                )
-                  ? "none"
-                  : "flex",
-            }}
-          >
-            <h2 className={`${titleCSS} mb-4`}>Join the project?</h2>
-            {(() => {
-              const userApplication = project.workApplications.find(
-                (application) => application.userId === userId
-              );
-
-              if (userApplication) {
-                if (userApplication.accepted) {
-                  return (
-                    <p className="">
-                      You have already applied for this project.
-                    </p>
-                  );
-                } else {
-                  return (
-                    <>
-                      <p className="bg-pink-200 p-2 w-4/5 h-auto rounded-md text-center mb-4">
-                        Your previous application was declined. You are welcome
-                        to try again.
-                      </p>
-                      <button
-                        type="submit"
-                        onClick={handleOpenModal}
-                        className="text-center w-1/4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                      >
-                        APPLY
-                      </button>
-                    </>
-                  );
-                }
-              } else {
-                return (
-                  <button
-                    type="submit"
-                    onClick={handleOpenModal}
-                    className="text-center w-1/4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  >
-                    APPLY
-                  </button>
-                );
-              }
-            })()}
-            <ApplyProject
-              isOpen={isModalOpen}
-              onClose={handleCloseModal}
-              onSend={handleSend}
-              isSent={isSent}
-            />
-          </div>
-
+        </div>
+        <div className="w-2/4 bg-gray-100 p-4 text-black rounded-lg mb-12">
           <div className="mt-8">
             <h2 className={titleCSS}>Comments</h2>
 

@@ -18,14 +18,14 @@ export default function ProfileProjects({ userId }: Partial<User>) {
   }, [userId]);
 
   return (
-    <div className="mt-8 mb-8 bg-gray-300 p-4 rounded-xl text-black">
+    <div className="mt-8 mb-8 bg-[#f3f3f3] p-4 rounded-xl text-black">
       <div>
-        <h2 className="text-2xl mb-2">Projects</h2>
+        <h2 className="text-2xl mb-2 font-bold">Projects</h2>
         <div className="text-black">
           {userData.projects && userData.projects.length > 0 ? (
             <table className="min-w-max w-full table-auto">
               <thead>
-                <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                <tr className="bg-[#b0d3bb] text-gray-600 uppercase text-sm leading-normal">
                   <th className="py-3 px-6 text-left">ID</th>
                   <th className="py-3 px-6 text-left">Name</th>
                   <th className="py-3 px-6 text-left">Industry</th>

@@ -1,43 +1,34 @@
 "use client";
 
-import React, { useState, ReactNode, ChangeEvent } from "react";
+import React, { useState, ReactNode } from "react";
 import { useUserContext } from "../contexts/userContext";
 import YourCollaborations from "./YourCollaborations";
 import YourApplications from "./YourApplications";
 import YourProjects from "./YourProjects";
 
-type ToggleLabelProps = {
-  checked: boolean;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+type FilterButtonProps = {
+  isActive: boolean;
+  onClick: () => void;
   children: ReactNode;
 };
 
-// ToggleLabel component to create toggle switches with labels
-const ToggleLabel: React.FC<ToggleLabelProps> = ({
-  checked,
-  onChange,
+// FilterButton component to create a clickable filter button
+const FilterButton: React.FC<FilterButtonProps> = ({
+  isActive,
+  onClick,
   children,
 }) => (
-  <div className="flex items-center">
-    <p className="text-sm text-[#FDFDFD]">{children}</p>
-    <label
-      className={`${
-        checked ? "bg-green-400" : "bg-gray-400"
-      } relative inline-block w-8 h-4 rounded-full border border-transparent transition-colors duration-300 ease-in-out cursor-pointer m-2`}
-    >
-      <input
-        type="checkbox"
-        className="sr-only"
-        checked={checked}
-        onChange={onChange}
-      />
-      <span
-        className={`${
-          checked ? "translate-x-4" : "translate-x-0"
-        } inline-block w-3 h-3 transform bg-white rounded-full transition-transform duration-300 ease-in-out left-0.5 top-0.5 absolute`}
-      ></span>
-    </label>
-  </div>
+  <button
+    onClick={onClick}
+    className={`py-1 px-3 m-2 text-sm rounded-md transition-colors duration-300 ease-in-out cursor-pointer 
+      ${
+        isActive
+          ? "bg-green-500 border border-green-500 shadow-inner"
+          : "bg-gray-400 hover:bg-gray-500"
+      }`}
+  >
+    {children}
+  </button>
 );
 
 export default function Projects() {
@@ -55,29 +46,29 @@ export default function Projects() {
   return (
     <div className="h-full min-h-screen bg-white">
       <div
-        id="switchContainer"
-        className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center mb-4 "
+        id="filterContainer"
+        className="w-full h-16 bg-[#67864e]  flex flex-row items-center justify-center mb-4 "
       >
-        <ToggleLabel
-          checked={showAdminDash}
-          onChange={() => setShowAdminDash(!showAdminDash)}
+        <FilterButton
+          isActive={showAdminDash}
+          onClick={() => setShowAdminDash(!showAdminDash)}
         >
-          Admin
-        </ToggleLabel>
+          PROJECTS
+        </FilterButton>
 
-        <ToggleLabel
-          checked={showCollabs}
-          onChange={() => setShowCollabs(!showCollabs)}
+        <FilterButton
+          isActive={showCollabs}
+          onClick={() => setShowCollabs(!showCollabs)}
         >
-          Collabs
-        </ToggleLabel>
+          COLLABS
+        </FilterButton>
 
-        <ToggleLabel
-          checked={showApplications}
-          onChange={() => setShowApplications(!showApplications)}
+        <FilterButton
+          isActive={showApplications}
+          onClick={() => setShowApplications(!showApplications)}
         >
-          Applications
-        </ToggleLabel>
+          APPLICATIONS
+        </FilterButton>
       </div>
       <div className="h-3/5 flex bg-white flex-col items-center justify-center">
         {showAdminDash && <YourProjects userId={user.userId as number} />}

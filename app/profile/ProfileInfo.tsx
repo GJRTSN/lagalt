@@ -23,7 +23,7 @@ export default function ProfileInfo({ userId }: Partial<User>) {
   }
 
   return (
-    <div className="bg-gray-300 p-4 rounded-xl mt-10 text-black">
+    <div className="bg-[#e7f7e9] p-4 rounded-xl mt-4 text-black">
       {/* Row 1 */}
       <div className="flex space-x-4 mb-4">
         {/* Column 1 */}
@@ -56,8 +56,11 @@ export default function ProfileInfo({ userId }: Partial<User>) {
       </div>
       {/* Row 2 */}
       <div className=" p-4 rounded-lg">
-        <p className="font-bold text-lg mb-2">Description</p>
-        <p className="font-light">{userData.description}</p>
+        <p className="font-bold text-xl mb-2">Description</p>
+        <div className="bg-white w-full h-auto p-8 rounded-md">
+          {" "}
+          <p className="font-light">{userData.description}</p>
+        </div>
       </div>
     </div>
   );

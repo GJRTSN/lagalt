@@ -17,14 +17,14 @@ export default function ProfileSkills({ userId }: Partial<User>) {
   }, [userId]);
 
   return (
-    <div id="skills" className="mt-8 text-black bg-gray-300 p-4 rounded-xl">
-      <h2 className="text-2xl">Skills</h2>
+    <div id="skills" className="mt-8 text-black bg-[#f3f3f3] p-4 rounded-xl">
+      <h2 className="text-2xl font-bold">Skills</h2>
       <div className="flex flex-wrap mt-2  mb-2">
         {user?.skillNames && user.skillNames.length > 0 ? (
           user.skillNames.map((skill, index) => (
             <span
               key={index}
-              className="bg-blue-300 text-blue-900 px-2 my-1 py-1 rounded mr-2"
+              className=" bg-white border-2 border-green-700 px-2 my-1 py-1 rounded-md mr-2"
             >
               {skill}
             </span>

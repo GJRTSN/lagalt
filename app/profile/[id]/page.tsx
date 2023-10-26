@@ -8,6 +8,15 @@ import { useParams } from "next/navigation";
 import privateProfile from "@/public/lock-solid.svg";
 import Image from "next/image";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGithub,
+  faLinkedin,
+  faInstagram,
+  faYoutube,
+} from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+
 export default function Profile() {
   const params = useParams();
   const userId = Number(params.id);
@@ -32,7 +41,56 @@ export default function Profile() {
 
   return (
     <div className="h-screen bg-white">
-      <div className="w-full h-10 bg-[#8cb669] flex flex-row items-center justify-center"></div>
+      <div className="w-full h-16 bg-[#67864e] flex flex-row items-center justify-center">
+        <div className="w-full h-16 bg-[#67864e] flex flex-row items-center text-2xl justify-center space-x-4">
+          <a
+            href="https://github.com/yourGithubUsername"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FontAwesomeIcon
+              icon={faGithub}
+              className="text-white hover:text-gray-300 cursor-pointer"
+            />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/yourLinkedinUsername/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FontAwesomeIcon
+              icon={faLinkedin}
+              className="text-white hover:text-gray-300 cursor-pointer"
+            />
+          </a>
+          <a
+            href="https://instagram.com/yourInstagramUsername"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FontAwesomeIcon
+              icon={faInstagram}
+              className="text-white hover:text-gray-300 cursor-pointer"
+            />
+          </a>
+          <a
+            href="https://instagram.com/yourInstagramUsername"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FontAwesomeIcon
+              icon={faYoutube}
+              className="text-white hover:text-gray-300 cursor-pointer"
+            />
+          </a>
+          <a href="mailto:yourEmail@example.com">
+            <FontAwesomeIcon
+              icon={faEnvelope}
+              className="text-white hover:text-gray-300 cursor-pointer"
+            />
+          </a>
+        </div>
+      </div>
       <div className="flex bg-white flex-col items-center justify-center">
         <div className="w-2/4">
           {isProfileVisible ? (

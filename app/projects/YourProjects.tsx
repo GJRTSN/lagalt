@@ -24,27 +24,21 @@ export default function YourProjects({ userId }: Partial<User>) {
   return (
     <div
       id="admindash"
-      className="w-3/4 h-full bg-[#c2c2c2] rounded-lg p-4 shadow-lg mb-4 "
+      className="w-3/4 h-full bg-[#f3f3f3] border-2 border-green-500 rounded-lg p-4 shadow-lg mb-4 "
     >
-      <div className="w-1/2 float-right">
-        <Link href="/projects/create">
-          <button className="w-auto h-8 bg-green-600 rounded-md px-2 float-right">
-            New project
-          </button>
-        </Link>
-      </div>
-      <h3 className="text-black text-4xl font-bold font-roboto ">
+      <div className="w-1/2 float-right "></div>
+      <h3 className="text-black text-4xl font-bold font-roboto mb-2 ">
         Your projects
       </h3>
       <p className="text-black font-roboto">
-        Projects you own and administrate
+        This is an overview of the projects you own and administrate
       </p>
 
       <div className="w-full p-5">
         <div className="bg-white shadow-md rounded my-6">
           <table className="min-w-max w-full table-auto">
             <thead>
-              <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+              <tr className="bg-[#b0d3bb] text-gray-600 uppercase text-sm leading-normal">
                 <th className="py-3 px-6 text-left">ID</th>
                 <th className="py-3 px-6 text-left">Name</th>
                 <th className="py-3 px-6 text-left">Industry</th>
@@ -120,6 +114,11 @@ export default function YourProjects({ userId }: Partial<User>) {
               ))}
             </tbody>
           </table>
+          <Link href="/projects/create">
+            <button className="w-auto h-8 bg-green-700 font-medium hover:bg-green-500 rounded-md px-2 float-right mt-6">
+              New project
+            </button>
+          </Link>
         </div>
       </div>
     </div>

@@ -41,17 +41,18 @@ export default function YourCollaborations({ userId }: Partial<User>) {
   };
 
   return (
-    <div id="collabs" className="w-3/4 h-1/4 m-4 bg-[#CCCCCC] rounded-lg p-4">
-      <h3 className="text-black text-4xl font-bold font-roboto">
+    <div id="collabs" className="w-3/4 h-1/4 m-4 bg-[#f3f3f3] rounded-lg p-4">
+      <h3 className="text-black text-4xl font-bold font-roboto mb-2">
         Your collaborations
       </h3>
       <p className="text-black font-roboto">
-        Projects you currently are participating on
+        This is an overview of other projects which you are currently
+        collaborating on
       </p>
-      <div className="w-full  rounded-lg p-2">
+      <div className="w-full  rounded-lg p-2 my-6">
         {projects.length > 0 ? (
-          <table className="min-w-full table-auto">
-            <thead className="bg-gray-200">
+          <table className="min-w-full shadow-md table-auto">
+            <thead className="bg-[#b0d3bb]">
               <tr>
                 <th className="py-2 px-4 text-left text-black">ID</th>
                 <th className="py-2 px-4 text-left text-black">Name</th>
@@ -63,9 +64,7 @@ export default function YourCollaborations({ userId }: Partial<User>) {
             <tbody>
               {projects.map((project: Project, index) => (
                 <tr
-                  className={`${
-                    index % 2 === 0 ? "bg-white" : "bg-gray-100"
-                  } text-black`}
+                  className={"bg-white text-black hover:bg-gray-200"}
                   key={index}
                 >
                   <td className="py-2 px-4">{project.projectId}</td>
