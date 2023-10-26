@@ -111,7 +111,6 @@ export default function Explore() {
             requries skills that you have setup, they will be highlighted{" "}
             <span className="text-green-400">green</span>.
           </p>
-          d
         </div>
       </div>
 
