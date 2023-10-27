@@ -5,26 +5,24 @@
 # Table of contents
 
 1. [Introduction](#introduction)
-2. [Technologies](#technologies)
+2. [Stack](#stack)
    1. [Frontend](#frontend)
    2. [Backend](#backend)
-3. [Figma](#figma)
-4. [Content](#content)
-5. [Features](#features)
-6. [API Docs](#api-documentation)
-7. [Project Status](#project-status)
-8. [Demo](#demo)
-
-## Content
-
-This repository contains the frontend section of the Lagalt platform, but this readme contains information about the platform as a whole including the backend.
+3. [Backend](#fbackend)
+4. [API Docs](#api-documentation)
+5. [Project Status](#project-status)
+6. [Usage](#usage)
+7. [Demo](#demo)
 
 ## Introduction
 
 Lagalt is an online hub where creative people can find and join projects that match their interests and skills. 
 Whether you're into music, film, game creation, or website building, you can explore opportunities anonymously or sign up to collaborate and start your own projects.
 
-## Technologies
+This repository contains the frontend part of the Lagalt application. The backend development is hosted in a seperate repo which is linked below. 
+The case PowerPoints is also included in the "presentations"-folder.
+
+## Stack
 
 ### Frontend
 
@@ -43,9 +41,13 @@ Whether you're into music, film, game creation, or website building, you can exp
 - <a href="https://azure.microsoft.com/nb-no">Azure</a>
 - <a href="https://vercel.com/">Vercel</a>
 
+## Backend
+
+The backend repository is availble here: <a href="https://github.com/hamzaiqbaal/LagaltBackend">:GitHub - Lagalt Backend</a>
+
 ## API Documentation
 
-https://lagalt-case-1.azurewebsites.net/swagger-ui/#/
+The backend repository is availble here: <a href="https://lagalt-case-1.azurewebsites.net/swagger-ui/#/">Swagger - Lagalt API</a>
 
 ## Project Status
 
