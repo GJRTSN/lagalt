@@ -5,9 +5,7 @@ const apiClient = axios.create({ baseURL });
 
 export async function deleteProject(projectId: number) {
   try {
-    await axios.delete(
-      `https://lagalt-case-1.azurewebsites.net/projects/${projectId}`
-    );
+    await apiClient.delete(`/projects/${projectId}`);
     console.log("Project deleted successfully");
   } catch (error) {
     console.error("Error deleting the project:", error);
@@ -38,14 +36,11 @@ export async function deleteApplication(applicationId: number) {
 
 export async function removeParticipant(id: number, userId: number) {
   try {
-    const response = await fetch(
-      `https://lagalt-case-1.azurewebsites.net/projects/projects/${id}/participants/${userId}`,
-      {
-        method: "DELETE",
-      }
+    const response = await apiClient.delete(
+      `/projects/projects/${id}/participants/${userId}`
     );
 
-    if (!response.ok) {
+    if (response.status !== 200 && response.status !== 204) {
       throw new Error("Participant removal failed");
     }
   } catch (error) {

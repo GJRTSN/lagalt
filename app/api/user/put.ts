@@ -1,21 +1,24 @@
+import axios from "axios";
 import { User } from "@/app/types/UserTypes";
 
+const baseURL = "https://lagalt-case-1.azurewebsites.net";
+const apiClient = axios.create({ baseURL });
+
 export async function updateUserById(userId: number, updatedData: User) {
-  const response = await fetch(
-    `https://lagalt-case-1.azurewebsites.net/users/${userId}`,
-    {
-      method: "PUT",
+  try {
+    const response = await apiClient.put(`/users/${userId}`, updatedData, {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(updatedData),
-    }
-  );
+    });
 
-  if (response.ok) {
-    const data = await response.json();
-    return data;
-  } else {
-    throw new Error("Failed to update user");
+    if (response.status !== 200 && response.status !== 204) {
+      throw new Error("Failed to update user");
+    }
+
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating user with ID ${userId}: `, error);
+    throw error;
   }
 }

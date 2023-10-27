@@ -85,3 +85,9 @@ export interface ApplyProjectProps {
   onClose: () => void;
   onSend: (message: string) => void;
 }
+
+export interface ProjectComment {
+  id: number;
+  content: string;
+  projectId: number;
+}

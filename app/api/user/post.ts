@@ -19,7 +19,6 @@ export async function registerNewUser(registerUserData: RegisterUserData) {
       );
     }
   } catch (error) {
-    // Assert the error as an instance of Error to access the message property
     throw new Error(`Error: ${(error as Error).message}`);
   }
 }

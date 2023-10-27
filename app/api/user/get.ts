@@ -1,10 +1,11 @@
 import axios from "axios";
 
+const baseURL = "https://lagalt-case-1.azurewebsites.net";
+const apiClient = axios.create({ baseURL });
+
 export async function getUserData(userId: number) {
   try {
-    const response = await axios.get(
-      `https://lagalt-case-1.azurewebsites.net/users/${userId}`
-    );
+    const response = await apiClient.get(`/users/${userId}`);
     const data = response.data;
 
     const existingSkills = data.skillIds.map(
@@ -28,13 +29,11 @@ export async function getUserData(userId: number) {
 
 export async function getUserById(userId: number) {
   try {
-    const response = await fetch(
-      `https://lagalt-case-1.azurewebsites.net/users/${userId}`
-    );
-    if (!response.ok) {
+    const response = await apiClient.get(`/users/${userId}`);
+    if (response.status !== 200 && response.status !== 204) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const user = await response.json();
+    const user = response.data;
     return user;
   } catch (error) {
     console.error(`Error fetching user with ID ${userId}: `, error);

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ProjectComment } from "../../types/old_types";
+import { ProjectComment } from "@/app/types/ProjectTypes";
 
 const baseURL = "https://lagalt-case-1.azurewebsites.net";
 const apiClient = axios.create({ baseURL });

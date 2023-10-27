@@ -58,9 +58,7 @@ export async function getProjectComments(id: number) {
 
 export async function getProjectsByUser(userId: number) {
   try {
-    const response = await axios.get(
-      `https://lagalt-case-1.azurewebsites.net/users/${userId}`
-    );
+    const response = await apiClient.get(`/users/${userId}`);
     if (response.data) {
       return response.data.projects;
     } else {
@@ -74,22 +72,22 @@ export async function getProjectsByUser(userId: number) {
 
 export async function acceptApplication(applicationId: number) {
   try {
-    const response = await fetch(
-      `https://lagalt-case-1.azurewebsites.net/api/workapplications/accept/${applicationId}`,
+    const response = await apiClient.post(
+      `/api/workapplications/accept/${applicationId}`,
+      {},
       {
-        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
 
-    if (!response.ok) {
+    if (response.status !== 200 && response.status !== 204) {
       throw new Error("Application acceptance unsuccessful");
     }
 
-    return response.json();
+    return response.data;
   } catch (error) {
-    console.error("There was a problem with the fetch operation:", error);
+    console.error("There was a problem with the request operation:", error);
   }
 }
