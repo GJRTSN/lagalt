@@ -21,34 +21,27 @@ This repository contains the frontend section of the Lagalt platform, but this r
 
 ## Introduction
 
-TBA
+Lagalt is an online hub where creative people can find and join projects that match their interests and skills. 
+Whether you're into music, film, game creation, or website building, you can explore opportunities anonymously or sign up to collaborate and start your own projects.
 
 ## Technologies
 
 ### Frontend
 
-- <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">TypeScript</a>: (reason why)
-- <a href="https://react.dev/">React</a>: (reason why)
-- <a href="https://nextjs.org/">Next</a>: React themselves are collaborating with the Next team and recommends on their homepage to use Next. Next is also developed by Vercel which we will be using for deployment.
-- <a href="https://tailwindcss.com/">Tailwind CSS</a>: (reason why)
-- <a href="https://vercel.com/">Vercel</a>: (reason why)
+- <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">TypeScript</a>
+- <a href="https://react.dev/">React</a>
+- <a href="https://nextjs.org/">Next</a>
+- <a href="https://tailwindcss.com/">Tailwind CSS</a>
+- <a href="https://vercel.com/">Vercel</a>
 
 ### Backend
 
-- <a href="https://www.java.com/en/">Java</a>: (reason why)
-- <a href="https://spring.io/">Spring</a>: (reason why)
-- <a href="https://hibernate.org/">Hibernate</a>: (reason why)
-- <a href="https://www.postgresql.org/">PostgreSQL</a>: (reason why)
-- <a href="https://azure.microsoft.com/nb-no">Azure</a>: (reason why)
-- <a href="https://vercel.com/">Vercel</a>: (reason why)
-
-## Figma
-
-TBA
-
-## Features
-
-TBA
+- <a href="https://www.java.com/en/">Java</a>
+- <a href="https://spring.io/">Spring</a>
+- <a href="https://hibernate.org/">Hibernate</a>
+- <a href="https://www.postgresql.org/">PostgreSQL</a>
+- <a href="https://azure.microsoft.com/nb-no">Azure</a>
+- <a href="https://vercel.com/">Vercel</a>
 
 ## API Documentation
 
@@ -60,12 +53,22 @@ As of 26.10.2023 the project has reached a MVP-status based on the requirements 
 
 ## Usage
 
-TBA
+First clone the repository to your machine.
+
+Then, run the development server in your chosen IDE:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
 ## Demo
 
 The application is available at <a href="https:/www.lagalt.zyz">www.lagalt.zyz</a>.
-
-## Credits
-
-TBA
