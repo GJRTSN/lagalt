@@ -188,6 +188,20 @@ export default function CreateProject() {
           <div className="flex flex-col justify-center">
             <form onSubmit={handleSubmit} className="space-y-4 flex flex-col">
               <label
+                htmlFor="projectPicture"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Title
+              </label>
+              <input
+                type="text"
+                name="projectPicture"
+                value={formData.projectPicture}
+                onChange={handleInputChange}
+                placeholder="Enter an image URL for your project"
+                className="text-black mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+              <label
                 htmlFor="title"
                 className="block text-sm font-medium text-gray-700"
               >
