@@ -43,7 +43,7 @@ The case PowerPoints is also included in the "presentations"-folder.
 
 ## Backend
 
-The backend repository is availble here: <a href="https://github.com/hamzaiqbaal/LagaltBackend">:GitHub - Lagalt Backend</a>
+The backend repository is availble here: <a href="https://github.com/hamzaiqbaal/LagaltBackend">GitHub - Lagalt Backend</a>
 
 ## API Documentation
 
@@ -51,7 +51,7 @@ The backend repository is availble here: <a href="https://lagalt-case-1.azureweb
 
 ## Project Status
 
-As of 26.10.2023 the project has reached a MVP-status based on the requirements and feedback from our lecturers.
+As of 25.10.2023 the project has reached a MVP-status based on the requirements and feedback from our lecturers.
 
 ## Usage
 
